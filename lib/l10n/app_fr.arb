@@ -1,0 +1,19 @@
+{
+  "@@locale": "fr",
+  "appTitle": "LoanTrack",
+  "@appTitle": {
+    "description": "Nom de l'application"
+  },
+  "navDashboard": "Tableau de bord",
+  "@navDashboard": {
+    "description": "Onglet et titre de l'écran ECR-01"
+  },
+  "navBorrowers": "Emprunteurs",
+  "@navBorrowers": {
+    "description": "Onglet et titre de l'écran ECR-02"
+  },
+  "navSettings": "Paramètres",
+  "@navSettings": {
+    "description": "Onglet et titre de l'écran ECR-06"
+  }
+}
