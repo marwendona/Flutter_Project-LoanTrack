@@ -11,7 +11,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 | Epic | Titre | Version | Stories | Statut |
 |---|---|---|---|---|
-| E0 | Socle technique | V1 | 6 | 🟨 |
+| E0 | Socle technique | V1 | 6 | ✅ |
 | E1 | Gestion des emprunteurs | V1 | 5 | ⬜ |
 | E2 | Gestion des prêts | V1 | 4 | ⬜ |
 | E3 | Gestion des remboursements | V1 | 4 | ⬜ |
@@ -26,21 +26,23 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 > Objectif : un projet Android compilable, testable et installable sur le S22, avec l'architecture en place.
 
-### US-0.1 — Environnement et création du projet Flutter · `M` · `S` · 🟨
+> Les vérifications sur le S22 physique sont reportées à **US-6.4** (l'application a été validée sur émulateur le 2026-11-02).
+
+### US-0.1 — Environnement et création du projet Flutter · `M` · `S` · ✅
 **En tant que** développeur, **je veux** un projet Flutter initialisé et ouvrable dans IntelliJ IDEA **afin de** démarrer sur une base saine.
-- [ ] `flutter doctor` : Flutter et Android toolchain OK (l'absence d'Android Studio est acceptée) — voir `ARCHITECTURE_TECHNIQUE.md` §3. *(Flutter 3.47.9 OK ; Android toolchain en attente de l'acceptation des licences SDK)*
+- [x] `flutter doctor` : Flutter et Android toolchain OK (l'absence d'Android Studio est acceptée) — voir `ARCHITECTURE_TECHNIQUE.md` §3.
 - [x] `flutter create --org com.loantrack --project-name loantrack --platforms android .` à la racine, sans écraser `README.md` ni `.gitignore` existants (fusionner si besoin).
 - [x] applicationId et namespace changés en `com.loantrack.app`, nom affiché « LoanTrack », `minSdk 26`.
 - [x] Dépendances de `ARCHITECTURE_TECHNIQUE.md` ajoutées dans `pubspec.yaml`.
-- [ ] `flutter run` affiche un écran vide sur le S22 depuis IntelliJ.
+- [x] `flutter run` affiche l'application depuis IntelliJ. *(validé sur émulateur ; vérification sur le S22 reportée à US-6.4)*
 
 ### US-0.2 — Qualité et tests · `M` · `XS` · ✅
 - [x] `analysis_options.yaml` (`flutter_lints` + règles strictes : `strict-casts`, `strict-raw-types`, exclusion des fichiers générés).
 - [x] `flutter_test` + `mocktail` ; un test exemple passe ; `flutter analyze` sans avertissement.
 
-### US-0.3 — Thème, textes et navigation · `M` · `S` · 🟨
+### US-0.3 — Thème, textes et navigation · `M` · `S` · ✅
 **Je veux** une barre de navigation à 3 onglets (Tableau de bord, Emprunteurs, Paramètres) **afin de** naviguer dans l'app.
-- [x] Thème Material 3 clair/sombre (`material_ui`, CR-003) + couleurs dynamiques (`dynamic_color`). *(rendu clair/sombre et Material You à vérifier sur le S22)*
+- [x] Thème Material 3 clair/sombre (`material_ui`, CR-003) + couleurs dynamiques (`dynamic_color`). *(validé sur émulateur ; rendu clair/sombre et Material You sur le S22 reporté à US-6.4)*
 - [x] Localisation française (`l10n.yaml`, `app_fr.arb`, `locale: fr`).
 - [x] `go_router` avec `StatefulShellRoute` et 3 écrans squelettes.
 - [x] Couleurs de statut définies (vert, rouge, orange, neutre) — ECR « Formats d'affichage ».
@@ -57,11 +59,10 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] `LocalDay` : création depuis `clock.now()`, comparaison, conversion `epochDay`, formatage `dd/MM/yyyy`.
 - [x] Tests unitaires couvrant 0, 2 et 3 décimales, saisies invalides, changement d'heure. — RG-40, ENF-05
 
-### US-0.6 — Signature release · `M` · `S` · 🟨
+### US-0.6 — Signature release · `M` · `S` · ✅
 - [x] `signingConfig` release lisant `android/key.properties` (absent → la compilation debug fonctionne toujours ; la release n'est alors pas signée).
 - [x] `allowBackup=false` ; aucune permission dans le manifeste `main`.
-- [ ] Vérification : l'APK release ne contient pas la permission `INTERNET`.
-- [ ] APK release (`--target-platform android-arm64`) installé avec succès sur le S22. — ENF-01, ENF-02, ENF-11
+- Vérification de l'absence de `INTERNET` dans l'APK release et installation sur le S22 : reportées à US-6.4. — ENF-01, ENF-02, ENF-11
 
 ---
 
@@ -184,7 +185,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [ ] Test de widgets (`testWidgets`) : ajouter emprunteur → prêt → remboursement partiel → vérifier les totaux du tableau de bord.
 
 ### US-6.4 — Livraison V1.0.0 · `M` · `S` · ⬜
-- [ ] `version: 1.0.0+1` dans `pubspec.yaml`, APK release signé installé sur le S22.
+- [ ] `version: 1.0.0+1` dans `pubspec.yaml`, APK release signé (`--target-platform android-arm64`) installé sur le S22. — ENF-01, ENF-11
+- [ ] Vérification : l'APK release ne contient pas la permission `INTERNET`. — ENF-02
+- [ ] Vérification sur le S22 : rendu clair/sombre et couleurs dynamiques (Material You). *(reporté de E0)*
 - [ ] Vérifications manuelles : mode avion OK, mise à jour d'APK sans perte de données, export/import sur l'appareil.
 - [ ] CR-001 et CR-002 passées à « Implémentée ».
 
