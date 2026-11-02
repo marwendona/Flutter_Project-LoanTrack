@@ -15,5 +15,30 @@
   "navSettings": "Paramètres",
   "@navSettings": {
     "description": "Onglet et titre de l'écran ECR-06"
+  },
+  "loadError": "Impossible de charger les données.",
+  "@loadError": {
+    "description": "Message affiché quand la lecture de la base échoue"
+  },
+  "overdueBadge": "En retard",
+  "@overdueBadge": {
+    "description": "Badge d'un emprunteur ayant au moins un prêt en retard (RG-20)"
+  },
+  "borrowersEmpty": "Aucun emprunteur. Appuyez sur + pour en ajouter un.",
+  "@borrowersEmpty": {
+    "description": "État vide de la liste des emprunteurs (ECR-02)"
+  },
+  "borrowersActiveLoans": "{count, plural, =0{Aucun prêt actif} =1{1 prêt actif} other{{count} prêts actifs}}",
+  "@borrowersActiveLoans": {
+    "description": "Nombre de prêts non entièrement remboursés d'un emprunteur (ECR-02)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "borrowersRemainingLabel": "Reste dû",
+  "@borrowersRemainingLabel": {
+    "description": "Libellé du reste dû d'un emprunteur dans la liste (ECR-02)"
   }
 }

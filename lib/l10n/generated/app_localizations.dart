@@ -117,6 +117,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Paramètres'**
   String get navSettings;
+
+  /// Message affiché quand la lecture de la base échoue
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible de charger les données.'**
+  String get loadError;
+
+  /// Badge d'un emprunteur ayant au moins un prêt en retard (RG-20)
+  ///
+  /// In fr, this message translates to:
+  /// **'En retard'**
+  String get overdueBadge;
+
+  /// État vide de la liste des emprunteurs (ECR-02)
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun emprunteur. Appuyez sur + pour en ajouter un.'**
+  String get borrowersEmpty;
+
+  /// Nombre de prêts non entièrement remboursés d'un emprunteur (ECR-02)
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Aucun prêt actif} =1{1 prêt actif} other{{count} prêts actifs}}'**
+  String borrowersActiveLoans(int count);
+
+  /// Libellé du reste dû d'un emprunteur dans la liste (ECR-02)
+  ///
+  /// In fr, this message translates to:
+  /// **'Reste dû'**
+  String get borrowersRemainingLabel;
 }
 
 class _AppLocalizationsDelegate

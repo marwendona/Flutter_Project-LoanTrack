@@ -84,6 +84,46 @@ void main() {
       expect(rows.map((b) => b.name), ['Ali', 'Sami']);
     });
 
+    test(
+      'aggregates repayments per loan, keeps borrowers without loans',
+      () async {
+        final sami = await addBorrower('Sami');
+        final ali = await addBorrower('Ali');
+        await addBorrower('Zied');
+        final aliLoan1 = await addLoan(ali, amountMinor: 5000);
+        await addLoan(ali, amountMinor: 2000);
+        final samiLoan = await addLoan(sami, amountMinor: 1000);
+        await addRepayment(aliLoan1, amountMinor: 300);
+        await addRepayment(aliLoan1, amountMinor: 200);
+        await addRepayment(samiLoan, amountMinor: 1000);
+
+        final rows = await db.borrowersDao.watchWithLoanBalances().first;
+
+        expect(
+          rows.map(
+            (r) => (r.borrower.name, r.loan?.amountMinor, r.repaidMinor),
+          ),
+          [
+            ('Ali', 5000, 500),
+            ('Ali', 2000, 0),
+            ('Sami', 1000, 1000),
+            ('Zied', null, 0),
+          ],
+        );
+      },
+    );
+
+    test('re-emits balances when a repayment is added', () async {
+      final loanId = await addLoan(await addBorrower('Ali'));
+      final repaid = db.borrowersDao.watchWithLoanBalances().map(
+        (rows) => rows.single.repaidMinor,
+      );
+      final expectation = expectLater(repaid, emitsInOrder([0, 100]));
+      await repaid.first;
+      await addRepayment(loanId);
+      await expectation;
+    });
+
     test('rejects a duplicate name key', () async {
       await addBorrower('Ali');
       await expectLater(addBorrower('ALI'), throwsA(isA<SqliteException>()));

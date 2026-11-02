@@ -12,7 +12,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | Epic | Titre | Version | Stories | Statut |
 |---|---|---|---|---|
 | E0 | Socle technique | V1 | 6 | ✅ |
-| E1 | Gestion des emprunteurs | V1 | 5 | ⬜ |
+| E1 | Gestion des emprunteurs | V1 | 5 | 🟨 |
 | E2 | Gestion des prêts | V1 | 4 | ⬜ |
 | E3 | Gestion des remboursements | V1 | 4 | ⬜ |
 | E4 | Tableau de bord et totaux | V1 | 3 | ⬜ |
@@ -68,11 +68,11 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 ## E1 — Gestion des emprunteurs
 
-### US-1.1 — Lister les emprunteurs · `M` · `S` · ⬜
+### US-1.1 — Lister les emprunteurs · `M` · `S` · ✅
 **En tant que** prêteur, **je veux** voir la liste de mes emprunteurs **afin de** retrouver rapidement une personne.
-- [ ] Chaque ligne : nom, reste dû, nombre de prêts actifs, badge « En retard ».
-- [ ] Tri par reste dû décroissant puis nom (RG-04).
-- [ ] État vide explicite. — ECR-02
+- [x] Chaque ligne : nom, reste dû, nombre de prêts actifs (reste dû > 0), badge « En retard ».
+- [x] Tri par reste dû décroissant puis nom (RG-04).
+- [x] État vide explicite. — ECR-02
 
 ### US-1.2 — Ajouter un emprunteur · `M` · `S` · ⬜
 **Je veux** ajouter un emprunteur (nom, téléphone, note) **afin de** lui associer des prêts.

@@ -1,11 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/app.dart';
+import 'package:loantrack/features/borrowers/borrowers_providers.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
   Future<void> pumpApp(WidgetTester tester) async {
-    await tester.pumpWidget(const ProviderScope(child: LoanTrackApp()));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          // No database in this navigation test.
+          borrowerSummariesProvider.overrideWith((ref) => Stream.value([])),
+        ],
+        child: const LoanTrackApp(),
+      ),
+    );
     await tester.pumpAndSettle();
   }
 

@@ -8,6 +8,7 @@ import 'package:loantrack/data/database/app_database.dart';
 import 'package:loantrack/data/providers.dart';
 import 'package:loantrack/domain/models/borrower.dart';
 import 'package:loantrack/domain/models/loan.dart';
+import 'package:loantrack/domain/models/loan_balance.dart';
 import 'package:loantrack/domain/models/repayment.dart';
 
 void main() {
@@ -74,6 +75,43 @@ void main() {
         note: 'espèces',
       ),
     ]);
+  });
+
+  test('groups loan balances by borrower', () async {
+    final borrowers = container.read(borrowerRepositoryProvider);
+    final loans = container.read(loanRepositoryProvider);
+    final repayments = container.read(repaymentRepositoryProvider);
+    final ali = await borrowers.add(name: 'Ali');
+    await borrowers.add(name: 'Sami');
+    final loanId = await loans.add(
+      borrowerId: ali,
+      amount: const Money(5000),
+      loanDate: LocalDay(2026, 10, 1),
+      promisedReturnDate: LocalDay(2026, 10, 31),
+    );
+    await loans.add(
+      borrowerId: ali,
+      amount: const Money(2000),
+      loanDate: LocalDay(2026, 10, 2),
+    );
+    await repayments.add(
+      loanId: loanId,
+      amount: const Money(1500),
+      repaymentDate: LocalDay(2026, 10, 20),
+    );
+
+    final entries = await borrowers.watchAllWithLoanBalances().first;
+
+    expect(entries.map((e) => e.borrower.name), ['Ali', 'Sami']);
+    expect(entries.first.loans, [
+      LoanBalance(
+        amount: const Money(5000),
+        repaid: const Money(1500),
+        promisedReturnDate: LocalDay(2026, 10, 31),
+      ),
+      const LoanBalance(amount: Money(2000), repaid: Money.zero),
+    ]);
+    expect(entries.last.loans, isEmpty);
   });
 
   test('deleting a borrower through the repository cascades', () async {
