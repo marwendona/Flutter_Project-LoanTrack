@@ -59,6 +59,19 @@ class BorrowersDao extends DatabaseAccessor<AppDatabase>
   Future<int> insertBorrower(BorrowersCompanion entry) =>
       into(borrowers).insert(entry);
 
+  /// Inserts [entry] unless a borrower already has its name key (RG-02).
+  /// Returns the new id, or null if the name key is taken.
+  Future<int?> insertBorrowerIfNameKeyFree(BorrowersCompanion entry) =>
+      transaction(() async {
+        final existing =
+            await (select(borrowers)
+                  ..where((b) => b.nameKey.equals(entry.nameKey.value))
+                  ..limit(1))
+                .getSingleOrNull();
+        if (existing != null) return null;
+        return into(borrowers).insert(entry);
+      });
+
   /// Loans and repayments are removed by the foreign key cascade, in the same
   /// transaction (ENF-06).
   Future<int> deleteById(int id) => transaction(

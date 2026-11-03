@@ -7,6 +7,7 @@ import '../../domain/models/borrower_summary.dart';
 import '../../domain/models/loan_balance.dart';
 import '../../domain/repositories/borrower_repository.dart';
 import '../../domain/services/borrower_name_key.dart';
+import '../../domain/services/borrower_validator.dart';
 import '../database/app_database.dart';
 import '../database/daos/borrowers_dao.dart';
 import 'mappers.dart';
@@ -48,16 +49,24 @@ class BorrowerRepositoryImpl implements BorrowerRepository {
   }
 
   @override
-  Future<int> add({required String name, String? phone, String? note}) {
-    return _dao.insertBorrower(
+  Future<int> add({required String name, String? phone, String? note}) async {
+    final trimmedName = name.trim();
+    final id = await _dao.insertBorrowerIfNameKeyFree(
       BorrowersCompanion.insert(
-        name: name,
-        nameKey: borrowerNameKey(name),
-        phone: Value(phone),
-        note: Value(note),
+        name: trimmedName,
+        nameKey: borrowerNameKey(trimmedName),
+        phone: Value(_blankToNull(phone)),
+        note: Value(_blankToNull(note)),
         createdAt: LocalDay.today(),
       ),
     );
+    if (id == null) throw DuplicateBorrowerNameException(trimmedName);
+    return id;
+  }
+
+  static String? _blankToNull(String? value) {
+    final trimmed = value?.trim();
+    return (trimmed == null || trimmed.isEmpty) ? null : trimmed;
   }
 
   @override

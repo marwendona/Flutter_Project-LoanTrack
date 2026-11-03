@@ -7,9 +7,10 @@ import '../../core/widgets/overdue_badge.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower_summary.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'borrower_form_sheet.dart';
 import 'borrowers_providers.dart';
 
-/// ECR-02 — Borrowers list (US-1.1).
+/// ECR-02 — Borrowers list (US-1.1), "+" button to add one (US-1.2).
 class BorrowersScreen extends ConsumerWidget {
   const BorrowersScreen({super.key});
 
@@ -28,6 +29,11 @@ class BorrowersScreen extends ConsumerWidget {
         AsyncError() => Center(child: Text(l10n.loadError)),
         _ => const Center(child: CircularProgressIndicator()),
       },
+      floatingActionButton: FloatingActionButton(
+        tooltip: l10n.borrowerAddTooltip,
+        onPressed: () => showBorrowerFormSheet(context),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
@@ -40,6 +46,8 @@ class _BorrowersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      // Keeps the last row reachable above the "+" button.
+      padding: const EdgeInsets.only(bottom: 88),
       itemCount: summaries.length,
       separatorBuilder: (_, _) => const Divider(height: 1),
       itemBuilder: (_, index) => _BorrowerTile(summary: summaries[index]),

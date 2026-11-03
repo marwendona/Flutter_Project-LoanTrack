@@ -124,6 +124,24 @@ void main() {
       await expectation;
     });
 
+    test('inserts only if the name key is free', () async {
+      BorrowersCompanion entry(String name) => BorrowersCompanion.insert(
+        name: name,
+        nameKey: name.toLowerCase(),
+        createdAt: LocalDay(2026, 11, 3),
+      );
+
+      final id = await db.borrowersDao.insertBorrowerIfNameKeyFree(
+        entry('Ali'),
+      );
+      expect(id, isNotNull);
+      expect(
+        await db.borrowersDao.insertBorrowerIfNameKeyFree(entry('ALI')),
+        isNull,
+      );
+      expect(await count('borrowers'), 1);
+    });
+
     test('rejects a duplicate name key', () async {
       await addBorrower('Ali');
       await expectLater(addBorrower('ALI'), throwsA(isA<SqliteException>()));

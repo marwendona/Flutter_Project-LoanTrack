@@ -74,11 +74,11 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Tri par reste dû décroissant puis nom (RG-04).
 - [x] État vide explicite. — ECR-02
 
-### US-1.2 — Ajouter un emprunteur · `M` · `S` · ⬜
+### US-1.2 — Ajouter un emprunteur · `M` · `S` · ✅
 **Je veux** ajouter un emprunteur (nom, téléphone, note) **afin de** lui associer des prêts.
-- [ ] Bouton + → formulaire ; nom obligatoire 1–60 car., espaces retirés (RG-01).
-- [ ] Doublon de nom refusé avec message (RG-02).
-- [ ] Après enregistrement, l'emprunteur apparaît dans la liste.
+- [x] Bouton + → formulaire ; nom obligatoire 1–60 car., espaces retirés (RG-01).
+- [x] Doublon de nom refusé avec message (RG-02).
+- [x] Après enregistrement, l'emprunteur apparaît dans la liste.
 
 ### US-1.3 — Supprimer un emprunteur · `M` · `S` · ⬜
 **Je veux** supprimer un emprunteur **afin de** nettoyer ma liste.

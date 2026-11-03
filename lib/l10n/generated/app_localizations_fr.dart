@@ -45,4 +45,44 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get borrowersRemainingLabel => 'Reste dû';
+
+  @override
+  String get actionCancel => 'Annuler';
+
+  @override
+  String get actionSave => 'Enregistrer';
+
+  @override
+  String get saveError => 'Impossible d\'enregistrer. Réessayez.';
+
+  @override
+  String noteTooLong(int max) {
+    return 'La note ne peut pas dépasser $max caractères.';
+  }
+
+  @override
+  String get borrowerAddTooltip => 'Ajouter un emprunteur';
+
+  @override
+  String get borrowerFormNewTitle => 'Nouvel emprunteur';
+
+  @override
+  String get borrowerFormName => 'Nom';
+
+  @override
+  String get borrowerFormPhone => 'Téléphone (facultatif)';
+
+  @override
+  String get borrowerFormNote => 'Note (facultative)';
+
+  @override
+  String get borrowerNameRequired => 'Le nom est obligatoire.';
+
+  @override
+  String borrowerNameTooLong(int max) {
+    return 'Le nom ne peut pas dépasser $max caractères.';
+  }
+
+  @override
+  String get borrowerNameDuplicate => 'Un emprunteur porte déjà ce nom.';
 }

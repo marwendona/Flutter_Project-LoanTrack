@@ -147,6 +147,78 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Reste dû'**
   String get borrowersRemainingLabel;
+
+  /// Bouton d'annulation d'un formulaire ou d'un dialogue
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get actionCancel;
+
+  /// Bouton d'enregistrement d'un formulaire
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer'**
+  String get actionSave;
+
+  /// Message affiché quand l'écriture en base échoue
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'enregistrer. Réessayez.'**
+  String get saveError;
+
+  /// Erreur de validation d'une note trop longue
+  ///
+  /// In fr, this message translates to:
+  /// **'La note ne peut pas dépasser {max} caractères.'**
+  String noteTooLong(int max);
+
+  /// Info-bulle du bouton + de la liste des emprunteurs (ECR-02)
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un emprunteur'**
+  String get borrowerAddTooltip;
+
+  /// Titre de la feuille de création d'un emprunteur (ECR-02)
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouvel emprunteur'**
+  String get borrowerFormNewTitle;
+
+  /// Champ nom du formulaire emprunteur
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom'**
+  String get borrowerFormName;
+
+  /// Champ téléphone du formulaire emprunteur
+  ///
+  /// In fr, this message translates to:
+  /// **'Téléphone (facultatif)'**
+  String get borrowerFormPhone;
+
+  /// Champ note du formulaire emprunteur
+  ///
+  /// In fr, this message translates to:
+  /// **'Note (facultative)'**
+  String get borrowerFormNote;
+
+  /// Erreur : nom d'emprunteur vide (RG-01)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le nom est obligatoire.'**
+  String get borrowerNameRequired;
+
+  /// Erreur : nom d'emprunteur trop long (RG-01)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le nom ne peut pas dépasser {max} caractères.'**
+  String borrowerNameTooLong(int max);
+
+  /// Erreur : nom d'emprunteur déjà utilisé (RG-02)
+  ///
+  /// In fr, this message translates to:
+  /// **'Un emprunteur porte déjà ce nom.'**
+  String get borrowerNameDuplicate;
 }
 
 class _AppLocalizationsDelegate

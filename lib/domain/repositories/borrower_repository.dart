@@ -9,6 +9,10 @@ abstract interface class BorrowerRepository {
   Stream<List<BorrowerWithLoans>> watchAllWithLoanBalances();
 
   /// Stores a new borrower created today and returns its id.
+  ///
+  /// Values are trimmed and blank optional values are stored as null.
+  /// Throws a `DuplicateBorrowerNameException` if the name is already used
+  /// (RG-02).
   Future<int> add({required String name, String? phone, String? note});
 
   /// Deletes the borrower with its loans and repayments (RG-03).

@@ -10,6 +10,7 @@ import 'package:loantrack/domain/models/borrower.dart';
 import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_balance.dart';
 import 'package:loantrack/domain/models/repayment.dart';
+import 'package:loantrack/domain/services/borrower_validator.dart';
 
 void main() {
   late ProviderContainer container;
@@ -52,7 +53,7 @@ void main() {
     expect(await borrowers.watchAll().first, [
       Borrower(
         id: borrowerId,
-        name: ' Ali ',
+        name: 'Ali',
         phone: '20000000',
         createdAt: LocalDay(2026, 10, 30),
       ),
@@ -76,6 +77,31 @@ void main() {
       ),
     ]);
   });
+
+  test('add trims values and stores blank optional values as null', () async {
+    final borrowers = container.read(borrowerRepositoryProvider);
+    final id = await borrowers.add(name: '  Sami ', phone: '   ', note: ' x ');
+
+    final stored = (await borrowers.watchAll().first).single;
+    expect(stored.id, id);
+    expect(stored.name, 'Sami');
+    expect(stored.phone, isNull);
+    expect(stored.note, 'x');
+  });
+
+  test(
+    'add refuses a duplicate name ignoring case and spaces (RG-02)',
+    () async {
+      final borrowers = container.read(borrowerRepositoryProvider);
+      await borrowers.add(name: 'Ali');
+
+      await expectLater(
+        borrowers.add(name: '  aLI '),
+        throwsA(isA<DuplicateBorrowerNameException>()),
+      );
+      expect(await borrowers.watchAll().first, hasLength(1));
+    },
+  );
 
   test('groups loan balances by borrower', () async {
     final borrowers = container.read(borrowerRepositoryProvider);

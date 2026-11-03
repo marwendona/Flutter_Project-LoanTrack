@@ -40,5 +40,63 @@
   "borrowersRemainingLabel": "Reste dû",
   "@borrowersRemainingLabel": {
     "description": "Libellé du reste dû d'un emprunteur dans la liste (ECR-02)"
+  },
+  "actionCancel": "Annuler",
+  "@actionCancel": {
+    "description": "Bouton d'annulation d'un formulaire ou d'un dialogue"
+  },
+  "actionSave": "Enregistrer",
+  "@actionSave": {
+    "description": "Bouton d'enregistrement d'un formulaire"
+  },
+  "saveError": "Impossible d'enregistrer. Réessayez.",
+  "@saveError": {
+    "description": "Message affiché quand l'écriture en base échoue"
+  },
+  "noteTooLong": "La note ne peut pas dépasser {max} caractères.",
+  "@noteTooLong": {
+    "description": "Erreur de validation d'une note trop longue",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "borrowerAddTooltip": "Ajouter un emprunteur",
+  "@borrowerAddTooltip": {
+    "description": "Info-bulle du bouton + de la liste des emprunteurs (ECR-02)"
+  },
+  "borrowerFormNewTitle": "Nouvel emprunteur",
+  "@borrowerFormNewTitle": {
+    "description": "Titre de la feuille de création d'un emprunteur (ECR-02)"
+  },
+  "borrowerFormName": "Nom",
+  "@borrowerFormName": {
+    "description": "Champ nom du formulaire emprunteur"
+  },
+  "borrowerFormPhone": "Téléphone (facultatif)",
+  "@borrowerFormPhone": {
+    "description": "Champ téléphone du formulaire emprunteur"
+  },
+  "borrowerFormNote": "Note (facultative)",
+  "@borrowerFormNote": {
+    "description": "Champ note du formulaire emprunteur"
+  },
+  "borrowerNameRequired": "Le nom est obligatoire.",
+  "@borrowerNameRequired": {
+    "description": "Erreur : nom d'emprunteur vide (RG-01)"
+  },
+  "borrowerNameTooLong": "Le nom ne peut pas dépasser {max} caractères.",
+  "@borrowerNameTooLong": {
+    "description": "Erreur : nom d'emprunteur trop long (RG-01)",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "borrowerNameDuplicate": "Un emprunteur porte déjà ce nom.",
+  "@borrowerNameDuplicate": {
+    "description": "Erreur : nom d'emprunteur déjà utilisé (RG-02)"
   }
 }
