@@ -89,8 +89,8 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 ### US-1.4 — Modifier un emprunteur · `S` · `XS` · ✅
 - [x] Modification nom / téléphone / note avec les mêmes validations que la création.
 
-### US-1.5 — Rechercher un emprunteur · `S` · `XS` · ⬜
-- [ ] Champ de recherche filtrant la liste par nom (insensible à la casse et aux accents).
+### US-1.5 — Rechercher un emprunteur · `S` · `XS` · ✅
+- [x] Champ de recherche filtrant la liste par nom (insensible à la casse et aux accents).
 
 ---
 

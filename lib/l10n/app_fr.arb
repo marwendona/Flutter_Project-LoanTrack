@@ -122,5 +122,9 @@
         "type": "String"
       }
     }
+  },
+  "borrowerSearchHint": "Rechercher un emprunteur...",
+  "@borrowerSearchHint": {
+    "description": "Indice du champ de recherche d'emprunteur (US-1.5)"
   }
 }

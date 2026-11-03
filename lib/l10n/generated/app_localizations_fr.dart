@@ -106,4 +106,7 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0 seront supprimés. Reste dû : $remaining.';
   }
+
+  @override
+  String get borrowerSearchHint => 'Rechercher un emprunteur...';
 }

@@ -243,6 +243,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{loanCount, plural, =0{Aucun prêt} =1{1 prêt} other{{loanCount} prêts}} seront supprimés. Reste dû : {remaining}.'**
   String borrowerDeleteMessage(int loanCount, String remaining);
+
+  /// Indice du champ de recherche d'emprunteur (US-1.5)
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher un emprunteur...'**
+  String get borrowerSearchHint;
 }
 
 class _AppLocalizationsDelegate

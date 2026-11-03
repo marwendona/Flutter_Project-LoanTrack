@@ -18,17 +18,33 @@ class BorrowersScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final summaries = ref.watch(borrowerSummariesProvider);
+    final filteredSummaries = ref.watch(filteredBorrowersProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.navBorrowers)),
-      body: switch (summaries) {
-        AsyncData(:final value) when value.isEmpty => EmptyState(
-          icon: Icons.people_outline,
-          message: l10n.borrowersEmpty,
+      appBar: AppBar(
+        title: Text(l10n.navBorrowers),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: l10n.borrowerSearchHint,
+                prefixIcon: const Icon(Icons.search),
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                ref.read(searchQueryProvider.notifier).updateQuery(value);
+              },
+            ),
+          ),
         ),
-        AsyncData(:final value) => _BorrowersList(summaries: value),
-        AsyncError() => Center(child: Text(l10n.loadError)),
-        _ => const Center(child: CircularProgressIndicator()),
+      ),
+      body: switch (filteredSummaries) {
+        [] => EmptyState(
+            icon: Icons.people_outline,
+            message: l10n.borrowersEmpty,
+          ),
+        final value => _BorrowersList(summaries: value),
       },
       floatingActionButton: FloatingActionButton(
         tooltip: l10n.borrowerAddTooltip,
