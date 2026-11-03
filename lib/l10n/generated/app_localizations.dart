@@ -219,6 +219,24 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Un emprunteur porte déjà ce nom.'**
   String get borrowerNameDuplicate;
+
+  /// Titre du dialogue de confirmation de suppression d'un emprunteur (RG-03)
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer cet emprunteur ?'**
+  String get borrowerDeleteTitle;
+
+  /// Bouton de confirmation de suppression d'un emprunteur
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get borrowerDeleteConfirm;
+
+  /// Message de confirmation de suppression d'un emprunteur (RG-03)
+  ///
+  /// In fr, this message translates to:
+  /// **'{loanCount, plural, =0{Aucun prêt} =1{1 prêt} other{{loanCount} prêts}} seront supprimés. Reste dû : {remaining}.'**
+  String borrowerDeleteMessage(int loanCount, String remaining);
 }
 
 class _AppLocalizationsDelegate

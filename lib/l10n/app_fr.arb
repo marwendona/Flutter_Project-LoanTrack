@@ -98,5 +98,25 @@
   "borrowerNameDuplicate": "Un emprunteur porte déjà ce nom.",
   "@borrowerNameDuplicate": {
     "description": "Erreur : nom d'emprunteur déjà utilisé (RG-02)"
+  },
+  "borrowerDeleteTitle": "Supprimer cet emprunteur ?",
+  "@borrowerDeleteTitle": {
+    "description": "Titre du dialogue de confirmation de suppression d'un emprunteur (RG-03)"
+  },
+  "borrowerDeleteConfirm": "Supprimer",
+  "@borrowerDeleteConfirm": {
+    "description": "Bouton de confirmation de suppression d'un emprunteur"
+  },
+  "borrowerDeleteMessage": "{loanCount, plural, =0{Aucun prêt} =1{1 prêt} other{{loanCount} prêts}} seront supprimés. Reste dû : {remaining}.",
+  "@borrowerDeleteMessage": {
+    "description": "Message de confirmation de suppression d'un emprunteur (RG-03)",
+    "placeholders": {
+      "loanCount": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "String"
+      }
+    }
   }
 }

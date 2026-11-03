@@ -85,4 +85,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get borrowerNameDuplicate => 'Un emprunteur porte déjà ce nom.';
+
+  @override
+  String get borrowerDeleteTitle => 'Supprimer cet emprunteur ?';
+
+  @override
+  String get borrowerDeleteConfirm => 'Supprimer';
+
+  @override
+  String borrowerDeleteMessage(int loanCount, String remaining) {
+    String _temp0 = intl.Intl.pluralLogic(
+      loanCount,
+      locale: localeName,
+      other: '$loanCount prêts',
+      one: '1 prêt',
+      zero: 'Aucun prêt',
+    );
+    return '$_temp0 seront supprimés. Reste dû : $remaining.';
+  }
 }

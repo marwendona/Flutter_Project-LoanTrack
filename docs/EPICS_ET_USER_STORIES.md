@@ -80,11 +80,11 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Doublon de nom refusé avec message (RG-02).
 - [x] Après enregistrement, l'emprunteur apparaît dans la liste.
 
-### US-1.3 — Supprimer un emprunteur · `M` · `S` · ⬜
+### US-1.3 — Supprimer un emprunteur · `M` · `S` · ✅
 **Je veux** supprimer un emprunteur **afin de** nettoyer ma liste.
-- [ ] Accessible par appui long / menu ⋮ et depuis le détail.
-- [ ] Dialogue de confirmation indiquant le nombre de prêts et le reste dû supprimés (RG-03).
-- [ ] Suppression en cascade dans une transaction ; totaux mis à jour immédiatement.
+- [x] Accessible par appui long / menu ⋮ et depuis le détail.
+- [x] Dialogue de confirmation indiquant le nombre de prêts et le reste dû supprimés (RG-03).
+- [x] Suppression en cascade dans une transaction ; totaux mis à jour immédiatement.
 
 ### US-1.4 — Modifier un emprunteur · `S` · `XS` · ⬜
 - [ ] Modification nom / téléphone / note avec les mêmes validations que la création.

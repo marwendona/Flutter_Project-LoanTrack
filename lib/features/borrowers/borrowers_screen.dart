@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../core/money/currency.dart';
 import '../../core/money/money_formatter.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/overdue_badge.dart';
@@ -72,21 +73,83 @@ class _BorrowerTile extends ConsumerWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(l10n.borrowersActiveLoans(summary.activeLoanCount)),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Semantics(
-            label: l10n.borrowersRemainingLabel,
-            child: Text(
-              MoneyFormatter.format(summary.remaining, currency),
-              style: textTheme.titleMedium,
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Semantics(
+                label: l10n.borrowersRemainingLabel,
+                child: Text(
+                  MoneyFormatter.format(summary.remaining, currency),
+                  style: textTheme.titleMedium,
+                ),
+              ),
+              if (summary.isOverdue) ...[
+                const SizedBox(height: 4),
+                const OverdueBadge(),
+              ],
+            ],
           ),
-          if (summary.isOverdue) ...[
-            const SizedBox(height: 4),
-            const OverdueBadge(),
-          ],
+          PopupMenuButton<String>(
+            tooltip: l10n.actionCancel,
+            onSelected: (action) {
+              if (action == 'delete') {
+                _showDeleteDialog(context, ref, summary, currency, l10n);
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'delete',
+                child: Text(l10n.borrowerDeleteConfirm),
+              ),
+            ],
+          ),
+        ],
+      ),
+      onLongPress: () => _showDeleteDialog(context, ref, summary, currency, l10n),
+    );
+  }
+
+  void _showDeleteDialog(
+    BuildContext context,
+    WidgetRef ref,
+    BorrowerSummary summary,
+    Currency currency,
+    AppLocalizations l10n,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.borrowerDeleteTitle),
+        content: Text(
+          l10n.borrowerDeleteMessage(
+            summary.loanCount,
+            MoneyFormatter.format(summary.remaining, currency),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.actionCancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              try {
+                await ref.read(borrowerRepositoryProvider).delete(summary.borrower.id);
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.saveError)),
+                  );
+                }
+              }
+            },
+            child: Text(l10n.borrowerDeleteConfirm),
+          ),
         ],
       ),
     );
