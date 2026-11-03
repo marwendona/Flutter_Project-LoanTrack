@@ -86,8 +86,8 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Dialogue de confirmation indiquant le nombre de prêts et le reste dû supprimés (RG-03).
 - [x] Suppression en cascade dans une transaction ; totaux mis à jour immédiatement.
 
-### US-1.4 — Modifier un emprunteur · `S` · `XS` · ⬜
-- [ ] Modification nom / téléphone / note avec les mêmes validations que la création.
+### US-1.4 — Modifier un emprunteur · `S` · `XS` · ✅
+- [x] Modification nom / téléphone / note avec les mêmes validations que la création.
 
 ### US-1.5 — Rechercher un emprunteur · `S` · `XS` · ⬜
 - [ ] Champ de recherche filtrant la liste par nom (insensible à la casse et aux accents).

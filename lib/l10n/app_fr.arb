@@ -70,6 +70,10 @@
   "@borrowerFormNewTitle": {
     "description": "Titre de la feuille de création d'un emprunteur (ECR-02)"
   },
+  "borrowerFormEditTitle": "Modifier l'emprunteur",
+  "@borrowerFormEditTitle": {
+    "description": "Titre de la feuille de modification d'un emprunteur (US-1.4)"
+  },
   "borrowerFormName": "Nom",
   "@borrowerFormName": {
     "description": "Champ nom du formulaire emprunteur"

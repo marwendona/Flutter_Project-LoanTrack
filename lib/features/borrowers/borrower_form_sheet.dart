@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../domain/models/borrower.dart';
 import '../../domain/services/borrower_validator.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'borrower_form_controller.dart';
@@ -16,8 +17,21 @@ Future<void> showBorrowerFormSheet(BuildContext context) {
   );
 }
 
+/// Opens the "Modifier l'emprunteur" bottom sheet (US-1.4).
+Future<void> showBorrowerEditSheet(BuildContext context, Borrower borrower) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    showDragHandle: true,
+    builder: (_) => BorrowerFormSheet(borrower: borrower),
+  );
+}
+
 class BorrowerFormSheet extends ConsumerStatefulWidget {
-  const BorrowerFormSheet({super.key});
+  const BorrowerFormSheet({super.key, this.borrower});
+
+  final Borrower? borrower;
 
   @override
   ConsumerState<BorrowerFormSheet> createState() => _BorrowerFormSheetState();
@@ -28,6 +42,16 @@ class _BorrowerFormSheetState extends ConsumerState<BorrowerFormSheet> {
   final _name = TextEditingController();
   final _phone = TextEditingController();
   final _note = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.borrower != null) {
+      _name.text = widget.borrower!.name;
+      _phone.text = widget.borrower!.phone ?? '';
+      _note.text = widget.borrower!.note ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -41,7 +65,12 @@ class _BorrowerFormSheetState extends ConsumerState<BorrowerFormSheet> {
     if (!_formKey.currentState!.validate()) return;
     final saved = await ref
         .read(borrowerFormControllerProvider.notifier)
-        .save(name: _name.text, phone: _phone.text, note: _note.text);
+        .save(
+          name: _name.text,
+          phone: _phone.text,
+          note: _note.text,
+          borrowerId: widget.borrower?.id,
+        );
     if (saved && mounted) Navigator.of(context).pop();
   }
 
@@ -67,7 +96,9 @@ class _BorrowerFormSheetState extends ConsumerState<BorrowerFormSheet> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                l10n.borrowerFormNewTitle,
+                widget.borrower != null
+                    ? l10n.borrowerFormEditTitle
+                    : l10n.borrowerFormNewTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),

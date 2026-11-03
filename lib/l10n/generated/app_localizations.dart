@@ -184,6 +184,12 @@ abstract class AppLocalizations {
   /// **'Nouvel emprunteur'**
   String get borrowerFormNewTitle;
 
+  /// Titre de la feuille de modification d'un emprunteur (US-1.4)
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier l\'emprunteur'**
+  String get borrowerFormEditTitle;
+
   /// Champ nom du formulaire emprunteur
   ///
   /// In fr, this message translates to:

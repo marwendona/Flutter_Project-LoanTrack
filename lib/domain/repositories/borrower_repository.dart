@@ -15,6 +15,18 @@ abstract interface class BorrowerRepository {
   /// (RG-02).
   Future<int> add({required String name, String? phone, String? note});
 
+  /// Updates an existing borrower.
+  ///
+  /// Values are trimmed and blank optional values are stored as null.
+  /// Throws a `DuplicateBorrowerNameException` if the name is already used
+  /// by another borrower (RG-02).
+  Future<void> update({
+    required int id,
+    required String name,
+    String? phone,
+    String? note,
+  });
+
   /// Deletes the borrower with its loans and repayments (RG-03).
   Future<void> delete(int id);
 }

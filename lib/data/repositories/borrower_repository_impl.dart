@@ -70,5 +70,25 @@ class BorrowerRepositoryImpl implements BorrowerRepository {
   }
 
   @override
+  Future<void> update({
+    required int id,
+    required String name,
+    String? phone,
+    String? note,
+  }) async {
+    final trimmedName = name.trim();
+    final updated = await _dao.updateBorrowerIfNameKeyFree(
+      BorrowersCompanion(
+        id: Value(id),
+        name: Value(trimmedName),
+        nameKey: Value(borrowerNameKey(trimmedName)),
+        phone: Value(_blankToNull(phone)),
+        note: Value(_blankToNull(note)),
+      ),
+    );
+    if (!updated) throw DuplicateBorrowerNameException(trimmedName);
+  }
+
+  @override
   Future<void> delete(int id) => _dao.deleteById(id);
 }

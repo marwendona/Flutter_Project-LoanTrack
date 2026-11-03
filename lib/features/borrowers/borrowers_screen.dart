@@ -96,11 +96,17 @@ class _BorrowerTile extends ConsumerWidget {
           PopupMenuButton<String>(
             tooltip: l10n.actionCancel,
             onSelected: (action) {
-              if (action == 'delete') {
+              if (action == 'edit') {
+                showBorrowerEditSheet(context, summary.borrower);
+              } else if (action == 'delete') {
                 _showDeleteDialog(context, ref, summary, currency, l10n);
               }
             },
             itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'edit',
+                child: Text(l10n.borrowerFormEditTitle),
+              ),
               PopupMenuItem(
                 value: 'delete',
                 child: Text(l10n.borrowerDeleteConfirm),

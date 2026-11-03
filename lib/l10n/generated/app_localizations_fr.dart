@@ -67,6 +67,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get borrowerFormNewTitle => 'Nouvel emprunteur';
 
   @override
+  String get borrowerFormEditTitle => 'Modifier l\'emprunteur';
+
+  @override
   String get borrowerFormName => 'Nom';
 
   @override

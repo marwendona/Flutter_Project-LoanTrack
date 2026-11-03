@@ -37,7 +37,12 @@ class BorrowerFormController extends Notifier<BorrowerFormState> {
   }
 
   /// Returns true if the borrower was saved.
-  Future<bool> save({required String name, String? phone, String? note}) async {
+  Future<bool> save({
+    required String name,
+    String? phone,
+    String? note,
+    int? borrowerId,
+  }) async {
     if (state.isSaving ||
         BorrowerValidator.validateName(name) != null ||
         (note != null && !BorrowerValidator.isNoteValid(note))) {
@@ -45,9 +50,20 @@ class BorrowerFormController extends Notifier<BorrowerFormState> {
     }
     state = const BorrowerFormState(isSaving: true);
     try {
-      await ref
-          .read(borrowerRepositoryProvider)
-          .add(name: name, phone: phone, note: note);
+      if (borrowerId == null) {
+        await ref.read(borrowerRepositoryProvider).add(
+              name: name,
+              phone: phone,
+              note: note,
+            );
+      } else {
+        await ref.read(borrowerRepositoryProvider).update(
+              id: borrowerId,
+              name: name,
+              phone: phone,
+              note: note,
+            );
+      }
       if (ref.mounted) state = const BorrowerFormState();
       return true;
     } on DuplicateBorrowerNameException {
