@@ -25,6 +25,11 @@ class LoanRepositoryImpl implements LoanRepository {
       .map((rows) => [for (final row in rows) _toSummary(row)]);
 
   @override
+  Stream<LoanSummary?> watchSummaryById(int id) => _dao
+      .watchWithRepaymentsById(id)
+      .map((row) => row == null ? null : _toSummary(row));
+
+  @override
   Future<LoanSummary?> getSummaryById(int id) async {
     final row = await _dao.getWithRepaymentsById(id);
     return row == null ? null : _toSummary(row);

@@ -280,6 +280,39 @@ void main() {
       expect(await loans.getSummaryById(loanId + 100), isNull);
     });
 
+    test('watchSummaryById re-emits on repayment changes (US-3.2)', () async {
+      final loans = container.read(loanRepositoryProvider);
+      final repayments = container.read(repaymentRepositoryProvider);
+
+      final summaries = loans.watchSummaryById(loanId);
+      final expectation = expectLater(
+        summaries.map((s) => s?.repaid),
+        emitsInOrder([const Money(1500), const Money(5000), null]),
+      );
+      await Future<void>.delayed(Duration.zero);
+      await repayments.add(
+        loanId: loanId,
+        amount: const Money(3500),
+        repaymentDate: LocalDay(2026, 9, 25),
+      );
+      await Future<void>.delayed(Duration.zero);
+      await loans.delete(loanId);
+
+      await expectation;
+    });
+
+    test('watchByLoan lists repayments most recent first (US-3.2)', () async {
+      final history = await container
+          .read(repaymentRepositoryProvider)
+          .watchByLoan(loanId)
+          .first;
+
+      expect(
+        [for (final r in history) r.repaymentDate],
+        [LocalDay(2026, 9, 20), LocalDay(2026, 9, 10)],
+      );
+    });
+
     test('update stores the new values and keeps the repayments', () async {
       final loans = container.read(loanRepositoryProvider);
       final loan = (await loans.getSummaryById(loanId))!.loan;

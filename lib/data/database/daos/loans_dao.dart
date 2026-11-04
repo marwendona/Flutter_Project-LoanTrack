@@ -43,6 +43,15 @@ class LoansDao extends DatabaseAccessor<AppDatabase> with _$LoansDaoMixin {
     return query.watch().map((rows) => [for (final row in rows) _read(row)]);
   }
 
+  /// The loan [id] with its repayments aggregated, null if it does not exist,
+  /// re-emitted whenever the loan or one of its repayments changes.
+  Stream<LoanRepaymentsRow?> watchWithRepaymentsById(int id) {
+    final query = _withRepayments()..where(loans.id.equals(id));
+    return query.watchSingleOrNull().map(
+      (row) => row == null ? null : _read(row),
+    );
+  }
+
   /// The loan [id] with its repayments aggregated, null if it does not exist.
   Future<LoanRepaymentsRow?> getWithRepaymentsById(int id) async {
     final query = _withRepayments()..where(loans.id.equals(id));

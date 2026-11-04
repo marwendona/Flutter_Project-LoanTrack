@@ -382,5 +382,21 @@
   "repaymentDateInFuture": "La date du remboursement ne peut pas être dans le futur.",
   "@repaymentDateInFuture": {
     "description": "Erreur : date de remboursement future (RG-17)"
+  },
+  "loanDetailTitle": "Détail du prêt",
+  "@loanDetailTitle": {
+    "description": "Titre de l'écran de détail d'un prêt (ECR-05)"
+  },
+  "repaymentHistoryTitle": "Remboursements",
+  "@repaymentHistoryTitle": {
+    "description": "Titre de l'historique des remboursements d'un prêt (ECR-05)"
+  },
+  "repaymentHistoryEmpty": "Aucun remboursement.",
+  "@repaymentHistoryEmpty": {
+    "description": "État vide de l'historique des remboursements (ECR-05)"
+  },
+  "repaymentAddButton": "Remboursement",
+  "@repaymentAddButton": {
+    "description": "Bouton flottant « + Remboursement » d'ECR-05, ouvre ECR-05b"
   }
 }

@@ -46,7 +46,8 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - **montant remboursé** / **reste dû** + barre de progression ;
   - **statut** (puce colorée : En cours, Partiellement remboursé, Remboursé, En retard de N jours) ;
   - date de remboursement effective si « Remboursé » (RG-22) ;
-  - menu ⋮ → Ajouter un remboursement (ECR-05b, masqué si le prêt est remboursé — en attendant ECR-05, CR-020) / Modifier le prêt (ECR-04 en modification) / Supprimer le prêt (dialogue de confirmation, RG-14).
+  - menu ⋮ → Ajouter un remboursement (ECR-05b, masqué si le prêt est remboursé — CR-020) / Modifier le prêt (ECR-04 en modification) / Supprimer le prêt (dialogue de confirmation, RG-14).
+  - appui sur la carte → ECR-05 (CR-021).
 - État vide : « Aucun prêt. Appuyez sur « Prêt » pour en ajouter un. »
 - Bouton flottant **+ Prêt** → ECR-04.
 - Si l'emprunteur n'existe plus (supprimé) : message « Cet emprunteur n'existe plus. » ; après une suppression depuis le menu ⋮, retour à ECR-02.
@@ -61,10 +62,13 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 
 ## ECR-05 — Détail d'un prêt
 
-- Toutes les infos du prêt + statut.
-- **Historique des remboursements** : pour chacun, **date réelle** et **montant** ; appui → modifier / supprimer (RG-19).
+- Titre « Détail du prêt ». Ouvert par un appui sur une carte de prêt d'ECR-03.
+- Toutes les infos du prêt + statut : montant, puce de statut, date du prêt, date de retour promise (ou « Non définie »), date de remboursement effective si « Remboursé » (RG-22), note, montant remboursé / reste dû + barre de progression.
+- **Historique des remboursements** : pour chacun, **date réelle** et **montant** (et note si présente), du plus récent au plus ancien ; état vide « Aucun remboursement. » ; appui → modifier / supprimer (RG-19, US-3.3).
 - Bouton **+ Remboursement** → ECR-05b. Masqué si le prêt est remboursé.
-- Menu ⋮ → Modifier le prêt / Supprimer le prêt (RG-14).
+- Menu ⋮ → Modifier le prêt / Supprimer le prêt (RG-14) ; après suppression, retour à ECR-03.
+- Mise à jour immédiate après un ajout de remboursement ou une modification du prêt.
+- Si le prêt n'existe plus : message « Ce prêt n'existe plus. ».
 
 ## ECR-05b — Saisie d'un remboursement (feuille modale)
 

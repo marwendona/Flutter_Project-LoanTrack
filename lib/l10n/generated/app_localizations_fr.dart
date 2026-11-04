@@ -294,4 +294,16 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get repaymentDateInFuture =>
       'La date du remboursement ne peut pas être dans le futur.';
+
+  @override
+  String get loanDetailTitle => 'Détail du prêt';
+
+  @override
+  String get repaymentHistoryTitle => 'Remboursements';
+
+  @override
+  String get repaymentHistoryEmpty => 'Aucun remboursement.';
+
+  @override
+  String get repaymentAddButton => 'Remboursement';
 }

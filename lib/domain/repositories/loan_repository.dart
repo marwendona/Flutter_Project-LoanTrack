@@ -34,6 +34,10 @@ abstract interface class LoanRepository {
   /// exist.
   Future<LoanSummary?> getSummaryById(int id);
 
+  /// Same as [getSummaryById], re-emitted whenever the loan or one of its
+  /// repayments changes.
+  Stream<LoanSummary?> watchSummaryById(int id);
+
   /// Updates the amount, dates and note of an existing loan; throws
   /// [LoanNotFoundException] if it does not exist.
   Future<void> update(Loan loan);

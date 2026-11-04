@@ -531,6 +531,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'La date du remboursement ne peut pas être dans le futur.'**
   String get repaymentDateInFuture;
+
+  /// Titre de l'écran de détail d'un prêt (ECR-05)
+  ///
+  /// In fr, this message translates to:
+  /// **'Détail du prêt'**
+  String get loanDetailTitle;
+
+  /// Titre de l'historique des remboursements d'un prêt (ECR-05)
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursements'**
+  String get repaymentHistoryTitle;
+
+  /// État vide de l'historique des remboursements (ECR-05)
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun remboursement.'**
+  String get repaymentHistoryEmpty;
+
+  /// Bouton flottant « + Remboursement » d'ECR-05, ouvre ECR-05b
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursement'**
+  String get repaymentAddButton;
 }
 
 class _AppLocalizationsDelegate

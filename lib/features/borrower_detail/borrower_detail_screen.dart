@@ -301,69 +301,75 @@ class _LoanCard extends ConsumerWidget {
     final status = item.status;
     return Card(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          // Stretched so the Wrap rows span the card width.
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              alignment: WrapAlignment.spaceBetween,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(
-                  MoneyFormatter.format(loan.amount, currency),
-                  style: textTheme.titleLarge,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    LoanStatusChip(status: status),
-                    _LoanMenu(summary: summary),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(l10n.loanLentOn(DateFormatter.format(loan.loanDate))),
-            Text(
-              l10n.loanPromisedReturn(
-                promised != null
-                    ? DateFormatter.format(promised)
-                    : l10n.loanFormPromisedReturnDateNone,
+      clipBehavior: Clip.antiAlias,
+      // Tap opens the loan detail with its repayments (ECR-05, US-3.2).
+      child: InkWell(
+        onTap: () =>
+            context.push(AppRoutes.loanDetail(loan.borrowerId, loan.id)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            // Stretched so the Wrap rows span the card width.
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    MoneyFormatter.format(loan.amount, currency),
+                    style: textTheme.titleLarge,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LoanStatusChip(status: status),
+                      _LoanMenu(summary: summary),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            if (status case LoanRepaid(:final repaidOn?))
-              Text(l10n.loanRepaidOn(DateFormatter.format(repaidOn))),
-            const SizedBox(height: 12),
-            // Ratio for display only: amounts themselves stay integers.
-            LinearProgressIndicator(
-              value: summary.repaid.amountMinor / loan.amount.amountMinor,
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 16,
-              runSpacing: 4,
-              alignment: WrapAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.loanRepaidAmount(
-                    MoneyFormatter.format(summary.repaid, currency),
-                  ),
+              const SizedBox(height: 8),
+              Text(l10n.loanLentOn(DateFormatter.format(loan.loanDate))),
+              Text(
+                l10n.loanPromisedReturn(
+                  promised != null
+                      ? DateFormatter.format(promised)
+                      : l10n.loanFormPromisedReturnDateNone,
                 ),
-                Text(
-                  l10n.loanRemainingAmount(
-                    MoneyFormatter.format(summary.remaining, currency),
+              ),
+              if (status case LoanRepaid(:final repaidOn?))
+                Text(l10n.loanRepaidOn(DateFormatter.format(repaidOn))),
+              const SizedBox(height: 12),
+              // Ratio for display only: amounts themselves stay integers.
+              LinearProgressIndicator(
+                value: summary.repaid.amountMinor / loan.amount.amountMinor,
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 16,
+                runSpacing: 4,
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  Text(
+                    l10n.loanRepaidAmount(
+                      MoneyFormatter.format(summary.repaid, currency),
+                    ),
                   ),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                  Text(
+                    l10n.loanRemainingAmount(
+                      MoneyFormatter.format(summary.remaining, currency),
+                    ),
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

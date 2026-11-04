@@ -126,11 +126,12 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Feuille ECR-05b : montant, date réelle (défaut aujourd'hui), note ; rappel du reste dû.
 - [x] Bouton « Totalité » (RG-18).
 - [x] Validations RG-16, RG-17 ; statut et totaux mis à jour immédiatement.
-- Accès par le menu ⋮ de chaque carte de prêt d'ECR-03, masqué si le prêt est remboursé (CR-020) ; ECR-05 (US-3.2) offrira le bouton « + Remboursement ».
+- Accès par le menu ⋮ de chaque carte de prêt d'ECR-03, masqué si le prêt est remboursé (CR-020), et par le bouton « + Remboursement » d'ECR-05 (CR-021).
 
-### US-3.2 — Historique des remboursements d'un prêt · `M` · `S` · ⬜
-- [ ] Écran ECR-05 : infos du prêt + liste des remboursements (date réelle, montant), du plus récent au plus ancien.
-- [ ] Bouton + Remboursement masqué si le prêt est soldé.
+### US-3.2 — Historique des remboursements d'un prêt · `M` · `S` · ✅
+- [x] Écran ECR-05 : infos du prêt + liste des remboursements (date réelle, montant), du plus récent au plus ancien.
+- [x] Bouton + Remboursement masqué si le prêt est soldé.
+- Accès par appui sur une carte de prêt d'ECR-03 ; menu ⋮ Modifier / Supprimer le prêt (CR-021).
 
 ### US-3.3 — Modifier / supprimer un remboursement · `S` · `S` · ⬜
 - [ ] Modification avec plafond = reste dû + montant initial (RG-16) ; suppression avec confirmation (RG-19).

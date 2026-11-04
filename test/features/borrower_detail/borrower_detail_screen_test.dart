@@ -49,6 +49,11 @@ void main() {
           builder: (_, state) =>
               Text('ECR-04 edit ${state.pathParameters['loanId']}'),
         ),
+        GoRoute(
+          path: '${AppRoutes.borrowerDetail(borrowerId)}/loans/:loanId',
+          builder: (_, state) =>
+              Text('ECR-05 ${state.pathParameters['loanId']}'),
+        ),
       ],
     );
     addTearDown(router.dispose);
@@ -258,6 +263,17 @@ void main() {
       );
       await tester.pumpAndSettle();
     }
+
+    testWidgets('tapping a loan card opens the loan detail (ECR-05)', (
+      tester,
+    ) async {
+      await pumpScreen(tester, detail(loans));
+
+      await tester.tap(find.text('Prêté le 01/10/2026'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('ECR-05 4'), findsOneWidget);
+    });
 
     testWidgets('"Modifier le prêt" opens the loan form (ECR-04)', (
       tester,

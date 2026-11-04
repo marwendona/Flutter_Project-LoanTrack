@@ -6,6 +6,7 @@ import '../../features/borrower_detail/borrower_detail_screen.dart';
 import '../../features/borrowers/borrowers_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/loan/loan_form_screen.dart';
+import '../../features/loan_detail/loan_detail_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import 'scaffold_with_nav_bar.dart';
 
@@ -21,6 +22,10 @@ abstract final class AppRoutes {
   static String newLoan(int borrowerId) =>
       '${borrowerDetail(borrowerId)}/loans/new';
 
+  /// ECR-05 — Loan detail with its repayments (US-3.2).
+  static String loanDetail(int borrowerId, int loanId) =>
+      '${borrowerDetail(borrowerId)}/loans/$loanId';
+
   /// ECR-04 — Modification of a loan (US-2.4).
   static String editLoan(int borrowerId, int loanId) =>
       '${borrowerDetail(borrowerId)}/loans/$loanId/edit';
@@ -30,6 +35,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 int _borrowerId(GoRouterState state) =>
     int.parse(state.pathParameters['borrowerId']!);
+
+int _loanId(GoRouterState state) => int.parse(state.pathParameters['loanId']!);
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -72,7 +79,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                         parentNavigatorKey: _rootNavigatorKey,
                         builder: (context, state) => LoanFormScreen(
                           borrowerId: _borrowerId(state),
-                          loanId: int.parse(state.pathParameters['loanId']!),
+                          loanId: _loanId(state),
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'loans/:loanId',
+                        builder: (context, state) => LoanDetailScreen(
+                          borrowerId: _borrowerId(state),
+                          loanId: _loanId(state),
                         ),
                       ),
                     ],
