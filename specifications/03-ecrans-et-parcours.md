@@ -46,7 +46,7 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - **montant remboursé** / **reste dû** + barre de progression ;
   - **statut** (puce colorée : En cours, Partiellement remboursé, Remboursé, En retard de N jours) ;
   - date de remboursement effective si « Remboursé » (RG-22) ;
-  - menu ⋮ → Modifier le prêt (ECR-04 en modification) / Supprimer le prêt (dialogue de confirmation, RG-14).
+  - menu ⋮ → Ajouter un remboursement (ECR-05b, masqué si le prêt est remboursé — en attendant ECR-05, CR-020) / Modifier le prêt (ECR-04 en modification) / Supprimer le prêt (dialogue de confirmation, RG-14).
 - État vide : « Aucun prêt. Appuyez sur « Prêt » pour en ajouter un. »
 - Bouton flottant **+ Prêt** → ECR-04.
 - Si l'emprunteur n'existe plus (supprimé) : message « Cet emprunteur n'existe plus. » ; après une suppression depuis le menu ⋮, retour à ECR-02.
@@ -68,9 +68,11 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 
 ## ECR-05b — Saisie d'un remboursement (feuille modale)
 
-- Champs : montant, date réelle (défaut aujourd'hui), note.
-- Rappel du reste dû et bouton « Totalité » (RG-18).
-- Validation RG-16, RG-17.
+- Titre « Nouveau remboursement ».
+- Champs : montant (clavier numérique, devise affichée), date réelle (sélecteur borné entre la date du prêt et aujourd'hui, défaut aujourd'hui), note (facultative, ≤ 200 caractères).
+- Rappel du reste dû et bouton « Totalité » qui pré-remplit le montant avec le reste dû (RG-18).
+- Validation en ligne RG-16, RG-17 avec messages sous les champs ; bouton « Enregistrer » désactivé tant que la saisie est invalide.
+- Après enregistrement, la feuille se ferme ; reste dû, statut et totaux sont mis à jour immédiatement.
 
 ## ECR-06 — Paramètres
 

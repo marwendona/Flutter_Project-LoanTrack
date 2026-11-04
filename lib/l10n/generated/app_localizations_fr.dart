@@ -262,4 +262,36 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get repaymentFormNewTitle => 'Nouveau remboursement';
+
+  @override
+  String get repaymentAddAction => 'Ajouter un remboursement';
+
+  @override
+  String get repaymentFormAmount => 'Montant remboursé';
+
+  @override
+  String get repaymentFormFullAmount => 'Totalité';
+
+  @override
+  String get repaymentFormDate => 'Date du remboursement';
+
+  @override
+  String get repaymentFormNote => 'Note (facultative)';
+
+  @override
+  String repaymentAmountExceedsRemaining(String remaining) {
+    return 'Le montant ne peut pas dépasser le reste dû ($remaining).';
+  }
+
+  @override
+  String repaymentDateBeforeLoanDate(String date) {
+    return 'La date ne peut pas être antérieure à la date du prêt ($date).';
+  }
+
+  @override
+  String get repaymentDateInFuture =>
+      'La date du remboursement ne peut pas être dans le futur.';
 }

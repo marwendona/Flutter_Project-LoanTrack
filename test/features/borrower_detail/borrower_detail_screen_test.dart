@@ -300,6 +300,38 @@ void main() {
 
       verify(() => loanRepository.delete(4)).called(1);
     });
+
+    testWidgets('"Ajouter un remboursement" opens ECR-05b (US-3.1)', (
+      tester,
+    ) async {
+      await pumpScreen(tester, detail(loans));
+      await openLoanMenu(tester);
+
+      await tester.tap(find.text('Ajouter un remboursement'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Nouveau remboursement'), findsOneWidget);
+      expect(find.text('Reste dû : ${tnd(1000000)}'), findsNWidgets(2));
+    });
+
+    testWidgets('a repaid loan offers no repayment', (tester) async {
+      await pumpScreen(
+        tester,
+        detail([
+          item(
+            4,
+            amount: 1000000,
+            repaid: 1000000,
+            loanDate: LocalDay(2026, 10, 1),
+            status: LoanStatus.repaid(repaidOn: LocalDay(2026, 10, 20)),
+          ),
+        ]),
+      );
+      await openLoanMenu(tester);
+
+      expect(find.text('Ajouter un remboursement'), findsNothing);
+      expect(find.text('Modifier le prêt'), findsOneWidget);
+    });
   });
 
   testWidgets('shows a message when the borrower does not exist', (

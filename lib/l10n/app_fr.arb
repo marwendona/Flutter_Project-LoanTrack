@@ -336,5 +336,51 @@
         "type": "int"
       }
     }
+  },
+  "repaymentFormNewTitle": "Nouveau remboursement",
+  "@repaymentFormNewTitle": {
+    "description": "Titre de la feuille de saisie d'un remboursement (ECR-05b)"
+  },
+  "repaymentAddAction": "Ajouter un remboursement",
+  "@repaymentAddAction": {
+    "description": "Action du menu ⋮ d'un prêt qui ouvre ECR-05b (US-3.1)"
+  },
+  "repaymentFormAmount": "Montant remboursé",
+  "@repaymentFormAmount": {
+    "description": "Champ montant de la feuille de remboursement (ECR-05b)"
+  },
+  "repaymentFormFullAmount": "Totalité",
+  "@repaymentFormFullAmount": {
+    "description": "Bouton qui pré-remplit le montant avec le reste dû (RG-18)"
+  },
+  "repaymentFormDate": "Date du remboursement",
+  "@repaymentFormDate": {
+    "description": "Champ date réelle du remboursement (ECR-05b)"
+  },
+  "repaymentFormNote": "Note (facultative)",
+  "@repaymentFormNote": {
+    "description": "Champ note de la feuille de remboursement (ECR-05b)"
+  },
+  "repaymentAmountExceedsRemaining": "Le montant ne peut pas dépasser le reste dû ({remaining}).",
+  "@repaymentAmountExceedsRemaining": {
+    "description": "Erreur : remboursement supérieur au reste dû (RG-16)",
+    "placeholders": {
+      "remaining": {
+        "type": "String"
+      }
+    }
+  },
+  "repaymentDateBeforeLoanDate": "La date ne peut pas être antérieure à la date du prêt ({date}).",
+  "@repaymentDateBeforeLoanDate": {
+    "description": "Erreur : date de remboursement antérieure à la date du prêt (RG-17)",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repaymentDateInFuture": "La date du remboursement ne peut pas être dans le futur.",
+  "@repaymentDateInFuture": {
+    "description": "Erreur : date de remboursement future (RG-17)"
   }
 }

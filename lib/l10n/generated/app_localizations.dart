@@ -477,6 +477,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{days, plural, =1{En retard de 1 jour} other{En retard de {days} jours}}'**
   String loanStatusOverdue(int days);
+
+  /// Titre de la feuille de saisie d'un remboursement (ECR-05b)
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau remboursement'**
+  String get repaymentFormNewTitle;
+
+  /// Action du menu ⋮ d'un prêt qui ouvre ECR-05b (US-3.1)
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un remboursement'**
+  String get repaymentAddAction;
+
+  /// Champ montant de la feuille de remboursement (ECR-05b)
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant remboursé'**
+  String get repaymentFormAmount;
+
+  /// Bouton qui pré-remplit le montant avec le reste dû (RG-18)
+  ///
+  /// In fr, this message translates to:
+  /// **'Totalité'**
+  String get repaymentFormFullAmount;
+
+  /// Champ date réelle du remboursement (ECR-05b)
+  ///
+  /// In fr, this message translates to:
+  /// **'Date du remboursement'**
+  String get repaymentFormDate;
+
+  /// Champ note de la feuille de remboursement (ECR-05b)
+  ///
+  /// In fr, this message translates to:
+  /// **'Note (facultative)'**
+  String get repaymentFormNote;
+
+  /// Erreur : remboursement supérieur au reste dû (RG-16)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant ne peut pas dépasser le reste dû ({remaining}).'**
+  String repaymentAmountExceedsRemaining(String remaining);
+
+  /// Erreur : date de remboursement antérieure à la date du prêt (RG-17)
+  ///
+  /// In fr, this message translates to:
+  /// **'La date ne peut pas être antérieure à la date du prêt ({date}).'**
+  String repaymentDateBeforeLoanDate(String date);
+
+  /// Erreur : date de remboursement future (RG-17)
+  ///
+  /// In fr, this message translates to:
+  /// **'La date du remboursement ne peut pas être dans le futur.'**
+  String get repaymentDateInFuture;
 }
 
 class _AppLocalizationsDelegate

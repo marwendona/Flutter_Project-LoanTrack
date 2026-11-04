@@ -11,12 +11,13 @@ import '../../core/widgets/loan_status_chip.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower.dart';
 import '../../domain/models/borrower_summary.dart';
-import '../../domain/models/loan.dart';
 import '../../domain/models/loan_status.dart';
+import '../../domain/models/loan_summary.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../borrowers/borrower_delete_dialog.dart';
 import '../borrowers/borrower_form_sheet.dart';
 import '../loan/loan_delete_dialog.dart';
+import '../repayment/repayment_form_sheet.dart';
 import 'borrower_detail_providers.dart';
 
 /// ECR-03 — Borrower detail: contact, totals and loans (US-2.2).
@@ -102,19 +103,23 @@ class _BorrowerMenu extends ConsumerWidget {
 
 enum _BorrowerAction { edit, delete }
 
-/// Menu ⋮ of a loan card: edit (ECR-04) or delete (RG-14) the loan (US-2.4).
+/// Menu ⋮ of a loan card: add a repayment (ECR-05b, US-3.1) unless the loan is
+/// repaid, edit (ECR-04) or delete (RG-14) the loan (US-2.4).
 class _LoanMenu extends ConsumerWidget {
-  const _LoanMenu({required this.loan});
+  const _LoanMenu({required this.summary});
 
-  final Loan loan;
+  final LoanSummary summary;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final loan = summary.loan;
     return PopupMenuButton<_LoanAction>(
       tooltip: l10n.moreActionsTooltip,
       onSelected: (action) async {
         switch (action) {
+          case _LoanAction.addRepayment:
+            await showRepaymentFormSheet(context, summary);
           case _LoanAction.edit:
             await context.push(AppRoutes.editLoan(loan.borrowerId, loan.id));
           case _LoanAction.delete:
@@ -122,6 +127,11 @@ class _LoanMenu extends ConsumerWidget {
         }
       },
       itemBuilder: (context) => [
+        if (!summary.remaining.isZero)
+          PopupMenuItem(
+            value: _LoanAction.addRepayment,
+            child: Text(l10n.repaymentAddAction),
+          ),
         PopupMenuItem(
           value: _LoanAction.edit,
           child: Text(l10n.loanFormEditTitle),
@@ -135,7 +145,7 @@ class _LoanMenu extends ConsumerWidget {
   }
 }
 
-enum _LoanAction { edit, delete }
+enum _LoanAction { addRepayment, edit, delete }
 
 class _BorrowerDetailBody extends StatelessWidget {
   const _BorrowerDetailBody({required this.detail});
@@ -311,7 +321,7 @@ class _LoanCard extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     LoanStatusChip(status: status),
-                    _LoanMenu(loan: loan),
+                    _LoanMenu(summary: summary),
                   ],
                 ),
               ],

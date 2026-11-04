@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/date/date_formatter.dart';
-import '../../core/date/local_day.dart';
 import '../../core/money/money_formatter.dart';
+import '../../core/widgets/date_field.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../data/providers.dart';
 import '../../domain/models/loan_summary.dart';
@@ -117,7 +117,7 @@ class _LoanForm extends ConsumerWidget {
           onChanged: controller.amountChanged,
         ),
         const SizedBox(height: 16),
-        _DateField(
+        DateField(
           label: l10n.loanFormLoanDate,
           value: state.loanDate,
           errorText: switch (state.loanDateError) {
@@ -129,17 +129,17 @@ class _LoanForm extends ConsumerWidget {
             null => null,
           },
           onTap: () async {
-            final picked = await _pickDate(
+            final picked = await DateField.pick(
               context,
               initial: state.loanDate,
               first: _firstPickerDate,
-              last: _toDateTime(lastLoanDate),
+              last: DateField.toDateTime(lastLoanDate),
             );
             if (picked != null) controller.loanDateChanged(picked);
           },
         ),
         const SizedBox(height: 16),
-        _DateField(
+        DateField(
           label: l10n.loanFormPromisedReturnDate,
           value: state.promisedReturnDate,
           emptyText: l10n.loanFormPromisedReturnDateNone,
@@ -152,10 +152,10 @@ class _LoanForm extends ConsumerWidget {
           },
           onTap: () async {
             final initial = state.promisedReturnDate ?? state.loanDate;
-            final picked = await _pickDate(
+            final picked = await DateField.pick(
               context,
               initial: initial,
-              first: _toDateTime(
+              first: DateField.toDateTime(
                 initial < state.loanDate ? initial : state.loanDate,
               ),
               last: _lastPickerDate,
@@ -224,74 +224,4 @@ class _LoanForm extends ConsumerWidget {
         ),
         null => null,
       };
-
-  static Future<LocalDay?> _pickDate(
-    BuildContext context, {
-    required LocalDay initial,
-    required DateTime first,
-    required DateTime last,
-  }) async {
-    var initialDate = _toDateTime(initial);
-    if (initialDate.isBefore(first)) initialDate = first;
-    if (initialDate.isAfter(last)) initialDate = last;
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: first,
-      lastDate: last,
-    );
-    return picked == null ? null : LocalDay.fromDateTime(picked);
-  }
-
-  static DateTime _toDateTime(LocalDay day) =>
-      DateTime(day.year, day.month, day.day);
-}
-
-/// A read-only field showing a day; tapping it opens a date picker.
-class _DateField extends StatelessWidget {
-  const _DateField({
-    required this.label,
-    required this.value,
-    required this.onTap,
-    this.errorText,
-    this.emptyText,
-    this.onClear,
-    this.clearTooltip,
-  });
-
-  final String label;
-  final LocalDay? value;
-  final VoidCallback onTap;
-  final String? errorText;
-
-  /// Shown when [value] is null.
-  final String? emptyText;
-
-  /// When set, a clear button is shown while [value] is not null.
-  final VoidCallback? onClear;
-  final String? clearTooltip;
-
-  @override
-  Widget build(BuildContext context) {
-    final day = value;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(4),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: label,
-          errorText: errorText,
-          prefixIcon: const Icon(Icons.calendar_today_outlined),
-          suffixIcon: day != null && onClear != null
-              ? IconButton(
-                  tooltip: clearTooltip,
-                  icon: const Icon(Icons.clear),
-                  onPressed: onClear,
-                )
-              : null,
-        ),
-        child: Text(day != null ? DateFormatter.format(day) : emptyText ?? ''),
-      ),
-    );
-  }
 }

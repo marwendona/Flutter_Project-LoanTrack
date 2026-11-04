@@ -121,11 +121,12 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 ## E3 — Gestion des remboursements
 
-### US-3.1 — Enregistrer un remboursement (partiel ou total) · `M` · `M` · ⬜
+### US-3.1 — Enregistrer un remboursement (partiel ou total) · `M` · `M` · ✅
 **En tant que** prêteur, **je veux** saisir le montant rendu et la date réelle **afin de** suivre ce qui reste dû.
-- [ ] Feuille ECR-05b : montant, date réelle (défaut aujourd'hui), note ; rappel du reste dû.
-- [ ] Bouton « Totalité » (RG-18).
-- [ ] Validations RG-16, RG-17 ; statut et totaux mis à jour immédiatement.
+- [x] Feuille ECR-05b : montant, date réelle (défaut aujourd'hui), note ; rappel du reste dû.
+- [x] Bouton « Totalité » (RG-18).
+- [x] Validations RG-16, RG-17 ; statut et totaux mis à jour immédiatement.
+- Accès par le menu ⋮ de chaque carte de prêt d'ECR-03, masqué si le prêt est remboursé (CR-020) ; ECR-05 (US-3.2) offrira le bouton « + Remboursement ».
 
 ### US-3.2 — Historique des remboursements d'un prêt · `M` · `S` · ⬜
 - [ ] Écran ECR-05 : infos du prêt + liste des remboursements (date réelle, montant), du plus récent au plus ancien.

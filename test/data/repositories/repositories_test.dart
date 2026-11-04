@@ -197,6 +197,48 @@ void main() {
     },
   );
 
+  test('adding a repayment updates the loan summaries and balances at once '
+      '(US-3.1)', () async {
+    final borrowers = container.read(borrowerRepositoryProvider);
+    final loans = container.read(loanRepositoryProvider);
+    final repayments = container.read(repaymentRepositoryProvider);
+    final ali = await borrowers.add(name: 'Ali');
+    final loanId = await loans.add(
+      borrowerId: ali,
+      amount: const Money(5000),
+      loanDate: LocalDay(2026, 10, 1),
+    );
+
+    final summaries = loans.watchSummariesByBorrower(ali);
+    final balances = borrowers.watchAllWithLoanBalances();
+    final remainingDues = expectLater(
+      summaries.map((list) => list.single.remaining),
+      emitsInOrder([const Money(5000), const Money(3000), Money.zero]),
+    );
+    final repaidTotals = expectLater(
+      balances.map((entries) => entries.single.loans.single.repaid),
+      emitsInOrder([Money.zero, const Money(2000), const Money(5000)]),
+    );
+    // Lets both streams emit their initial value before the changes.
+    await summaries.first;
+    await balances.first;
+
+    await repayments.add(
+      loanId: loanId,
+      amount: const Money(2000),
+      repaymentDate: LocalDay(2026, 10, 10),
+    );
+    await Future<void>.delayed(Duration.zero);
+    await repayments.add(
+      loanId: loanId,
+      amount: const Money(3000),
+      repaymentDate: LocalDay(2026, 10, 20),
+    );
+
+    await remainingDues;
+    await repaidTotals;
+  });
+
   group('loan modification and deletion (US-2.4)', () {
     late int borrowerId;
     late int loanId;
