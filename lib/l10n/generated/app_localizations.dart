@@ -663,6 +663,42 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Par emprunteur'**
   String get dashboardByBorrowerTitle;
+
+  /// Libellé de la ligne Devise d'ECR-06 (RG-40)
+  ///
+  /// In fr, this message translates to:
+  /// **'Devise'**
+  String get settingsCurrency;
+
+  /// Devise affichée sur ECR-06 : code ISO 4217 et nom
+  ///
+  /// In fr, this message translates to:
+  /// **'{code} — {name}'**
+  String settingsCurrencyValue(String code, String name);
+
+  /// Titre du dialogue de choix de la devise (ECR-06)
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir la devise'**
+  String get settingsCurrencyDialogTitle;
+
+  /// Message affiché quand la devise est verrouillée (RG-41)
+  ///
+  /// In fr, this message translates to:
+  /// **'La devise ne peut plus être modifiée une fois des prêts enregistrés'**
+  String get settingsCurrencyLocked;
+
+  /// Message d'échec du changement de devise (ECR-06)
+  ///
+  /// In fr, this message translates to:
+  /// **'La devise n\'a pas pu être modifiée'**
+  String get settingsCurrencyChangeError;
+
+  /// Nom d'une devise à partir de son code ISO 4217 (CR-027)
+  ///
+  /// In fr, this message translates to:
+  /// **'{code, select, TND{Dinar tunisien} EUR{Euro} USD{Dollar américain} GBP{Livre sterling} CHF{Franc suisse} CAD{Dollar canadien} MAD{Dirham marocain} DZD{Dinar algérien} LYD{Dinar libyen} other{{code}}}'**
+  String currencyName(String code);
 }
 
 class _AppLocalizationsDelegate

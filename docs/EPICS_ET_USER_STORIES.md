@@ -16,7 +16,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E2 | Gestion des prêts | V1 | 4 | ✅ |
 | E3 | Gestion des remboursements | V1 | 4 | ⬜ |
 | E4 | Tableau de bord et totaux | V1 | 3 | 🟨 |
-| E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ⬜ |
+| E5 | Paramètres, sauvegarde et restauration | V1 | 4 | 🟨 |
 | E6 | Finitions et livraison de l'APK | V1 | 4 | ⬜ |
 | E7 | Améliorations V2 | V2 | 4 | ⬜ |
 
@@ -163,9 +163,10 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 ## E5 — Paramètres, sauvegarde et restauration
 
-### US-5.1 — Choix de la devise · `M` · `S` · ⬜
-- [ ] Devise par défaut TND (3 décimales), stockée dans `shared_preferences` (RG-40).
-- [ ] Modifiable dans Paramètres uniquement tant qu'aucun prêt n'existe ; sinon affichée en lecture seule avec message explicatif (RG-41).
+### US-5.1 — Choix de la devise · `M` · `S` · ✅
+- [x] Devise par défaut TND (3 décimales), stockée dans `shared_preferences` (RG-40).
+- [x] Modifiable dans Paramètres uniquement tant qu'aucun prêt n'existe ; sinon affichée en lecture seule avec message explicatif (RG-41).
+- Devises proposées : TND, EUR, USD, GBP, CHF, CAD, MAD, DZD, LYD ; changement appliqué immédiatement (CR-027).
 
 ### US-5.2 — Exporter les données · `M` · `M` · ⬜
 **Je veux** exporter toutes mes données dans un fichier **afin de** ne rien perdre si je change ou réinitialise mon téléphone.

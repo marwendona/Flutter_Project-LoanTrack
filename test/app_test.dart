@@ -4,6 +4,7 @@ import 'package:loantrack/app.dart';
 import 'package:loantrack/domain/models/global_totals.dart';
 import 'package:loantrack/features/borrowers/borrowers_providers.dart';
 import 'package:loantrack/features/dashboard/dashboard_providers.dart';
+import 'package:loantrack/features/settings/currency_controller.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
@@ -16,6 +17,7 @@ void main() {
           globalTotalsProvider.overrideWith(
             (ref) => Stream.value(GlobalTotals.empty),
           ),
+          currencyLockedProvider.overrideWith((ref) => Stream.value(false)),
         ],
         child: const LoanTrackApp(),
       ),

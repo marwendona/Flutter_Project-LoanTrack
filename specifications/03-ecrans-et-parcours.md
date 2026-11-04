@@ -81,7 +81,10 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 
 ## ECR-06 — Paramètres
 
-- Devise (RG-40, RG-41) : TND par défaut, verrouillée dès qu'un prêt existe.
+- Devise (RG-40, RG-41) : TND par défaut, verrouillée dès qu'un prêt existe (CR-027).
+  - Ligne « Devise » affichant le code et le nom de la devise (ex. « TND — Dinar tunisien »).
+  - Aucun prêt : appui → dialogue « Choisir la devise » parmi TND (3 décimales), EUR, USD, GBP, CHF, CAD, MAD, DZD (2 décimales), LYD (3 décimales) ; le choix est enregistré et appliqué immédiatement à tous les montants.
+  - Au moins un prêt : ligne en lecture seule (icône cadenas) avec le message « La devise ne peut plus être modifiée une fois des prêts enregistrés ».
 - Exporter les données (choix de l'emplacement du fichier) — RG-50.
 - Importer des données (choix du fichier + confirmation de remplacement) — RG-51.
 - Thème : Système / Clair / Sombre.

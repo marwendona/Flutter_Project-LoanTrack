@@ -387,4 +387,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dashboardByBorrowerTitle => 'Par emprunteur';
+
+  @override
+  String get settingsCurrency => 'Devise';
+
+  @override
+  String settingsCurrencyValue(String code, String name) {
+    return '$code — $name';
+  }
+
+  @override
+  String get settingsCurrencyDialogTitle => 'Choisir la devise';
+
+  @override
+  String get settingsCurrencyLocked =>
+      'La devise ne peut plus être modifiée une fois des prêts enregistrés';
+
+  @override
+  String get settingsCurrencyChangeError =>
+      'La devise n\'a pas pu être modifiée';
+
+  @override
+  String currencyName(String code) {
+    String _temp0 = intl.Intl.selectLogic(code, {
+      'TND': 'Dinar tunisien',
+      'EUR': 'Euro',
+      'USD': 'Dollar américain',
+      'GBP': 'Livre sterling',
+      'CHF': 'Franc suisse',
+      'CAD': 'Dollar canadien',
+      'MAD': 'Dirham marocain',
+      'DZD': 'Dinar algérien',
+      'LYD': 'Dinar libyen',
+      'other': '$code',
+    });
+    return '$_temp0';
+  }
 }

@@ -85,6 +85,18 @@ class LoansDao extends DatabaseAccessor<AppDatabase> with _$LoansDaoMixin {
   static LocalDay? _toLocalDay(int? epochDay) =>
       epochDay == null ? null : LocalDay.fromEpochDay(epochDay);
 
+  late final _loanCount = loans.id.count();
+
+  Selectable<bool> _hasAny() => (selectOnly(
+    loans,
+  )..addColumns([_loanCount])).map((row) => (row.read(_loanCount) ?? 0) > 0);
+
+  /// Whether at least one loan exists (RG-41).
+  Future<bool> hasAny() => _hasAny().getSingle();
+
+  /// Same as [hasAny], re-emitted whenever the loans change.
+  Stream<bool> watchHasAny() => _hasAny().watchSingle();
+
   Future<int> insertLoan(LoansCompanion entry) => into(loans).insert(entry);
 
   /// Returns true if a loan was updated.

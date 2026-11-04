@@ -503,5 +503,42 @@
   "dashboardByBorrowerTitle": "Par emprunteur",
   "@dashboardByBorrowerTitle": {
     "description": "Titre de la liste des totaux par emprunteur d'ECR-01 (RG-30)"
+  },
+  "settingsCurrency": "Devise",
+  "@settingsCurrency": {
+    "description": "Libellé de la ligne Devise d'ECR-06 (RG-40)"
+  },
+  "settingsCurrencyValue": "{code} — {name}",
+  "@settingsCurrencyValue": {
+    "description": "Devise affichée sur ECR-06 : code ISO 4217 et nom",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsCurrencyDialogTitle": "Choisir la devise",
+  "@settingsCurrencyDialogTitle": {
+    "description": "Titre du dialogue de choix de la devise (ECR-06)"
+  },
+  "settingsCurrencyLocked": "La devise ne peut plus être modifiée une fois des prêts enregistrés",
+  "@settingsCurrencyLocked": {
+    "description": "Message affiché quand la devise est verrouillée (RG-41)"
+  },
+  "settingsCurrencyChangeError": "La devise n'a pas pu être modifiée",
+  "@settingsCurrencyChangeError": {
+    "description": "Message d'échec du changement de devise (ECR-06)"
+  },
+  "currencyName": "{code, select, TND{Dinar tunisien} EUR{Euro} USD{Dollar américain} GBP{Livre sterling} CHF{Franc suisse} CAD{Dollar canadien} MAD{Dirham marocain} DZD{Dinar algérien} LYD{Dinar libyen} other{{code}}}",
+  "@currencyName": {
+    "description": "Nom d'une devise à partir de son code ISO 4217 (CR-027)",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
   }
 }

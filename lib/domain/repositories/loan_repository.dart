@@ -16,6 +16,12 @@ class LoanNotFoundException implements Exception {
 abstract interface class LoanRepository {
   Stream<List<Loan>> watchByBorrower(int borrowerId);
 
+  /// Whether at least one loan exists, whatever its borrower (RG-41).
+  Future<bool> hasAny();
+
+  /// Same as [hasAny], re-emitted whenever a loan is added or deleted.
+  Stream<bool> watchHasAny();
+
   /// The borrower's loans with their repaid amount and last repayment date,
   /// most recent loan first (RG-15), re-emitted whenever a loan or repayment
   /// changes.

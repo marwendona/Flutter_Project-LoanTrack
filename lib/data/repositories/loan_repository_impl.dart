@@ -20,6 +20,12 @@ class LoanRepositoryImpl implements LoanRepository {
       .map((rows) => [for (final row in rows) row.toDomain()]);
 
   @override
+  Future<bool> hasAny() => _dao.hasAny();
+
+  @override
+  Stream<bool> watchHasAny() => _dao.watchHasAny();
+
+  @override
   Stream<List<LoanSummary>> watchSummariesByBorrower(int borrowerId) => _dao
       .watchWithRepaymentsByBorrower(borrowerId)
       .map((rows) => [for (final row in rows) _toSummary(row)]);

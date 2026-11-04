@@ -8,6 +8,7 @@ import 'database/app_database.dart';
 import 'repositories/borrower_repository_impl.dart';
 import 'repositories/loan_repository_impl.dart';
 import 'repositories/repayment_repository_impl.dart';
+import 'settings/settings_store.dart';
 
 /// The single app database. Override it in tests with
 /// `AppDatabase(NativeDatabase.memory())`.
@@ -17,9 +18,17 @@ final appDatabaseProvider = Provider<AppDatabase>((ref) {
   return database;
 });
 
-/// The app currency (RG-40). TND for now: it will be read from the settings
-/// once the currency choice exists (epic E5).
-final currencyProvider = Provider<Currency>((ref) => Currency.tnd);
+/// The user settings. In memory by default (tests); `main` overrides it with
+/// a [SharedPreferencesSettingsStore] loaded at startup.
+final settingsStoreProvider = Provider<SettingsStore>(
+  (ref) => InMemorySettingsStore(),
+);
+
+/// The app currency (RG-40), read from the settings. Invalidate it after
+/// changing the saved currency.
+final currencyProvider = Provider<Currency>(
+  (ref) => ref.watch(settingsStoreProvider).currency,
+);
 
 final borrowerRepositoryProvider = Provider<BorrowerRepository>(
   (ref) => BorrowerRepositoryImpl(ref.watch(appDatabaseProvider).borrowersDao),
