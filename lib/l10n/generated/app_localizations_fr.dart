@@ -330,4 +330,45 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get repaymentDeleteConfirm => 'Supprimer';
+
+  @override
+  String get dashboardRemainingTitle => 'Reste à recevoir';
+
+  @override
+  String dashboardBorrowersWithRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Auprès de $count emprunteurs',
+      one: 'Auprès de 1 emprunteur',
+      zero: 'Aucun emprunteur ne vous doit d\'argent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardRepaymentRate => 'Taux de remboursement';
+
+  @override
+  String dashboardRepaymentRateValue(int percent) {
+    return '$percent %';
+  }
+
+  @override
+  String dashboardOverdueLoans(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count prêts en retard',
+      one: '1 prêt en retard',
+      zero: 'Aucun prêt en retard',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardEmpty => 'Aucun prêt enregistré';
+
+  @override
+  String get dashboardAddBorrower => 'Ajouter un emprunteur';
 }

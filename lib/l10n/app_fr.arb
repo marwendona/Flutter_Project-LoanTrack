@@ -440,5 +440,48 @@
   "repaymentDeleteConfirm": "Supprimer",
   "@repaymentDeleteConfirm": {
     "description": "Bouton de suppression d'un remboursement (ECR-05b) et de confirmation (RG-19)"
+  },
+  "dashboardRemainingTitle": "Reste à recevoir",
+  "@dashboardRemainingTitle": {
+    "description": "Titre de la carte mise en avant d'ECR-01 : reste dû global (RG-31)"
+  },
+  "dashboardBorrowersWithRemaining": "{count, plural, =0{Aucun emprunteur ne vous doit d'argent} =1{Auprès de 1 emprunteur} other{Auprès de {count} emprunteurs}}",
+  "@dashboardBorrowersWithRemaining": {
+    "description": "Nombre d'emprunteurs ayant un reste dû > 0 (RG-31, ECR-01)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardRepaymentRate": "Taux de remboursement",
+  "@dashboardRepaymentRate": {
+    "description": "Indicateur d'ECR-01 : total remboursé / total prêté (RG-32)"
+  },
+  "dashboardRepaymentRateValue": "{percent} %",
+  "@dashboardRepaymentRateValue": {
+    "description": "Valeur du taux de remboursement en pourcentage (RG-32)",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardOverdueLoans": "{count, plural, =0{Aucun prêt en retard} =1{1 prêt en retard} other{{count} prêts en retard}}",
+  "@dashboardOverdueLoans": {
+    "description": "Indicateur d'ECR-01 : nombre de prêts en retard (RG-31)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardEmpty": "Aucun prêt enregistré",
+  "@dashboardEmpty": {
+    "description": "État vide d'ECR-01"
+  },
+  "dashboardAddBorrower": "Ajouter un emprunteur",
+  "@dashboardAddBorrower": {
+    "description": "Bouton de l'état vide d'ECR-01, ouvre la feuille « Nouvel emprunteur »"
   }
 }

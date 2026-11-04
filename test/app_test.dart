@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/app.dart';
+import 'package:loantrack/domain/models/global_totals.dart';
 import 'package:loantrack/features/borrowers/borrowers_providers.dart';
+import 'package:loantrack/features/dashboard/dashboard_providers.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
@@ -11,6 +13,9 @@ void main() {
         overrides: [
           // No database in this navigation test.
           borrowerSummariesProvider.overrideWith((ref) => Stream.value([])),
+          globalTotalsProvider.overrideWith(
+            (ref) => Stream.value(GlobalTotals.empty),
+          ),
         ],
         child: const LoanTrackApp(),
       ),

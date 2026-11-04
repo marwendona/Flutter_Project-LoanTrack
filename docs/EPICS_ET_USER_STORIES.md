@@ -15,7 +15,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E1 | Gestion des emprunteurs | V1 | 5 | ✅ |
 | E2 | Gestion des prêts | V1 | 4 | ✅ |
 | E3 | Gestion des remboursements | V1 | 4 | ⬜ |
-| E4 | Tableau de bord et totaux | V1 | 3 | ⬜ |
+| E4 | Tableau de bord et totaux | V1 | 3 | 🟨 |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ⬜ |
 | E6 | Finitions et livraison de l'APK | V1 | 4 | ⬜ |
 | E7 | Améliorations V2 | V2 | 4 | ⬜ |
@@ -145,9 +145,10 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 ## E4 — Tableau de bord et totaux
 
-### US-4.1 — Totaux globaux · `M` · `M` · ⬜
+### US-4.1 — Totaux globaux · `M` · `M` · ✅
 **En tant que** prêteur, **je veux** voir la totalité du crédit donné à tous les emprunteurs **afin de** connaître ma situation d'un coup d'œil.
-- [ ] Carte « Reste à recevoir » + total prêté, total remboursé, taux de remboursement (barre), prêts en retard (nombre + montant, en rouge si > 0). — RG-31, RG-32, RG-33
+- [x] Carte « Reste à recevoir » + total prêté, total remboursé, taux de remboursement (barre), prêts en retard (nombre + montant, en rouge si > 0). — RG-31, RG-32, RG-33
+- Montant en retard = somme des restes dus des prêts en retard ; taux arrondi à l'entier inférieur ; état vide d'ECR-01 inclus (CR-024).
 
 ### US-4.2 — Totaux par emprunteur · `M` · `S` · ⬜
 **Je veux** voir, pour chaque emprunteur, le total prêté, remboursé et le reste dû **afin de** comparer les situations.

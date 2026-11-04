@@ -591,6 +591,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Supprimer'**
   String get repaymentDeleteConfirm;
+
+  /// Titre de la carte mise en avant d'ECR-01 : reste dû global (RG-31)
+  ///
+  /// In fr, this message translates to:
+  /// **'Reste à recevoir'**
+  String get dashboardRemainingTitle;
+
+  /// Nombre d'emprunteurs ayant un reste dû > 0 (RG-31, ECR-01)
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Aucun emprunteur ne vous doit d\'argent} =1{Auprès de 1 emprunteur} other{Auprès de {count} emprunteurs}}'**
+  String dashboardBorrowersWithRemaining(int count);
+
+  /// Indicateur d'ECR-01 : total remboursé / total prêté (RG-32)
+  ///
+  /// In fr, this message translates to:
+  /// **'Taux de remboursement'**
+  String get dashboardRepaymentRate;
+
+  /// Valeur du taux de remboursement en pourcentage (RG-32)
+  ///
+  /// In fr, this message translates to:
+  /// **'{percent} %'**
+  String dashboardRepaymentRateValue(int percent);
+
+  /// Indicateur d'ECR-01 : nombre de prêts en retard (RG-31)
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Aucun prêt en retard} =1{1 prêt en retard} other{{count} prêts en retard}}'**
+  String dashboardOverdueLoans(int count);
+
+  /// État vide d'ECR-01
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun prêt enregistré'**
+  String get dashboardEmpty;
+
+  /// Bouton de l'état vide d'ECR-01, ouvre la feuille « Nouvel emprunteur »
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un emprunteur'**
+  String get dashboardAddBorrower;
 }
 
 class _AppLocalizationsDelegate
