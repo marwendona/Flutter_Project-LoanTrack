@@ -20,6 +20,10 @@ abstract final class AppRoutes {
   /// ECR-04 — New loan for a borrower (US-2.1).
   static String newLoan(int borrowerId) =>
       '${borrowerDetail(borrowerId)}/loans/new';
+
+  /// ECR-04 — Modification of a loan (US-2.4).
+  static String editLoan(int borrowerId, int loanId) =>
+      '${borrowerDetail(borrowerId)}/loans/$loanId/edit';
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -62,6 +66,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                         parentNavigatorKey: _rootNavigatorKey,
                         builder: (context, state) =>
                             LoanFormScreen(borrowerId: _borrowerId(state)),
+                      ),
+                      GoRoute(
+                        path: 'loans/:loanId/edit',
+                        parentNavigatorKey: _rootNavigatorKey,
+                        builder: (context, state) => LoanFormScreen(
+                          borrowerId: _borrowerId(state),
+                          loanId: int.parse(state.pathParameters['loanId']!),
+                        ),
                       ),
                     ],
                   ),

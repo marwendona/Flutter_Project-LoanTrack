@@ -8,6 +8,8 @@ import 'package:loantrack/core/money/money_formatter.dart';
 import 'package:loantrack/core/router/app_router.dart';
 import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/core/widgets/loan_status_chip.dart';
+import 'package:loantrack/data/providers.dart';
+import 'package:loantrack/domain/repositories/loan_repository.dart';
 import 'package:loantrack/domain/models/borrower.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
 import 'package:loantrack/domain/models/loan.dart';
@@ -17,9 +19,18 @@ import 'package:loantrack/features/borrower_detail/borrower_detail_providers.dar
 import 'package:loantrack/features/borrower_detail/borrower_detail_screen.dart';
 import 'package:loantrack/l10n/generated/app_localizations.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:mocktail/mocktail.dart';
+
+class _MockLoanRepository extends Mock implements LoanRepository {}
 
 void main() {
   const borrowerId = 1;
+  late _MockLoanRepository loanRepository;
+
+  setUp(() {
+    loanRepository = _MockLoanRepository();
+    when(() => loanRepository.delete(any())).thenAnswer((_) async {});
+  });
 
   Future<void> pumpScreen(WidgetTester tester, BorrowerDetail? detail) async {
     final router = GoRouter(
@@ -33,6 +44,11 @@ void main() {
           path: AppRoutes.newLoan(borrowerId),
           builder: (_, _) => const Text('ECR-04'),
         ),
+        GoRoute(
+          path: '${AppRoutes.borrowerDetail(borrowerId)}/loans/:loanId/edit',
+          builder: (_, state) =>
+              Text('ECR-04 edit ${state.pathParameters['loanId']}'),
+        ),
       ],
     );
     addTearDown(router.dispose);
@@ -40,6 +56,7 @@ void main() {
       ProviderScope(
         overrides: [
           borrowerDetailProvider.overrideWith((ref, id) async => detail),
+          loanRepositoryProvider.overrideWithValue(loanRepository),
         ],
         child: MaterialApp.router(
           routerConfig: router,
@@ -215,6 +232,74 @@ void main() {
 
     expect(find.text("Modifier l'emprunteur"), findsOneWidget);
     expect(find.text('Supprimer'), findsOneWidget);
+  });
+
+  group('loan menu (US-2.4)', () {
+    final loans = [
+      item(
+        4,
+        amount: 1000000,
+        loanDate: LocalDay(2026, 10, 1),
+        status: const LoanStatus.ongoing(),
+      ),
+    ];
+
+    // The loan menu is the one inside the loan card (the borrower menu is in
+    // the app bar).
+    Future<void> openLoanMenu(WidgetTester tester) async {
+      await tester.tap(
+        find.descendant(
+          of: find.ancestor(
+            of: find.byType(LoanStatusChip),
+            matching: find.byType(Card),
+          ),
+          matching: find.byTooltip("Plus d'actions"),
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('"Modifier le prêt" opens the loan form (ECR-04)', (
+      tester,
+    ) async {
+      await pumpScreen(tester, detail(loans));
+      await openLoanMenu(tester);
+
+      await tester.tap(find.text('Modifier le prêt'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('ECR-04 edit 4'), findsOneWidget);
+    });
+
+    testWidgets('"Supprimer le prêt" asks for confirmation (RG-14)', (
+      tester,
+    ) async {
+      await pumpScreen(tester, detail(loans));
+      await openLoanMenu(tester);
+      await tester.tap(find.text('Supprimer le prêt'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Supprimer ce prêt ?'), findsOneWidget);
+      expect(
+        find.text(
+          'Le prêt de ${tnd(1000000)} du 01/10/2026 et tous ses '
+          'remboursements seront supprimés.',
+        ),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text('Annuler'));
+      await tester.pumpAndSettle();
+      verifyNever(() => loanRepository.delete(any()));
+
+      await openLoanMenu(tester);
+      await tester.tap(find.text('Supprimer le prêt'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Supprimer'));
+      await tester.pumpAndSettle();
+
+      verify(() => loanRepository.delete(4)).called(1);
+    });
   });
 
   testWidgets('shows a message when the borrower does not exist', (

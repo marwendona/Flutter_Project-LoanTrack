@@ -22,16 +22,20 @@ class LoanRepositoryImpl implements LoanRepository {
   @override
   Stream<List<LoanSummary>> watchSummariesByBorrower(int borrowerId) => _dao
       .watchWithRepaymentsByBorrower(borrowerId)
-      .map(
-        (rows) => [
-          for (final row in rows)
-            LoanSummary(
-              loan: row.loan.toDomain(),
-              repaid: Money(row.repaidMinor),
-              lastRepaymentDate: row.lastRepaymentDate,
-            ),
-        ],
-      );
+      .map((rows) => [for (final row in rows) _toSummary(row)]);
+
+  @override
+  Future<LoanSummary?> getSummaryById(int id) async {
+    final row = await _dao.getWithRepaymentsById(id);
+    return row == null ? null : _toSummary(row);
+  }
+
+  static LoanSummary _toSummary(LoanRepaymentsRow row) => LoanSummary(
+    loan: row.loan.toDomain(),
+    repaid: Money(row.repaidMinor),
+    firstRepaymentDate: row.firstRepaymentDate,
+    lastRepaymentDate: row.lastRepaymentDate,
+  );
 
   @override
   Future<int> add({
@@ -50,6 +54,21 @@ class LoanRepositoryImpl implements LoanRepository {
         note: Value(note),
       ),
     );
+  }
+
+  @override
+  Future<void> update(Loan loan) async {
+    final updated = await _dao.updateLoan(
+      LoanRow(
+        id: loan.id,
+        borrowerId: loan.borrowerId,
+        amountMinor: loan.amount.amountMinor,
+        loanDate: loan.loanDate,
+        promisedReturnDate: loan.promisedReturnDate,
+        note: loan.note,
+      ),
+    );
+    if (!updated) throw LoanNotFoundException(loan.id);
   }
 
   @override

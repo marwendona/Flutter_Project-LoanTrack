@@ -189,6 +189,56 @@
   "@loanPromisedReturnDateBeforeLoanDate": {
     "description": "Erreur : date de retour promise antérieure à la date du prêt (RG-12)"
   },
+  "loanAmountBelowRepaid": "Le montant ne peut pas être inférieur au montant déjà remboursé ({repaid}).",
+  "@loanAmountBelowRepaid": {
+    "description": "Erreur : montant d'un prêt modifié inférieur au montant déjà remboursé (RG-13)",
+    "placeholders": {
+      "repaid": {
+        "type": "String"
+      }
+    }
+  },
+  "loanDateAfterFirstRepayment": "La date du prêt ne peut pas être postérieure au premier remboursement ({date}).",
+  "@loanDateAfterFirstRepayment": {
+    "description": "Erreur : date d'un prêt modifié postérieure à son premier remboursement (RG-11)",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loanFormEditTitle": "Modifier le prêt",
+  "@loanFormEditTitle": {
+    "description": "Titre d'ECR-04 en modification et action qui l'ouvre (US-2.4)"
+  },
+  "loanNotFound": "Ce prêt n'existe plus.",
+  "@loanNotFound": {
+    "description": "Message d'ECR-04 quand le prêt à modifier a été supprimé"
+  },
+  "loanDeleteAction": "Supprimer le prêt",
+  "@loanDeleteAction": {
+    "description": "Action du menu ⋮ d'un prêt (US-2.4)"
+  },
+  "loanDeleteTitle": "Supprimer ce prêt ?",
+  "@loanDeleteTitle": {
+    "description": "Titre du dialogue de suppression d'un prêt (RG-14)"
+  },
+  "loanDeleteMessage": "Le prêt de {amount} du {date} et tous ses remboursements seront supprimés.",
+  "@loanDeleteMessage": {
+    "description": "Message du dialogue de suppression d'un prêt (RG-14)",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loanDeleteConfirm": "Supprimer",
+  "@loanDeleteConfirm": {
+    "description": "Bouton de confirmation du dialogue de suppression d'un prêt"
+  },
   "moreActionsTooltip": "Plus d'actions",
   "@moreActionsTooltip": {
     "description": "Info-bulle d'un menu ⋮"

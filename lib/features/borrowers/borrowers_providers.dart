@@ -34,7 +34,7 @@ class SearchQueryNotifier extends Notifier<String> {
 final filteredBorrowersProvider = Provider<List<BorrowerSummary>>((ref) {
   final summariesAsync = ref.watch(borrowerSummariesProvider);
   final query = ref.watch(searchQueryProvider);
-  
+
   final summaries = summariesAsync.value ?? [];
   if (query.isEmpty) return summaries;
 

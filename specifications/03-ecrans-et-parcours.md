@@ -45,7 +45,8 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - **date de retour promise** (ou « Non définie ») ;
   - **montant remboursé** / **reste dû** + barre de progression ;
   - **statut** (puce colorée : En cours, Partiellement remboursé, Remboursé, En retard de N jours) ;
-  - date de remboursement effective si « Remboursé » (RG-22).
+  - date de remboursement effective si « Remboursé » (RG-22) ;
+  - menu ⋮ → Modifier le prêt (ECR-04 en modification) / Supprimer le prêt (dialogue de confirmation, RG-14).
 - État vide : « Aucun prêt. Appuyez sur « Prêt » pour en ajouter un. »
 - Bouton flottant **+ Prêt** → ECR-04.
 - Si l'emprunteur n'existe plus (supprimé) : message « Cet emprunteur n'existe plus. » ; après une suppression depuis le menu ⋮, retour à ECR-02.
@@ -55,6 +56,8 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 - Champs : montant (clavier numérique, devise affichée), date du prêt (sélecteur, défaut aujourd'hui), date de retour promise (sélecteur, optionnelle), note.
 - Validation en ligne avec messages d'erreur sous les champs (RG-10 à RG-13).
 - Bouton « Enregistrer » désactivé tant que le formulaire est invalide.
+- En modification (titre « Modifier le prêt ») : champs pré-remplis ; le montant ne peut pas être inférieur au montant déjà remboursé (RG-13) et la date du prêt ne peut pas dépasser la date du premier remboursement (RG-11). Si le prêt n'existe plus : message « Ce prêt n'existe plus. »
+- Suppression d'un prêt : dialogue « Supprimer ce prêt ? » rappelant le montant et la date du prêt et indiquant que ses remboursements seront supprimés (RG-14).
 
 ## ECR-05 — Détail d'un prêt
 

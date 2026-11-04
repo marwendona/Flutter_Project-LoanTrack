@@ -36,3 +36,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-016](CR-016-us-2-1-enregistrer-pret.md) | US-2.1 : enregistrer un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-017](CR-017-us-2-2-detail-emprunteur.md) | US-2.2 : voir le détail d'un emprunteur et ses prêts | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-018](CR-018-us-2-3-statut-calcule-pret.md) | US-2.3 : statut calculé d'un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-019](CR-019-us-2-4-modifier-supprimer-pret.md) | US-2.4 : modifier / supprimer un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |

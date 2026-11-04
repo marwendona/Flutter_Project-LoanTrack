@@ -13,7 +13,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 |---|---|---|---|---|
 | E0 | Socle technique | V1 | 6 | ✅ |
 | E1 | Gestion des emprunteurs | V1 | 5 | ✅ |
-| E2 | Gestion des prêts | V1 | 4 | 🟨 |
+| E2 | Gestion des prêts | V1 | 4 | ✅ |
 | E3 | Gestion des remboursements | V1 | 4 | ⬜ |
 | E4 | Tableau de bord et totaux | V1 | 3 | ⬜ |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ⬜ |
@@ -112,9 +112,10 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Service `LoanStatusCalculator` (`compute`, `overdueDays`) implémentant RG-20 et le nombre de jours de retard (RG-23), avec date du jour injectée (nom aligné sur l'architecture, CR-018).
 - [x] Tests unitaires couvrant chaque statut et les cas limites (échéance aujourd'hui = pas en retard, reste dû 0 avec date dépassée = Remboursé).
 
-### US-2.4 — Modifier / supprimer un prêt · `M` · `S` · ⬜
-- [ ] Modification avec RG-13 (montant ≥ déjà remboursé).
-- [ ] Suppression avec confirmation, cascade sur les remboursements (RG-14).
+### US-2.4 — Modifier / supprimer un prêt · `M` · `S` · ✅
+- [x] Modification avec RG-13 (montant ≥ déjà remboursé) ; date du prêt ≤ premier remboursement (RG-11 complétée, CR-019).
+- [x] Suppression avec confirmation, cascade sur les remboursements (RG-14).
+- Accès par le menu ⋮ de chaque carte de prêt d'ECR-03 (CR-019) ; ECR-05 (US-3.2) offrira les mêmes actions.
 
 ---
 

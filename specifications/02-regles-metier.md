@@ -41,7 +41,7 @@ Emprunteur 1 ──── * Prêt 1 ──── * Remboursement
 
 ### Prêts
 - **RG-10** — Le montant prêté est strictement positif et ne dépasse pas 999 999 999 (en unités majeures).
-- **RG-11** — La date du prêt est obligatoire et ne peut pas être dans le futur.
+- **RG-11** — La date du prêt est obligatoire et ne peut pas être dans le futur. En modification, elle ne peut pas être postérieure à la date du premier remboursement du prêt (cohérence avec RG-17, CR-019).
 - **RG-12** — La date de retour promise, si renseignée, est postérieure ou égale à la date du prêt.
 - **RG-13** — Le montant d'un prêt ne peut pas être modifié à une valeur inférieure au montant déjà remboursé.
 - **RG-14** — La suppression d'un prêt demande confirmation et supprime ses remboursements.

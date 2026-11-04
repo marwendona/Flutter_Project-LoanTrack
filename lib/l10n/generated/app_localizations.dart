@@ -328,6 +328,54 @@ abstract class AppLocalizations {
   /// **'La date promise doit être égale ou postérieure à la date du prêt.'**
   String get loanPromisedReturnDateBeforeLoanDate;
 
+  /// Erreur : montant d'un prêt modifié inférieur au montant déjà remboursé (RG-13)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant ne peut pas être inférieur au montant déjà remboursé ({repaid}).'**
+  String loanAmountBelowRepaid(String repaid);
+
+  /// Erreur : date d'un prêt modifié postérieure à son premier remboursement (RG-11)
+  ///
+  /// In fr, this message translates to:
+  /// **'La date du prêt ne peut pas être postérieure au premier remboursement ({date}).'**
+  String loanDateAfterFirstRepayment(String date);
+
+  /// Titre d'ECR-04 en modification et action qui l'ouvre (US-2.4)
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le prêt'**
+  String get loanFormEditTitle;
+
+  /// Message d'ECR-04 quand le prêt à modifier a été supprimé
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce prêt n\'existe plus.'**
+  String get loanNotFound;
+
+  /// Action du menu ⋮ d'un prêt (US-2.4)
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer le prêt'**
+  String get loanDeleteAction;
+
+  /// Titre du dialogue de suppression d'un prêt (RG-14)
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer ce prêt ?'**
+  String get loanDeleteTitle;
+
+  /// Message du dialogue de suppression d'un prêt (RG-14)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le prêt de {amount} du {date} et tous ses remboursements seront supprimés.'**
+  String loanDeleteMessage(String amount, String date);
+
+  /// Bouton de confirmation du dialogue de suppression d'un prêt
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get loanDeleteConfirm;
+
   /// Info-bulle d'un menu ⋮
   ///
   /// In fr, this message translates to:

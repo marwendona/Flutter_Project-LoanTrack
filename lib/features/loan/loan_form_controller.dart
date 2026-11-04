@@ -3,14 +3,21 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../core/date/local_day.dart';
 import '../../core/money/currency.dart';
+import '../../core/money/money.dart';
+import '../../core/money/money_formatter.dart';
 import '../../core/money/money_parser.dart';
 import '../../data/providers.dart';
+import '../../domain/models/loan_summary.dart';
 import '../../domain/services/loan_validator.dart';
 
 part 'loan_form_controller.freezed.dart';
 
-/// State of the "Nouveau prêt" form (ECR-04). Errors are derived from the
-/// fields, never stored.
+/// What the loan form (ECR-04) edits: a new loan of [borrowerId] when
+/// [existing] is null (US-2.1), otherwise that existing loan (US-2.4).
+typedef LoanFormTarget = ({int borrowerId, LoanSummary? existing});
+
+/// State of the loan form (ECR-04). Errors are derived from the fields, never
+/// stored.
 @freezed
 abstract class LoanFormState with _$LoanFormState {
   const factory LoanFormState({
@@ -23,6 +30,15 @@ abstract class LoanFormState with _$LoanFormState {
     @Default('') String amountInput,
     @Default('') String note,
 
+    /// Amount already repaid of the edited loan, zero for a new one (RG-13).
+    @Default(Money.zero) Money repaid,
+
+    /// First repayment of the edited loan, null if none (RG-11, RG-17).
+    LocalDay? firstRepaymentDate,
+
+    /// The form edits an existing loan.
+    @Default(false) bool isEditing,
+
     /// The amount was edited: its error can be shown.
     @Default(false) bool isAmountDirty,
     @Default(false) bool isSaving,
@@ -34,10 +50,13 @@ abstract class LoanFormState with _$LoanFormState {
   const LoanFormState._();
 
   LoanAmountError? get amountError =>
-      LoanValidator.validateAmountInput(amountInput, currency);
+      LoanValidator.validateAmountInput(amountInput, currency, repaid: repaid);
 
-  LoanDateError? get loanDateError =>
-      LoanValidator.validateLoanDate(loanDate, today);
+  LoanDateError? get loanDateError => LoanValidator.validateLoanDate(
+    loanDate,
+    today,
+    firstRepaymentDate: firstRepaymentDate,
+  );
 
   PromisedReturnDateError? get promisedReturnDateError =>
       LoanValidator.validatePromisedReturnDate(promisedReturnDate, loanDate);
@@ -54,20 +73,38 @@ abstract class LoanFormState with _$LoanFormState {
   bool get canSave => isValid && !isSaving;
 }
 
-final loanFormControllerProvider =
-    NotifierProvider.autoDispose<LoanFormController, LoanFormState>(
+final loanFormControllerProvider = NotifierProvider.autoDispose
+    .family<LoanFormController, LoanFormState, LoanFormTarget>(
       LoanFormController.new,
     );
 
-/// Edits and saves a new loan (US-2.1).
+/// Edits and saves a new loan (US-2.1) or an existing one (US-2.4).
 class LoanFormController extends Notifier<LoanFormState> {
+  LoanFormController(this._target);
+
+  final LoanFormTarget _target;
+
   @override
   LoanFormState build() {
     final today = LocalDay.today();
+    final currency = ref.watch(currencyProvider);
+    final existing = _target.existing;
+    if (existing == null) {
+      return LoanFormState(currency: currency, today: today, loanDate: today);
+    }
+    final loan = existing.loan;
     return LoanFormState(
-      currency: ref.watch(currencyProvider),
+      currency: currency,
       today: today,
-      loanDate: today,
+      loanDate: loan.loanDate,
+      promisedReturnDate: loan.promisedReturnDate,
+      amountInput: MoneyFormatter.formatAmount(loan.amount, currency),
+      note: loan.note ?? '',
+      repaid: existing.repaid,
+      firstRepaymentDate: existing.firstRepaymentDate,
+      isEditing: true,
+      // Pre-filled: errors are shown as soon as the amount is invalid.
+      isAmountDirty: true,
     );
   }
 
@@ -86,25 +123,37 @@ class LoanFormController extends Notifier<LoanFormState> {
   void noteChanged(String note) =>
       state = state.copyWith(note: note, hasSaveFailed: false);
 
-  /// Returns true if the loan was saved for [borrowerId].
-  Future<bool> save(int borrowerId) async {
+  /// Returns true if the loan was saved.
+  Future<bool> save() async {
     if (!state.canSave) {
       state = state.copyWith(isAmountDirty: true);
       return false;
     }
     final amount = MoneyParser.tryParse(state.amountInput, state.currency)!;
-    final note = state.note.trim();
+    final trimmedNote = state.note.trim();
+    final note = trimmedNote.isEmpty ? null : trimmedNote;
     state = state.copyWith(isSaving: true, hasSaveFailed: false);
+    final repository = ref.read(loanRepositoryProvider);
     try {
-      await ref
-          .read(loanRepositoryProvider)
-          .add(
-            borrowerId: borrowerId,
+      final existing = _target.existing;
+      if (existing == null) {
+        await repository.add(
+          borrowerId: _target.borrowerId,
+          amount: amount,
+          loanDate: state.loanDate,
+          promisedReturnDate: state.promisedReturnDate,
+          note: note,
+        );
+      } else {
+        await repository.update(
+          existing.loan.copyWith(
             amount: amount,
             loanDate: state.loanDate,
             promisedReturnDate: state.promisedReturnDate,
-            note: note.isEmpty ? null : note,
-          );
+            note: note,
+          ),
+        );
+      }
       if (ref.mounted) state = state.copyWith(isSaving: false);
       return true;
     } on Exception {

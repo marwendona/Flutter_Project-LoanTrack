@@ -16,7 +16,10 @@ T _$identity<T>(T value) => value;
 mixin _$LoanFormState {
 
  Currency get currency;/// Today, captured when the form opens (RG-11).
- LocalDay get today; LocalDay get loanDate; LocalDay? get promisedReturnDate; String get amountInput; String get note;/// The amount was edited: its error can be shown.
+ LocalDay get today; LocalDay get loanDate; LocalDay? get promisedReturnDate; String get amountInput; String get note;/// Amount already repaid of the edited loan, zero for a new one (RG-13).
+ Money get repaid;/// First repayment of the edited loan, null if none (RG-11, RG-17).
+ LocalDay? get firstRepaymentDate;/// The form edits an existing loan.
+ bool get isEditing;/// The amount was edited: its error can be shown.
  bool get isAmountDirty; bool get isSaving;/// The last save failed for an unexpected reason.
  bool get hasSaveFailed;
 /// Create a copy of LoanFormState
@@ -30,20 +33,20 @@ $LoanFormStateCopyWith<LoanFormState> get copyWith => _$LoanFormStateCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as LoanFormState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoanFormState&&(identical(other.currency, _this.currency) || other.currency == _this.currency)&&(identical(other.today, _this.today) || other.today == _this.today)&&(identical(other.loanDate, _this.loanDate) || other.loanDate == _this.loanDate)&&(identical(other.promisedReturnDate, _this.promisedReturnDate) || other.promisedReturnDate == _this.promisedReturnDate)&&(identical(other.amountInput, _this.amountInput) || other.amountInput == _this.amountInput)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.isAmountDirty, _this.isAmountDirty) || other.isAmountDirty == _this.isAmountDirty)&&(identical(other.isSaving, _this.isSaving) || other.isSaving == _this.isSaving)&&(identical(other.hasSaveFailed, _this.hasSaveFailed) || other.hasSaveFailed == _this.hasSaveFailed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoanFormState&&(identical(other.currency, _this.currency) || other.currency == _this.currency)&&(identical(other.today, _this.today) || other.today == _this.today)&&(identical(other.loanDate, _this.loanDate) || other.loanDate == _this.loanDate)&&(identical(other.promisedReturnDate, _this.promisedReturnDate) || other.promisedReturnDate == _this.promisedReturnDate)&&(identical(other.amountInput, _this.amountInput) || other.amountInput == _this.amountInput)&&(identical(other.note, _this.note) || other.note == _this.note)&&(identical(other.repaid, _this.repaid) || other.repaid == _this.repaid)&&(identical(other.firstRepaymentDate, _this.firstRepaymentDate) || other.firstRepaymentDate == _this.firstRepaymentDate)&&(identical(other.isEditing, _this.isEditing) || other.isEditing == _this.isEditing)&&(identical(other.isAmountDirty, _this.isAmountDirty) || other.isAmountDirty == _this.isAmountDirty)&&(identical(other.isSaving, _this.isSaving) || other.isSaving == _this.isSaving)&&(identical(other.hasSaveFailed, _this.hasSaveFailed) || other.hasSaveFailed == _this.hasSaveFailed));
 }
 
 
 @override
 int get hashCode {
   final _this = this as LoanFormState;
-  return Object.hash(runtimeType,_this.currency,_this.today,_this.loanDate,_this.promisedReturnDate,_this.amountInput,_this.note,_this.isAmountDirty,_this.isSaving,_this.hasSaveFailed);
+  return Object.hash(runtimeType,_this.currency,_this.today,_this.loanDate,_this.promisedReturnDate,_this.amountInput,_this.note,_this.repaid,_this.firstRepaymentDate,_this.isEditing,_this.isAmountDirty,_this.isSaving,_this.hasSaveFailed);
 }
 
 @override
 String toString() {
   final _this = this as LoanFormState;
-  return 'LoanFormState(currency: ${_this.currency}, today: ${_this.today}, loanDate: ${_this.loanDate}, promisedReturnDate: ${_this.promisedReturnDate}, amountInput: ${_this.amountInput}, note: ${_this.note}, isAmountDirty: ${_this.isAmountDirty}, isSaving: ${_this.isSaving}, hasSaveFailed: ${_this.hasSaveFailed})';
+  return 'LoanFormState(currency: ${_this.currency}, today: ${_this.today}, loanDate: ${_this.loanDate}, promisedReturnDate: ${_this.promisedReturnDate}, amountInput: ${_this.amountInput}, note: ${_this.note}, repaid: ${_this.repaid}, firstRepaymentDate: ${_this.firstRepaymentDate}, isEditing: ${_this.isEditing}, isAmountDirty: ${_this.isAmountDirty}, isSaving: ${_this.isSaving}, hasSaveFailed: ${_this.hasSaveFailed})';
 }
 
 
@@ -54,7 +57,7 @@ abstract mixin class $LoanFormStateCopyWith<$Res>  {
   factory $LoanFormStateCopyWith(LoanFormState value, $Res Function(LoanFormState) _then) = _$LoanFormStateCopyWithImpl;
 @useResult
 $Res call({
- Currency currency, LocalDay today, LocalDay loanDate, LocalDay? promisedReturnDate, String amountInput, String note, bool isAmountDirty, bool isSaving, bool hasSaveFailed
+ Currency currency, LocalDay today, LocalDay loanDate, LocalDay? promisedReturnDate, String amountInput, String note, Money repaid, LocalDay? firstRepaymentDate, bool isEditing, bool isAmountDirty, bool isSaving, bool hasSaveFailed
 });
 
 
@@ -71,7 +74,7 @@ class _$LoanFormStateCopyWithImpl<$Res>
 
 /// Create a copy of LoanFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? currency = null,Object? today = null,Object? loanDate = null,Object? promisedReturnDate = freezed,Object? amountInput = null,Object? note = null,Object? isAmountDirty = null,Object? isSaving = null,Object? hasSaveFailed = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? currency = null,Object? today = null,Object? loanDate = null,Object? promisedReturnDate = freezed,Object? amountInput = null,Object? note = null,Object? repaid = null,Object? firstRepaymentDate = freezed,Object? isEditing = null,Object? isAmountDirty = null,Object? isSaving = null,Object? hasSaveFailed = null,}) {
   return _then(LoanFormState(
 currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
 as Currency,today: null == today ? _self.today : today // ignore: cast_nullable_to_non_nullable
@@ -79,7 +82,10 @@ as LocalDay,loanDate: null == loanDate ? _self.loanDate : loanDate // ignore: ca
 as LocalDay,promisedReturnDate: freezed == promisedReturnDate ? _self.promisedReturnDate : promisedReturnDate // ignore: cast_nullable_to_non_nullable
 as LocalDay?,amountInput: null == amountInput ? _self.amountInput : amountInput // ignore: cast_nullable_to_non_nullable
 as String,note: null == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String,isAmountDirty: null == isAmountDirty ? _self.isAmountDirty : isAmountDirty // ignore: cast_nullable_to_non_nullable
+as String,repaid: null == repaid ? _self.repaid : repaid // ignore: cast_nullable_to_non_nullable
+as Money,firstRepaymentDate: freezed == firstRepaymentDate ? _self.firstRepaymentDate : firstRepaymentDate // ignore: cast_nullable_to_non_nullable
+as LocalDay?,isEditing: null == isEditing ? _self.isEditing : isEditing // ignore: cast_nullable_to_non_nullable
+as bool,isAmountDirty: null == isAmountDirty ? _self.isAmountDirty : isAmountDirty // ignore: cast_nullable_to_non_nullable
 as bool,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,hasSaveFailed: null == hasSaveFailed ? _self.hasSaveFailed : hasSaveFailed // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -167,10 +173,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Currency currency,  LocalDay today,  LocalDay loanDate,  LocalDay? promisedReturnDate,  String amountInput,  String note,  bool isAmountDirty,  bool isSaving,  bool hasSaveFailed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Currency currency,  LocalDay today,  LocalDay loanDate,  LocalDay? promisedReturnDate,  String amountInput,  String note,  Money repaid,  LocalDay? firstRepaymentDate,  bool isEditing,  bool isAmountDirty,  bool isSaving,  bool hasSaveFailed)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoanFormState() when $default != null:
-return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDate,_that.amountInput,_that.note,_that.isAmountDirty,_that.isSaving,_that.hasSaveFailed);case _:
+return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDate,_that.amountInput,_that.note,_that.repaid,_that.firstRepaymentDate,_that.isEditing,_that.isAmountDirty,_that.isSaving,_that.hasSaveFailed);case _:
   return orElse();
 
 }
@@ -188,10 +194,10 @@ return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Currency currency,  LocalDay today,  LocalDay loanDate,  LocalDay? promisedReturnDate,  String amountInput,  String note,  bool isAmountDirty,  bool isSaving,  bool hasSaveFailed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Currency currency,  LocalDay today,  LocalDay loanDate,  LocalDay? promisedReturnDate,  String amountInput,  String note,  Money repaid,  LocalDay? firstRepaymentDate,  bool isEditing,  bool isAmountDirty,  bool isSaving,  bool hasSaveFailed)  $default,) {final _that = this;
 switch (_that) {
 case _LoanFormState():
-return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDate,_that.amountInput,_that.note,_that.isAmountDirty,_that.isSaving,_that.hasSaveFailed);case _:
+return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDate,_that.amountInput,_that.note,_that.repaid,_that.firstRepaymentDate,_that.isEditing,_that.isAmountDirty,_that.isSaving,_that.hasSaveFailed);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +214,10 @@ return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Currency currency,  LocalDay today,  LocalDay loanDate,  LocalDay? promisedReturnDate,  String amountInput,  String note,  bool isAmountDirty,  bool isSaving,  bool hasSaveFailed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Currency currency,  LocalDay today,  LocalDay loanDate,  LocalDay? promisedReturnDate,  String amountInput,  String note,  Money repaid,  LocalDay? firstRepaymentDate,  bool isEditing,  bool isAmountDirty,  bool isSaving,  bool hasSaveFailed)?  $default,) {final _that = this;
 switch (_that) {
 case _LoanFormState() when $default != null:
-return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDate,_that.amountInput,_that.note,_that.isAmountDirty,_that.isSaving,_that.hasSaveFailed);case _:
+return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDate,_that.amountInput,_that.note,_that.repaid,_that.firstRepaymentDate,_that.isEditing,_that.isAmountDirty,_that.isSaving,_that.hasSaveFailed);case _:
   return null;
 
 }
@@ -223,7 +229,7 @@ return $default(_that.currency,_that.today,_that.loanDate,_that.promisedReturnDa
 
 
 class _LoanFormState extends LoanFormState {
-  const _LoanFormState({required this.currency, required this.today, required this.loanDate, this.promisedReturnDate, this.amountInput = '', this.note = '', this.isAmountDirty = false, this.isSaving = false, this.hasSaveFailed = false}): super._();
+  const _LoanFormState({required this.currency, required this.today, required this.loanDate, this.promisedReturnDate, this.amountInput = '', this.note = '', this.repaid = Money.zero, this.firstRepaymentDate, this.isEditing = false, this.isAmountDirty = false, this.isSaving = false, this.hasSaveFailed = false}): super._();
 
 
 @override final  Currency currency;
@@ -233,6 +239,12 @@ class _LoanFormState extends LoanFormState {
 @override final  LocalDay? promisedReturnDate;
 @override@JsonKey() final  String amountInput;
 @override@JsonKey() final  String note;
+/// Amount already repaid of the edited loan, zero for a new one (RG-13).
+@override@JsonKey() final  Money repaid;
+/// First repayment of the edited loan, null if none (RG-11, RG-17).
+@override final  LocalDay? firstRepaymentDate;
+/// The form edits an existing loan.
+@override@JsonKey() final  bool isEditing;
 /// The amount was edited: its error can be shown.
 @override@JsonKey() final  bool isAmountDirty;
 @override@JsonKey() final  bool isSaving;
@@ -249,18 +261,18 @@ _$LoanFormStateCopyWith<_LoanFormState> get copyWith => __$LoanFormStateCopyWith
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoanFormState&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.today, today) || other.today == today)&&(identical(other.loanDate, loanDate) || other.loanDate == loanDate)&&(identical(other.promisedReturnDate, promisedReturnDate) || other.promisedReturnDate == promisedReturnDate)&&(identical(other.amountInput, amountInput) || other.amountInput == amountInput)&&(identical(other.note, note) || other.note == note)&&(identical(other.isAmountDirty, isAmountDirty) || other.isAmountDirty == isAmountDirty)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.hasSaveFailed, hasSaveFailed) || other.hasSaveFailed == hasSaveFailed));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoanFormState&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.today, today) || other.today == today)&&(identical(other.loanDate, loanDate) || other.loanDate == loanDate)&&(identical(other.promisedReturnDate, promisedReturnDate) || other.promisedReturnDate == promisedReturnDate)&&(identical(other.amountInput, amountInput) || other.amountInput == amountInput)&&(identical(other.note, note) || other.note == note)&&(identical(other.repaid, repaid) || other.repaid == repaid)&&(identical(other.firstRepaymentDate, firstRepaymentDate) || other.firstRepaymentDate == firstRepaymentDate)&&(identical(other.isEditing, isEditing) || other.isEditing == isEditing)&&(identical(other.isAmountDirty, isAmountDirty) || other.isAmountDirty == isAmountDirty)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.hasSaveFailed, hasSaveFailed) || other.hasSaveFailed == hasSaveFailed));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,currency,today,loanDate,promisedReturnDate,amountInput,note,isAmountDirty,isSaving,hasSaveFailed);
+    return Object.hash(runtimeType,currency,today,loanDate,promisedReturnDate,amountInput,note,repaid,firstRepaymentDate,isEditing,isAmountDirty,isSaving,hasSaveFailed);
 }
 
 @override
 String toString() {
-    return 'LoanFormState(currency: $currency, today: $today, loanDate: $loanDate, promisedReturnDate: $promisedReturnDate, amountInput: $amountInput, note: $note, isAmountDirty: $isAmountDirty, isSaving: $isSaving, hasSaveFailed: $hasSaveFailed)';
+    return 'LoanFormState(currency: $currency, today: $today, loanDate: $loanDate, promisedReturnDate: $promisedReturnDate, amountInput: $amountInput, note: $note, repaid: $repaid, firstRepaymentDate: $firstRepaymentDate, isEditing: $isEditing, isAmountDirty: $isAmountDirty, isSaving: $isSaving, hasSaveFailed: $hasSaveFailed)';
 }
 
 
@@ -271,7 +283,7 @@ abstract mixin class _$LoanFormStateCopyWith<$Res> implements $LoanFormStateCopy
   factory _$LoanFormStateCopyWith(_LoanFormState value, $Res Function(_LoanFormState) _then) = __$LoanFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- Currency currency, LocalDay today, LocalDay loanDate, LocalDay? promisedReturnDate, String amountInput, String note, bool isAmountDirty, bool isSaving, bool hasSaveFailed
+ Currency currency, LocalDay today, LocalDay loanDate, LocalDay? promisedReturnDate, String amountInput, String note, Money repaid, LocalDay? firstRepaymentDate, bool isEditing, bool isAmountDirty, bool isSaving, bool hasSaveFailed
 });
 
 
@@ -288,7 +300,7 @@ class __$LoanFormStateCopyWithImpl<$Res>
 
 /// Create a copy of LoanFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? currency = null,Object? today = null,Object? loanDate = null,Object? promisedReturnDate = freezed,Object? amountInput = null,Object? note = null,Object? isAmountDirty = null,Object? isSaving = null,Object? hasSaveFailed = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currency = null,Object? today = null,Object? loanDate = null,Object? promisedReturnDate = freezed,Object? amountInput = null,Object? note = null,Object? repaid = null,Object? firstRepaymentDate = freezed,Object? isEditing = null,Object? isAmountDirty = null,Object? isSaving = null,Object? hasSaveFailed = null,}) {
   return _then(_LoanFormState(
 currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
 as Currency,today: null == today ? _self.today : today // ignore: cast_nullable_to_non_nullable
@@ -296,7 +308,10 @@ as LocalDay,loanDate: null == loanDate ? _self.loanDate : loanDate // ignore: ca
 as LocalDay,promisedReturnDate: freezed == promisedReturnDate ? _self.promisedReturnDate : promisedReturnDate // ignore: cast_nullable_to_non_nullable
 as LocalDay?,amountInput: null == amountInput ? _self.amountInput : amountInput // ignore: cast_nullable_to_non_nullable
 as String,note: null == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String,isAmountDirty: null == isAmountDirty ? _self.isAmountDirty : isAmountDirty // ignore: cast_nullable_to_non_nullable
+as String,repaid: null == repaid ? _self.repaid : repaid // ignore: cast_nullable_to_non_nullable
+as Money,firstRepaymentDate: freezed == firstRepaymentDate ? _self.firstRepaymentDate : firstRepaymentDate // ignore: cast_nullable_to_non_nullable
+as LocalDay?,isEditing: null == isEditing ? _self.isEditing : isEditing // ignore: cast_nullable_to_non_nullable
+as bool,isAmountDirty: null == isAmountDirty ? _self.isAmountDirty : isAmountDirty // ignore: cast_nullable_to_non_nullable
 as bool,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,hasSaveFailed: null == hasSaveFailed ? _self.hasSaveFailed : hasSaveFailed // ignore: cast_nullable_to_non_nullable
 as bool,

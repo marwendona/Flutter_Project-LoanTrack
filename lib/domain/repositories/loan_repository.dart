@@ -3,6 +3,16 @@ import '../../core/money/money.dart';
 import '../models/loan.dart';
 import '../models/loan_summary.dart';
 
+/// The loan to update does not exist anymore.
+class LoanNotFoundException implements Exception {
+  const LoanNotFoundException(this.id);
+
+  final int id;
+
+  @override
+  String toString() => 'LoanNotFoundException($id)';
+}
+
 abstract interface class LoanRepository {
   Stream<List<Loan>> watchByBorrower(int borrowerId);
 
@@ -19,6 +29,14 @@ abstract interface class LoanRepository {
     LocalDay? promisedReturnDate,
     String? note,
   });
+
+  /// The loan with its repaid amount and repayment dates, null if it does not
+  /// exist.
+  Future<LoanSummary?> getSummaryById(int id);
+
+  /// Updates the amount, dates and note of an existing loan; throws
+  /// [LoanNotFoundException] if it does not exist.
+  Future<void> update(Loan loan);
 
   /// Deletes the loan with its repayments (RG-14).
   Future<void> delete(int id);

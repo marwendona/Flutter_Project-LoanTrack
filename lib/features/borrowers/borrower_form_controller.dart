@@ -51,18 +51,13 @@ class BorrowerFormController extends Notifier<BorrowerFormState> {
     state = const BorrowerFormState(isSaving: true);
     try {
       if (borrowerId == null) {
-        await ref.read(borrowerRepositoryProvider).add(
-              name: name,
-              phone: phone,
-              note: note,
-            );
+        await ref
+            .read(borrowerRepositoryProvider)
+            .add(name: name, phone: phone, note: note);
       } else {
-        await ref.read(borrowerRepositoryProvider).update(
-              id: borrowerId,
-              name: name,
-              phone: phone,
-              note: note,
-            );
+        await ref
+            .read(borrowerRepositoryProvider)
+            .update(id: borrowerId, name: name, phone: phone, note: note);
       }
       if (ref.mounted) state = const BorrowerFormState();
       return true;

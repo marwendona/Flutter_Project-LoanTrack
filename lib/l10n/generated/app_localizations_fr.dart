@@ -164,6 +164,36 @@ class AppLocalizationsFr extends AppLocalizations {
       'La date promise doit être égale ou postérieure à la date du prêt.';
 
   @override
+  String loanAmountBelowRepaid(String repaid) {
+    return 'Le montant ne peut pas être inférieur au montant déjà remboursé ($repaid).';
+  }
+
+  @override
+  String loanDateAfterFirstRepayment(String date) {
+    return 'La date du prêt ne peut pas être postérieure au premier remboursement ($date).';
+  }
+
+  @override
+  String get loanFormEditTitle => 'Modifier le prêt';
+
+  @override
+  String get loanNotFound => 'Ce prêt n\'existe plus.';
+
+  @override
+  String get loanDeleteAction => 'Supprimer le prêt';
+
+  @override
+  String get loanDeleteTitle => 'Supprimer ce prêt ?';
+
+  @override
+  String loanDeleteMessage(String amount, String date) {
+    return 'Le prêt de $amount du $date et tous ses remboursements seront supprimés.';
+  }
+
+  @override
+  String get loanDeleteConfirm => 'Supprimer';
+
+  @override
   String get moreActionsTooltip => 'Plus d\'actions';
 
   @override

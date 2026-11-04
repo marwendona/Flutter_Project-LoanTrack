@@ -57,6 +57,35 @@ void main() {
     });
   });
 
+  group('amount of a modified loan (RG-13)', () {
+    const repaid = Money(300000);
+
+    test('accepts the amount already repaid and more', () {
+      expect(
+        LoanValidator.validateAmountInput('300', tnd, repaid: repaid),
+        isNull,
+      );
+      expect(
+        LoanValidator.validateAmount(const Money(300001), tnd, repaid: repaid),
+        isNull,
+      );
+    });
+
+    test('rejects less than the amount already repaid', () {
+      expect(
+        LoanValidator.validateAmountInput('299,999', tnd, repaid: repaid),
+        LoanAmountError.belowRepaid,
+      );
+    });
+
+    test('still rejects zero as not positive', () {
+      expect(
+        LoanValidator.validateAmountInput('0', tnd, repaid: repaid),
+        LoanAmountError.notPositive,
+      );
+    });
+  });
+
   group('loan date (RG-11)', () {
     final today = LocalDay(2026, 11, 4);
 
@@ -72,6 +101,26 @@ void main() {
       expect(
         LoanValidator.validateLoanDate(LocalDay(2026, 11, 5), today),
         LoanDateError.inFuture,
+      );
+    });
+
+    test('of a modified loan is not after its first repayment (RG-17)', () {
+      final firstRepayment = LocalDay(2026, 10, 10);
+      expect(
+        LoanValidator.validateLoanDate(
+          firstRepayment,
+          today,
+          firstRepaymentDate: firstRepayment,
+        ),
+        isNull,
+      );
+      expect(
+        LoanValidator.validateLoanDate(
+          LocalDay(2026, 10, 11),
+          today,
+          firstRepaymentDate: firstRepayment,
+        ),
+        LoanDateError.afterFirstRepayment,
       );
     });
   });

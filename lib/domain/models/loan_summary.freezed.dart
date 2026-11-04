@@ -16,7 +16,8 @@ T _$identity<T>(T value) => value;
 mixin _$LoanSummary {
 
  Loan get loan;/// Sum of the loan repayments (RG-21).
- Money get repaid;/// Date of the most recent repayment, null if there is none (RG-22).
+ Money get repaid;/// Date of the earliest repayment, null if there is none (RG-11, RG-17).
+ LocalDay? get firstRepaymentDate;/// Date of the most recent repayment, null if there is none (RG-22).
  LocalDay? get lastRepaymentDate;
 /// Create a copy of LoanSummary
 /// with the given fields replaced by the non-null parameter values.
@@ -29,20 +30,20 @@ $LoanSummaryCopyWith<LoanSummary> get copyWith => _$LoanSummaryCopyWithImpl<Loan
 @override
 bool operator ==(Object other) {
   final _this = this as LoanSummary;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoanSummary&&(identical(other.loan, _this.loan) || other.loan == _this.loan)&&(identical(other.repaid, _this.repaid) || other.repaid == _this.repaid)&&(identical(other.lastRepaymentDate, _this.lastRepaymentDate) || other.lastRepaymentDate == _this.lastRepaymentDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoanSummary&&(identical(other.loan, _this.loan) || other.loan == _this.loan)&&(identical(other.repaid, _this.repaid) || other.repaid == _this.repaid)&&(identical(other.firstRepaymentDate, _this.firstRepaymentDate) || other.firstRepaymentDate == _this.firstRepaymentDate)&&(identical(other.lastRepaymentDate, _this.lastRepaymentDate) || other.lastRepaymentDate == _this.lastRepaymentDate));
 }
 
 
 @override
 int get hashCode {
   final _this = this as LoanSummary;
-  return Object.hash(runtimeType,_this.loan,_this.repaid,_this.lastRepaymentDate);
+  return Object.hash(runtimeType,_this.loan,_this.repaid,_this.firstRepaymentDate,_this.lastRepaymentDate);
 }
 
 @override
 String toString() {
   final _this = this as LoanSummary;
-  return 'LoanSummary(loan: ${_this.loan}, repaid: ${_this.repaid}, lastRepaymentDate: ${_this.lastRepaymentDate})';
+  return 'LoanSummary(loan: ${_this.loan}, repaid: ${_this.repaid}, firstRepaymentDate: ${_this.firstRepaymentDate}, lastRepaymentDate: ${_this.lastRepaymentDate})';
 }
 
 
@@ -53,7 +54,7 @@ abstract mixin class $LoanSummaryCopyWith<$Res>  {
   factory $LoanSummaryCopyWith(LoanSummary value, $Res Function(LoanSummary) _then) = _$LoanSummaryCopyWithImpl;
 @useResult
 $Res call({
- Loan loan, Money repaid, LocalDay? lastRepaymentDate
+ Loan loan, Money repaid, LocalDay? firstRepaymentDate, LocalDay? lastRepaymentDate
 });
 
 
@@ -70,11 +71,12 @@ class _$LoanSummaryCopyWithImpl<$Res>
 
 /// Create a copy of LoanSummary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loan = null,Object? repaid = null,Object? lastRepaymentDate = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loan = null,Object? repaid = null,Object? firstRepaymentDate = freezed,Object? lastRepaymentDate = freezed,}) {
   return _then(LoanSummary(
 loan: null == loan ? _self.loan : loan // ignore: cast_nullable_to_non_nullable
 as Loan,repaid: null == repaid ? _self.repaid : repaid // ignore: cast_nullable_to_non_nullable
-as Money,lastRepaymentDate: freezed == lastRepaymentDate ? _self.lastRepaymentDate : lastRepaymentDate // ignore: cast_nullable_to_non_nullable
+as Money,firstRepaymentDate: freezed == firstRepaymentDate ? _self.firstRepaymentDate : firstRepaymentDate // ignore: cast_nullable_to_non_nullable
+as LocalDay?,lastRepaymentDate: freezed == lastRepaymentDate ? _self.lastRepaymentDate : lastRepaymentDate // ignore: cast_nullable_to_non_nullable
 as LocalDay?,
   ));
 }
@@ -169,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Loan loan,  Money repaid,  LocalDay? lastRepaymentDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Loan loan,  Money repaid,  LocalDay? firstRepaymentDate,  LocalDay? lastRepaymentDate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoanSummary() when $default != null:
-return $default(_that.loan,_that.repaid,_that.lastRepaymentDate);case _:
+return $default(_that.loan,_that.repaid,_that.firstRepaymentDate,_that.lastRepaymentDate);case _:
   return orElse();
 
 }
@@ -190,10 +192,10 @@ return $default(_that.loan,_that.repaid,_that.lastRepaymentDate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Loan loan,  Money repaid,  LocalDay? lastRepaymentDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Loan loan,  Money repaid,  LocalDay? firstRepaymentDate,  LocalDay? lastRepaymentDate)  $default,) {final _that = this;
 switch (_that) {
 case _LoanSummary():
-return $default(_that.loan,_that.repaid,_that.lastRepaymentDate);case _:
+return $default(_that.loan,_that.repaid,_that.firstRepaymentDate,_that.lastRepaymentDate);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +212,10 @@ return $default(_that.loan,_that.repaid,_that.lastRepaymentDate);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Loan loan,  Money repaid,  LocalDay? lastRepaymentDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Loan loan,  Money repaid,  LocalDay? firstRepaymentDate,  LocalDay? lastRepaymentDate)?  $default,) {final _that = this;
 switch (_that) {
 case _LoanSummary() when $default != null:
-return $default(_that.loan,_that.repaid,_that.lastRepaymentDate);case _:
+return $default(_that.loan,_that.repaid,_that.firstRepaymentDate,_that.lastRepaymentDate);case _:
   return null;
 
 }
@@ -225,12 +227,14 @@ return $default(_that.loan,_that.repaid,_that.lastRepaymentDate);case _:
 
 
 class _LoanSummary extends LoanSummary {
-  const _LoanSummary({required this.loan, required this.repaid, this.lastRepaymentDate}): super._();
+  const _LoanSummary({required this.loan, required this.repaid, this.firstRepaymentDate, this.lastRepaymentDate}): super._();
 
 
 @override final  Loan loan;
 /// Sum of the loan repayments (RG-21).
 @override final  Money repaid;
+/// Date of the earliest repayment, null if there is none (RG-11, RG-17).
+@override final  LocalDay? firstRepaymentDate;
 /// Date of the most recent repayment, null if there is none (RG-22).
 @override final  LocalDay? lastRepaymentDate;
 
@@ -244,18 +248,18 @@ _$LoanSummaryCopyWith<_LoanSummary> get copyWith => __$LoanSummaryCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoanSummary&&(identical(other.loan, loan) || other.loan == loan)&&(identical(other.repaid, repaid) || other.repaid == repaid)&&(identical(other.lastRepaymentDate, lastRepaymentDate) || other.lastRepaymentDate == lastRepaymentDate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoanSummary&&(identical(other.loan, loan) || other.loan == loan)&&(identical(other.repaid, repaid) || other.repaid == repaid)&&(identical(other.firstRepaymentDate, firstRepaymentDate) || other.firstRepaymentDate == firstRepaymentDate)&&(identical(other.lastRepaymentDate, lastRepaymentDate) || other.lastRepaymentDate == lastRepaymentDate));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,loan,repaid,lastRepaymentDate);
+    return Object.hash(runtimeType,loan,repaid,firstRepaymentDate,lastRepaymentDate);
 }
 
 @override
 String toString() {
-    return 'LoanSummary(loan: $loan, repaid: $repaid, lastRepaymentDate: $lastRepaymentDate)';
+    return 'LoanSummary(loan: $loan, repaid: $repaid, firstRepaymentDate: $firstRepaymentDate, lastRepaymentDate: $lastRepaymentDate)';
 }
 
 
@@ -266,7 +270,7 @@ abstract mixin class _$LoanSummaryCopyWith<$Res> implements $LoanSummaryCopyWith
   factory _$LoanSummaryCopyWith(_LoanSummary value, $Res Function(_LoanSummary) _then) = __$LoanSummaryCopyWithImpl;
 @override @useResult
 $Res call({
- Loan loan, Money repaid, LocalDay? lastRepaymentDate
+ Loan loan, Money repaid, LocalDay? firstRepaymentDate, LocalDay? lastRepaymentDate
 });
 
 
@@ -283,11 +287,12 @@ class __$LoanSummaryCopyWithImpl<$Res>
 
 /// Create a copy of LoanSummary
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loan = null,Object? repaid = null,Object? lastRepaymentDate = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loan = null,Object? repaid = null,Object? firstRepaymentDate = freezed,Object? lastRepaymentDate = freezed,}) {
   return _then(_LoanSummary(
 loan: null == loan ? _self.loan : loan // ignore: cast_nullable_to_non_nullable
 as Loan,repaid: null == repaid ? _self.repaid : repaid // ignore: cast_nullable_to_non_nullable
-as Money,lastRepaymentDate: freezed == lastRepaymentDate ? _self.lastRepaymentDate : lastRepaymentDate // ignore: cast_nullable_to_non_nullable
+as Money,firstRepaymentDate: freezed == firstRepaymentDate ? _self.firstRepaymentDate : firstRepaymentDate // ignore: cast_nullable_to_non_nullable
+as LocalDay?,lastRepaymentDate: freezed == lastRepaymentDate ? _self.lastRepaymentDate : lastRepaymentDate // ignore: cast_nullable_to_non_nullable
 as LocalDay?,
   ));
 }

@@ -16,6 +16,9 @@ abstract class LoanSummary with _$LoanSummary {
     /// Sum of the loan repayments (RG-21).
     required Money repaid,
 
+    /// Date of the earliest repayment, null if there is none (RG-11, RG-17).
+    LocalDay? firstRepaymentDate,
+
     /// Date of the most recent repayment, null if there is none (RG-22).
     LocalDay? lastRepaymentDate,
   }) = _LoanSummary;

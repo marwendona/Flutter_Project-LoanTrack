@@ -11,10 +11,12 @@ import '../../core/widgets/loan_status_chip.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower.dart';
 import '../../domain/models/borrower_summary.dart';
+import '../../domain/models/loan.dart';
 import '../../domain/models/loan_status.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../borrowers/borrower_delete_dialog.dart';
 import '../borrowers/borrower_form_sheet.dart';
+import '../loan/loan_delete_dialog.dart';
 import 'borrower_detail_providers.dart';
 
 /// ECR-03 — Borrower detail: contact, totals and loans (US-2.2).
@@ -99,6 +101,41 @@ class _BorrowerMenu extends ConsumerWidget {
 }
 
 enum _BorrowerAction { edit, delete }
+
+/// Menu ⋮ of a loan card: edit (ECR-04) or delete (RG-14) the loan (US-2.4).
+class _LoanMenu extends ConsumerWidget {
+  const _LoanMenu({required this.loan});
+
+  final Loan loan;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    return PopupMenuButton<_LoanAction>(
+      tooltip: l10n.moreActionsTooltip,
+      onSelected: (action) async {
+        switch (action) {
+          case _LoanAction.edit:
+            await context.push(AppRoutes.editLoan(loan.borrowerId, loan.id));
+          case _LoanAction.delete:
+            await showLoanDeleteDialog(context, ref, loan);
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: _LoanAction.edit,
+          child: Text(l10n.loanFormEditTitle),
+        ),
+        PopupMenuItem(
+          value: _LoanAction.delete,
+          child: Text(l10n.loanDeleteAction),
+        ),
+      ],
+    );
+  }
+}
+
+enum _LoanAction { edit, delete }
 
 class _BorrowerDetailBody extends StatelessWidget {
   const _BorrowerDetailBody({required this.detail});
@@ -270,7 +307,13 @@ class _LoanCard extends ConsumerWidget {
                   MoneyFormatter.format(loan.amount, currency),
                   style: textTheme.titleLarge,
                 ),
-                LoanStatusChip(status: status),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LoanStatusChip(status: status),
+                    _LoanMenu(loan: loan),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 8),

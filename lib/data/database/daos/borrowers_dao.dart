@@ -79,12 +79,15 @@ class BorrowersDao extends DatabaseAccessor<AppDatabase>
   /// Returns true if updated, false if the name key is taken by another borrower.
   Future<bool> updateBorrowerIfNameKeyFree(BorrowersCompanion entry) =>
       transaction(() async {
-        final existing = await (select(borrowers)
-              ..where((b) =>
-                  b.nameKey.equals(entry.nameKey.value) &
-                  b.id.equals(entry.id.value).not())
-              ..limit(1))
-            .getSingleOrNull();
+        final existing =
+            await (select(borrowers)
+                  ..where(
+                    (b) =>
+                        b.nameKey.equals(entry.nameKey.value) &
+                        b.id.equals(entry.id.value).not(),
+                  )
+                  ..limit(1))
+                .getSingleOrNull();
         if (existing != null) return false;
         final rowsUpdated = await update(borrowers).write(entry);
         return rowsUpdated > 0;

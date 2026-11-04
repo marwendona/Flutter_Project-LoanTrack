@@ -10,6 +10,7 @@ import 'package:loantrack/domain/models/borrower.dart';
 import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_balance.dart';
 import 'package:loantrack/domain/models/repayment.dart';
+import 'package:loantrack/domain/repositories/loan_repository.dart';
 import 'package:loantrack/domain/services/borrower_validator.dart';
 
 void main() {
@@ -187,12 +188,94 @@ void main() {
 
       expect(summaries.map((s) => s.loan.id), [newer, older]);
       expect(summaries.first.repaid, Money.zero);
+      expect(summaries.first.firstRepaymentDate, isNull);
       expect(summaries.first.lastRepaymentDate, isNull);
       expect(summaries.last.repaid, const Money(1500));
       expect(summaries.last.remaining, const Money(3500));
+      expect(summaries.last.firstRepaymentDate, LocalDay(2026, 9, 15));
       expect(summaries.last.lastRepaymentDate, LocalDay(2026, 10, 20));
     },
   );
+
+  group('loan modification and deletion (US-2.4)', () {
+    late int borrowerId;
+    late int loanId;
+
+    setUp(() async {
+      borrowerId = await container
+          .read(borrowerRepositoryProvider)
+          .add(name: 'Ali');
+      loanId = await container
+          .read(loanRepositoryProvider)
+          .add(
+            borrowerId: borrowerId,
+            amount: const Money(5000),
+            loanDate: LocalDay(2026, 9, 1),
+            note: 'voiture',
+          );
+      final repayments = container.read(repaymentRepositoryProvider);
+      await repayments.add(
+        loanId: loanId,
+        amount: const Money(1000),
+        repaymentDate: LocalDay(2026, 9, 20),
+      );
+      await repayments.add(
+        loanId: loanId,
+        amount: const Money(500),
+        repaymentDate: LocalDay(2026, 9, 10),
+      );
+    });
+
+    test('getSummaryById returns the loan with its aggregates', () async {
+      final loans = container.read(loanRepositoryProvider);
+
+      final summary = await loans.getSummaryById(loanId);
+
+      expect(summary?.loan.note, 'voiture');
+      expect(summary?.repaid, const Money(1500));
+      expect(summary?.firstRepaymentDate, LocalDay(2026, 9, 10));
+      expect(summary?.lastRepaymentDate, LocalDay(2026, 9, 20));
+      expect(await loans.getSummaryById(loanId + 100), isNull);
+    });
+
+    test('update stores the new values and keeps the repayments', () async {
+      final loans = container.read(loanRepositoryProvider);
+      final loan = (await loans.getSummaryById(loanId))!.loan;
+      final updated = loan.copyWith(
+        amount: const Money(8000),
+        loanDate: LocalDay(2026, 8, 31),
+        promisedReturnDate: LocalDay(2026, 12, 1),
+        note: null,
+      );
+
+      await loans.update(updated);
+
+      final summary = await loans.getSummaryById(loanId);
+      expect(summary?.loan, updated);
+      expect(summary?.repaid, const Money(1500));
+    });
+
+    test('update of a missing loan throws LoanNotFoundException', () async {
+      final loans = container.read(loanRepositoryProvider);
+      final loan = (await loans.getSummaryById(loanId))!.loan;
+
+      await expectLater(
+        loans.update(loan.copyWith(id: loanId + 100)),
+        throwsA(isA<LoanNotFoundException>()),
+      );
+    });
+
+    test('delete removes the loan and its repayments (RG-14)', () async {
+      final loans = container.read(loanRepositoryProvider);
+      final repayments = container.read(repaymentRepositoryProvider);
+
+      await loans.delete(loanId);
+
+      expect(await loans.getSummaryById(loanId), isNull);
+      expect(await repayments.watchByLoan(loanId).first, isEmpty);
+      expect(await loans.watchByBorrower(borrowerId).first, isEmpty);
+    });
+  });
 
   test('deleting a borrower through the repository cascades', () async {
     final borrowers = container.read(borrowerRepositoryProvider);
