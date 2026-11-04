@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/money/currency.dart';
 import '../../core/money/money_formatter.dart';
+import '../../core/router/app_router.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/overdue_badge.dart';
 import '../../data/providers.dart';
@@ -41,9 +43,9 @@ class BorrowersScreen extends ConsumerWidget {
       ),
       body: switch (filteredSummaries) {
         [] => EmptyState(
-            icon: Icons.people_outline,
-            message: l10n.borrowersEmpty,
-          ),
+          icon: Icons.people_outline,
+          message: l10n.borrowersEmpty,
+        ),
         final value => _BorrowersList(summaries: value),
       },
       floatingActionButton: FloatingActionButton(
@@ -112,13 +114,21 @@ class _BorrowerTile extends ConsumerWidget {
           PopupMenuButton<String>(
             tooltip: l10n.actionCancel,
             onSelected: (action) {
-              if (action == 'edit') {
+              if (action == 'newLoan') {
+                // Provisional entry point until ECR-03 and its "+ Prêt"
+                // button exist (US-2.2).
+                context.push(AppRoutes.newLoan(summary.borrower.id));
+              } else if (action == 'edit') {
                 showBorrowerEditSheet(context, summary.borrower);
               } else if (action == 'delete') {
                 _showDeleteDialog(context, ref, summary, currency, l10n);
               }
             },
             itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'newLoan',
+                child: Text(l10n.loanFormNewTitle),
+              ),
               PopupMenuItem(
                 value: 'edit',
                 child: Text(l10n.borrowerFormEditTitle),
@@ -131,7 +141,8 @@ class _BorrowerTile extends ConsumerWidget {
           ),
         ],
       ),
-      onLongPress: () => _showDeleteDialog(context, ref, summary, currency, l10n),
+      onLongPress: () =>
+          _showDeleteDialog(context, ref, summary, currency, l10n),
     );
   }
 
@@ -161,12 +172,13 @@ class _BorrowerTile extends ConsumerWidget {
             onPressed: () async {
               Navigator.of(context).pop();
               try {
-                await ref.read(borrowerRepositoryProvider).delete(summary.borrower.id);
+                await ref
+                    .read(borrowerRepositoryProvider)
+                    .delete(summary.borrower.id);
               } catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.saveError)),
-                  );
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(l10n.saveError)));
                 }
               }
             },

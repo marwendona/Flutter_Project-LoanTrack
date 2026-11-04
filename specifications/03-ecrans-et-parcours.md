@@ -33,6 +33,7 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 - Barre de recherche par nom.
 - Bouton flottant **+** → dialogue / feuille « Nouvel emprunteur » (nom, téléphone, note).
 - Suppression : appui long ou menu ⋮ → « Supprimer » → dialogue de confirmation (RG-03).
+- Menu ⋮ → « Nouveau prêt » → ECR-04 : point d'entrée provisoire en attendant ECR-03 (CR-016).
 - État vide : « Aucun emprunteur. Appuyez sur + pour en ajouter un. »
 
 ## ECR-03 — Détail d'un emprunteur

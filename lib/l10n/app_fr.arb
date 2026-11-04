@@ -126,5 +126,67 @@
   "borrowerSearchHint": "Rechercher un emprunteur...",
   "@borrowerSearchHint": {
     "description": "Indice du champ de recherche d'emprunteur (US-1.5)"
+  },
+  "loanFormNewTitle": "Nouveau prêt",
+  "@loanFormNewTitle": {
+    "description": "Titre de l'écran de création d'un prêt (ECR-04) et action qui l'ouvre"
+  },
+  "loanFormAmount": "Montant",
+  "@loanFormAmount": {
+    "description": "Champ montant du formulaire prêt (ECR-04)"
+  },
+  "loanFormLoanDate": "Date du prêt",
+  "@loanFormLoanDate": {
+    "description": "Champ date du prêt (ECR-04)"
+  },
+  "loanFormPromisedReturnDate": "Date de retour promise (facultative)",
+  "@loanFormPromisedReturnDate": {
+    "description": "Champ date de retour promise (ECR-04)"
+  },
+  "loanFormPromisedReturnDateNone": "Non définie",
+  "@loanFormPromisedReturnDateNone": {
+    "description": "Valeur affichée quand aucune date de retour promise n'est choisie"
+  },
+  "loanFormPromisedReturnDateClear": "Effacer la date promise",
+  "@loanFormPromisedReturnDateClear": {
+    "description": "Info-bulle du bouton qui efface la date de retour promise"
+  },
+  "loanFormNote": "Note / motif (facultatif)",
+  "@loanFormNote": {
+    "description": "Champ note du formulaire prêt (ECR-04)"
+  },
+  "loanAmountRequired": "Le montant est obligatoire.",
+  "@loanAmountRequired": {
+    "description": "Erreur : montant de prêt vide (RG-10)"
+  },
+  "loanAmountInvalid": "{decimals, plural, =0{Montant invalide : saisissez un nombre entier.} =1{Montant invalide : au plus 1 décimale.} other{Montant invalide : au plus {decimals} décimales.}}",
+  "@loanAmountInvalid": {
+    "description": "Erreur : saisie du montant non reconnue (RG-10)",
+    "placeholders": {
+      "decimals": {
+        "type": "int"
+      }
+    }
+  },
+  "loanAmountNotPositive": "Le montant doit être supérieur à zéro.",
+  "@loanAmountNotPositive": {
+    "description": "Erreur : montant de prêt nul (RG-10)"
+  },
+  "loanAmountTooLarge": "Le montant ne peut pas dépasser {max}.",
+  "@loanAmountTooLarge": {
+    "description": "Erreur : montant de prêt trop élevé (RG-10)",
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "loanDateInFuture": "La date du prêt ne peut pas être dans le futur.",
+  "@loanDateInFuture": {
+    "description": "Erreur : date du prêt future (RG-11)"
+  },
+  "loanPromisedReturnDateBeforeLoanDate": "La date promise doit être égale ou postérieure à la date du prêt.",
+  "@loanPromisedReturnDateBeforeLoanDate": {
+    "description": "Erreur : date de retour promise antérieure à la date du prêt (RG-12)"
   }
 }

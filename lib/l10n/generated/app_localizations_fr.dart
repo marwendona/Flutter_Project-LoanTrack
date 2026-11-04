@@ -109,4 +109,57 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get borrowerSearchHint => 'Rechercher un emprunteur...';
+
+  @override
+  String get loanFormNewTitle => 'Nouveau prêt';
+
+  @override
+  String get loanFormAmount => 'Montant';
+
+  @override
+  String get loanFormLoanDate => 'Date du prêt';
+
+  @override
+  String get loanFormPromisedReturnDate =>
+      'Date de retour promise (facultative)';
+
+  @override
+  String get loanFormPromisedReturnDateNone => 'Non définie';
+
+  @override
+  String get loanFormPromisedReturnDateClear => 'Effacer la date promise';
+
+  @override
+  String get loanFormNote => 'Note / motif (facultatif)';
+
+  @override
+  String get loanAmountRequired => 'Le montant est obligatoire.';
+
+  @override
+  String loanAmountInvalid(int decimals) {
+    String _temp0 = intl.Intl.pluralLogic(
+      decimals,
+      locale: localeName,
+      other: 'Montant invalide : au plus $decimals décimales.',
+      one: 'Montant invalide : au plus 1 décimale.',
+      zero: 'Montant invalide : saisissez un nombre entier.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get loanAmountNotPositive => 'Le montant doit être supérieur à zéro.';
+
+  @override
+  String loanAmountTooLarge(String max) {
+    return 'Le montant ne peut pas dépasser $max.';
+  }
+
+  @override
+  String get loanDateInFuture =>
+      'La date du prêt ne peut pas être dans le futur.';
+
+  @override
+  String get loanPromisedReturnDateBeforeLoanDate =>
+      'La date promise doit être égale ou postérieure à la date du prêt.';
 }

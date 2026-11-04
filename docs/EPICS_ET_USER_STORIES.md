@@ -12,8 +12,8 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | Epic | Titre | Version | Stories | Statut |
 |---|---|---|---|---|
 | E0 | Socle technique | V1 | 6 | ✅ |
-| E1 | Gestion des emprunteurs | V1 | 5 | 🟨 |
-| E2 | Gestion des prêts | V1 | 4 | ⬜ |
+| E1 | Gestion des emprunteurs | V1 | 5 | ✅ |
+| E2 | Gestion des prêts | V1 | 4 | 🟨 |
 | E3 | Gestion des remboursements | V1 | 4 | ⬜ |
 | E4 | Tableau de bord et totaux | V1 | 3 | ⬜ |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ⬜ |
@@ -96,10 +96,11 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 ## E2 — Gestion des prêts
 
-### US-2.1 — Enregistrer un prêt · `M` · `M` · ⬜
+### US-2.1 — Enregistrer un prêt · `M` · `M` · ✅
 **En tant que** prêteur, **je veux** enregistrer le montant donné, la date du don et la date de retour promise **afin de** garder une trace fiable.
-- [ ] Formulaire ECR-04 : montant, date du prêt (défaut aujourd'hui), date promise (optionnelle), note.
-- [ ] Validations RG-10, RG-11, RG-12 avec messages sous les champs ; « Enregistrer » désactivé si invalide.
+- [x] Formulaire ECR-04 : montant, date du prêt (défaut aujourd'hui), date promise (optionnelle), note.
+- [x] Validations RG-10, RG-11, RG-12 avec messages sous les champs ; « Enregistrer » désactivé si invalide.
+- Point d'entrée provisoire : menu ⋮ d'un emprunteur (ECR-02) → « Nouveau prêt », en attendant le bouton « + Prêt » d'ECR-03 (US-2.2).
 
 ### US-2.2 — Voir le détail d'un emprunteur et ses prêts · `M` · `M` · ⬜
 **Je veux** voir pour un emprunteur tous ses prêts **afin de** connaître sa situation.

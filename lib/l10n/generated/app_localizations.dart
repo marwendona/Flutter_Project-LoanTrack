@@ -249,6 +249,84 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Rechercher un emprunteur...'**
   String get borrowerSearchHint;
+
+  /// Titre de l'écran de création d'un prêt (ECR-04) et action qui l'ouvre
+  ///
+  /// In fr, this message translates to:
+  /// **'Nouveau prêt'**
+  String get loanFormNewTitle;
+
+  /// Champ montant du formulaire prêt (ECR-04)
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant'**
+  String get loanFormAmount;
+
+  /// Champ date du prêt (ECR-04)
+  ///
+  /// In fr, this message translates to:
+  /// **'Date du prêt'**
+  String get loanFormLoanDate;
+
+  /// Champ date de retour promise (ECR-04)
+  ///
+  /// In fr, this message translates to:
+  /// **'Date de retour promise (facultative)'**
+  String get loanFormPromisedReturnDate;
+
+  /// Valeur affichée quand aucune date de retour promise n'est choisie
+  ///
+  /// In fr, this message translates to:
+  /// **'Non définie'**
+  String get loanFormPromisedReturnDateNone;
+
+  /// Info-bulle du bouton qui efface la date de retour promise
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer la date promise'**
+  String get loanFormPromisedReturnDateClear;
+
+  /// Champ note du formulaire prêt (ECR-04)
+  ///
+  /// In fr, this message translates to:
+  /// **'Note / motif (facultatif)'**
+  String get loanFormNote;
+
+  /// Erreur : montant de prêt vide (RG-10)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant est obligatoire.'**
+  String get loanAmountRequired;
+
+  /// Erreur : saisie du montant non reconnue (RG-10)
+  ///
+  /// In fr, this message translates to:
+  /// **'{decimals, plural, =0{Montant invalide : saisissez un nombre entier.} =1{Montant invalide : au plus 1 décimale.} other{Montant invalide : au plus {decimals} décimales.}}'**
+  String loanAmountInvalid(int decimals);
+
+  /// Erreur : montant de prêt nul (RG-10)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant doit être supérieur à zéro.'**
+  String get loanAmountNotPositive;
+
+  /// Erreur : montant de prêt trop élevé (RG-10)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant ne peut pas dépasser {max}.'**
+  String loanAmountTooLarge(String max);
+
+  /// Erreur : date du prêt future (RG-11)
+  ///
+  /// In fr, this message translates to:
+  /// **'La date du prêt ne peut pas être dans le futur.'**
+  String get loanDateInFuture;
+
+  /// Erreur : date de retour promise antérieure à la date du prêt (RG-12)
+  ///
+  /// In fr, this message translates to:
+  /// **'La date promise doit être égale ou postérieure à la date du prêt.'**
+  String get loanPromisedReturnDateBeforeLoanDate;
 }
 
 class _AppLocalizationsDelegate

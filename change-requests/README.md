@@ -33,3 +33,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-013](CR-013-us-1-4-modifier-emprunteur.md) | US-1.4 : modifier un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-014](CR-014-us-1-5-rechercher-emprunteur.md) | US-1.5 : rechercher un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-015](CR-015-cr-pour-tout-changement.md) | Change Request obligatoire pour tout changement | Processus | Implémentée | 2026-11-04 | — |
+| [CR-016](CR-016-us-2-1-enregistrer-pret.md) | US-2.1 : enregistrer un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
