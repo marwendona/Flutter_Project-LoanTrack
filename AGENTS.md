@@ -84,10 +84,16 @@ Règles complètes : `specifications/02-regles-metier.md`.
 
 ## 8. Processus de changement
 
-1. **Toute modification fonctionnelle ou de choix technique** (nouvelle règle, nouvel écran, changement de comportement, changement de stack) fait l'objet d'une **Change Request** dans `change-requests/` (copier `CR-000-modele.md`, numéroter `CR-XXX-titre-court.md`) ajoutée à l'index `change-requests/README.md`.
-2. Mettre à jour la ou les spécifications impactées dans `specifications/` **dans le même changement**.
-3. Si le backlog est impacté, mettre à jour `docs/EPICS_ET_USER_STORIES.md`.
-4. Les corrections de bug sans changement de comportement attendu ne nécessitent pas de CR.
+1. **Tout changement du dépôt fait l'objet d'une Change Request**, sans exception (CR-015). Cela inclut :
+   - l'implémentation d'une user story (**une CR par story**) ;
+   - une nouvelle règle, un nouvel écran, un changement de comportement ;
+   - un choix technique, un changement de stack, l'ajout ou la mise à jour d'une dépendance ;
+   - une correction de bug, un refactoring ;
+   - une modification de configuration (Android, build, analyse), de documentation, de spécification ou des fichiers d'agents (`AGENTS.md`, `CLAUDE.md`).
+2. La CR est créée **avant** toute modification : copier `CR-000-modele.md` en `CR-XXX-titre-court.md` (numéro suivant), statut `En cours`, et l'ajouter à l'index `change-requests/README.md`.
+3. Les changements liés à une même demande sont regroupés dans **une seule CR** ; des demandes indépendantes donnent des CR distinctes.
+4. Mettre à jour la ou les spécifications impactées dans `specifications/` **dans le même changement**, et `docs/EPICS_ET_USER_STORIES.md` si le backlog est impacté.
+5. Une fois le travail terminé et vérifié : passer la CR à `Implémentée`, cocher ses critères d'acceptation, noter dans « Suivi de l'implémentation » les écarts ou réserves éventuels, puis mettre à jour l'index. Le commit (s'il est demandé) est référencé dans la CR.
 
 ## 9. Definition of Done d'une user story
 
@@ -96,5 +102,6 @@ Règles complètes : `specifications/02-regles-metier.md`.
 - [ ] `flutter analyze` sans erreur ni avertissement, code formaté (`dart format`)
 - [ ] Code généré à jour (`build_runner`)
 - [ ] Textes UI dans `app_fr.arb`, mode sombre vérifié
-- [ ] Spécifications / CR à jour si le comportement a changé
+- [ ] CR de la story créée avant le développement et passée à `Implémentée` (index `change-requests/README.md` à jour)
+- [ ] Spécifications à jour si le comportement a changé
 - [ ] Statut de la story mis à jour dans `docs/EPICS_ET_USER_STORIES.md`
