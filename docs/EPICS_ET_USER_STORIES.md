@@ -150,9 +150,10 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Carte « Reste à recevoir » + total prêté, total remboursé, taux de remboursement (barre), prêts en retard (nombre + montant, en rouge si > 0). — RG-31, RG-32, RG-33
 - Montant en retard = somme des restes dus des prêts en retard ; taux arrondi à l'entier inférieur ; état vide d'ECR-01 inclus (CR-024).
 
-### US-4.2 — Totaux par emprunteur · `M` · `S` · ⬜
+### US-4.2 — Totaux par emprunteur · `M` · `S` · ✅
 **Je veux** voir, pour chaque emprunteur, le total prêté, remboursé et le reste dû **afin de** comparer les situations.
-- [ ] Liste sous les indicateurs, tri RG-04, tap → détail emprunteur. — RG-30
+- [x] Liste sous les indicateurs, tri RG-04, tap → détail emprunteur. — RG-30
+- Tous les emprunteurs sont listés, y compris ceux sans prêt (CR-025).
 
 ### US-4.3 — Filtres du tableau de bord · `S` · `XS` · ⬜
 - [ ] Filtres *Tous* / *Avec reste dû* / *En retard* sur la liste par emprunteur.

@@ -371,4 +371,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dashboardAddBorrower => 'Ajouter un emprunteur';
+
+  @override
+  String get dashboardByBorrowerTitle => 'Par emprunteur';
 }

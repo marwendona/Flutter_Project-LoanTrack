@@ -483,5 +483,9 @@
   "dashboardAddBorrower": "Ajouter un emprunteur",
   "@dashboardAddBorrower": {
     "description": "Bouton de l'état vide d'ECR-01, ouvre la feuille « Nouvel emprunteur »"
+  },
+  "dashboardByBorrowerTitle": "Par emprunteur",
+  "@dashboardByBorrowerTitle": {
+    "description": "Titre de la liste des totaux par emprunteur d'ECR-01 (RG-30)"
   }
 }

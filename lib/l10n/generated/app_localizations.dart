@@ -633,6 +633,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter un emprunteur'**
   String get dashboardAddBorrower;
+
+  /// Titre de la liste des totaux par emprunteur d'ECR-01 (RG-30)
+  ///
+  /// In fr, this message translates to:
+  /// **'Par emprunteur'**
+  String get dashboardByBorrowerTitle;
 }
 
 class _AppLocalizationsDelegate

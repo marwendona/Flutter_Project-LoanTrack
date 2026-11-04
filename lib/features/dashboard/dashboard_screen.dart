@@ -1,16 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/money/money_formatter.dart';
+import '../../core/router/app_router.dart';
 import '../../core/theme/status_colors.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/overdue_badge.dart';
 import '../../data/providers.dart';
+import '../../domain/models/borrower_summary.dart';
 import '../../domain/models/global_totals.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../borrowers/borrower_form_sheet.dart';
+import '../borrowers/borrowers_providers.dart';
 import 'dashboard_providers.dart';
 
-/// ECR-01 — Dashboard (home): global totals (US-4.1).
+/// ECR-01 — Dashboard (home): global totals (US-4.1) and totals per borrower
+/// (US-4.2).
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
@@ -62,18 +68,21 @@ class _EmptyDashboard extends StatelessWidget {
   }
 }
 
-class _DashboardBody extends StatelessWidget {
+class _DashboardBody extends ConsumerWidget {
   const _DashboardBody({required this.totals});
 
   final GlobalTotals totals;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Already sorted by remaining due then name (RG-04).
+    final summaries = ref.watch(borrowerSummariesProvider).value ?? const [];
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
         _RemainingCard(totals: totals),
         _IndicatorsCard(totals: totals),
+        if (summaries.isNotEmpty) _ByBorrowerSection(summaries: summaries),
       ],
     );
   }
@@ -174,20 +183,128 @@ class _IndicatorsCard extends ConsumerWidget {
 }
 
 class _IndicatorRow extends StatelessWidget {
-  const _IndicatorRow({required this.label, required this.value, this.color});
+  const _IndicatorRow({
+    required this.label,
+    required this.value,
+    this.color,
+    this.style,
+  });
 
   final String label;
   final String value;
   final Color? color;
 
+  /// Defaults to `bodyLarge`.
+  final TextStyle? style;
+
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.bodyLarge?.copyWith(color: color);
+    final style = (this.style ?? Theme.of(context).textTheme.bodyLarge)
+        ?.copyWith(color: color);
     return Row(
       children: [
         Expanded(child: Text(label, style: style)),
         Text(value, style: style),
       ],
+    );
+  }
+}
+
+/// "Par emprunteur" list: totals of each borrower (RG-30, US-4.2).
+class _ByBorrowerSection extends StatelessWidget {
+  const _ByBorrowerSection({required this.summaries});
+
+  final List<BorrowerSummary> summaries;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            l10n.dashboardByBorrowerTitle,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        Card(
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              for (final (index, summary) in summaries.indexed) ...[
+                if (index > 0) const Divider(height: 1),
+                _BorrowerTotalsTile(summary: summary),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Name, total lent, total repaid, remaining due and overdue badge of a
+/// borrower; tap opens its detail (ECR-03).
+class _BorrowerTotalsTile extends ConsumerWidget {
+  const _BorrowerTotalsTile({required this.summary});
+
+  final BorrowerSummary summary;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final currency = ref.watch(currencyProvider);
+    final amountStyle = theme.textTheme.bodyMedium?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    return InkWell(
+      onTap: () => context.go(AppRoutes.borrowerDetail(summary.borrower.id)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    summary.borrower.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                ),
+                if (summary.isOverdue) ...[
+                  const SizedBox(width: 8),
+                  const OverdueBadge(),
+                ],
+              ],
+            ),
+            const SizedBox(height: 4),
+            _IndicatorRow(
+              label: l10n.borrowerDetailTotalLent,
+              value: MoneyFormatter.format(summary.totalLent, currency),
+              style: amountStyle,
+            ),
+            _IndicatorRow(
+              label: l10n.borrowerDetailTotalRepaid,
+              value: MoneyFormatter.format(summary.totalRepaid, currency),
+              style: amountStyle,
+            ),
+            _IndicatorRow(
+              label: l10n.borrowersRemainingLabel,
+              value: MoneyFormatter.format(summary.remaining, currency),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
