@@ -85,7 +85,9 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - Ligne « Devise » affichant le code et le nom de la devise (ex. « TND — Dinar tunisien »).
   - Aucun prêt : appui → dialogue « Choisir la devise » parmi TND (3 décimales), EUR, USD, GBP, CHF, CAD, MAD, DZD (2 décimales), LYD (3 décimales) ; le choix est enregistré et appliqué immédiatement à tous les montants.
   - Au moins un prêt : ligne en lecture seule (icône cadenas) avec le message « La devise ne peut plus être modifiée une fois des prêts enregistrés ».
-- Exporter les données (choix de l'emplacement du fichier) — RG-50.
+- Exporter les données (choix de l'emplacement du fichier) — RG-50 (CR-028).
+  - Ligne « Exporter les données » → sélecteur de fichier système, nom proposé `loantrack-sauvegarde-AAAA-MM-JJ.json` (date du jour).
+  - Après enregistrement : message « Données exportées » ; en cas d'erreur : « L'export des données a échoué » ; aucun message si le sélecteur est annulé. Ligne désactivée (indicateur de progression) pendant l'export.
 - Importer des données (choix du fichier + confirmation de remplacement) — RG-51.
 - Thème : Système / Clair / Sombre.
 - Version de l'application.

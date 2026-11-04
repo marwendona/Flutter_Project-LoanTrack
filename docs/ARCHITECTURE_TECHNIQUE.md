@@ -180,7 +180,7 @@ GROUP BY b.id;
 ## 6. Sauvegarde / restauration
 
 - Format JSON versionné (`formatVersion: 1`) : `{ formatVersion, exportedAt, currency, borrowers[], loans[], repayments[] }` (DTO `freezed` + `json_serializable`).
-- Export : `FilePicker.platform.saveFile(bytes: …)` → sélecteur système Android ; nom proposé `loantrack-sauvegarde-AAAA-MM-JJ.json`.
+- Export : `FilePicker.saveFile(bytes: …)` (API statique de `file_picker` 13) → sélecteur système Android ; nom proposé `loantrack-sauvegarde-AAAA-MM-JJ.json`. Le JSON est construit par `BackupService` et enregistré via l'interface `BackupFileSaver` (simulée dans les tests).
 - Import : `FilePicker.platform.pickFiles(withData: true)` ; validation complète en mémoire **avant** toute écriture, puis remplacement dans une seule transaction.
 - Aucune permission de stockage requise.
 

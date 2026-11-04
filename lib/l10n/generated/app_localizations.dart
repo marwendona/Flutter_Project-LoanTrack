@@ -694,6 +694,30 @@ abstract class AppLocalizations {
   /// **'La devise n\'a pas pu être modifiée'**
   String get settingsCurrencyChangeError;
 
+  /// Libellé de la ligne d'export d'ECR-06 (RG-50)
+  ///
+  /// In fr, this message translates to:
+  /// **'Exporter les données'**
+  String get settingsExport;
+
+  /// Sous-titre de la ligne d'export d'ECR-06
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer une sauvegarde au format JSON'**
+  String get settingsExportSubtitle;
+
+  /// Message de succès de l'export (US-5.2)
+  ///
+  /// In fr, this message translates to:
+  /// **'Données exportées'**
+  String get settingsExportSuccess;
+
+  /// Message d'échec de l'export (US-5.2)
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'export des données a échoué'**
+  String get settingsExportError;
+
   /// Nom d'une devise à partir de son code ISO 4217 (CR-027)
   ///
   /// In fr, this message translates to:

@@ -75,4 +75,7 @@ Emprunteur 1 ──── * Prêt 1 ──── * Remboursement
 
 ### Sauvegarde
 - **RG-50** — L'export produit un fichier JSON contenant la version du format, la date d'export, la devise et toutes les données.
+  - Format v1 (CR-028) : `{ formatVersion: 1, exportedAt, currency, borrowers[], loans[], repayments[] }` ; `exportedAt` en ISO 8601 UTC, `currency` en code ISO 4217.
+  - Emprunteur : `id`, `name`, `phone`, `note`, `createdAt` ; prêt : `id`, `borrowerId`, `amountMinor`, `loanDate`, `promisedReturnDate`, `note` ; remboursement : `id`, `loanId`, `amountMinor`, `repaymentDate`, `note`.
+  - Montants en unités mineures (entiers), dates au format `AAAA-MM-JJ`, champs facultatifs absents à `null`. Aucune valeur calculée (remboursé, reste dû, statut, totaux) n'est exportée.
 - **RG-51** — L'import **remplace** toutes les données existantes, après confirmation. Un fichier invalide ou d'une version inconnue est refusé sans rien modifier.

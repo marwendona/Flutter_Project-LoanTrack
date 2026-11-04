@@ -532,6 +532,22 @@
   "@settingsCurrencyChangeError": {
     "description": "Message d'échec du changement de devise (ECR-06)"
   },
+  "settingsExport": "Exporter les données",
+  "@settingsExport": {
+    "description": "Libellé de la ligne d'export d'ECR-06 (RG-50)"
+  },
+  "settingsExportSubtitle": "Enregistrer une sauvegarde au format JSON",
+  "@settingsExportSubtitle": {
+    "description": "Sous-titre de la ligne d'export d'ECR-06"
+  },
+  "settingsExportSuccess": "Données exportées",
+  "@settingsExportSuccess": {
+    "description": "Message de succès de l'export (US-5.2)"
+  },
+  "settingsExportError": "L'export des données a échoué",
+  "@settingsExportError": {
+    "description": "Message d'échec de l'export (US-5.2)"
+  },
   "currencyName": "{code, select, TND{Dinar tunisien} EUR{Euro} USD{Dollar américain} GBP{Livre sterling} CHF{Franc suisse} CAD{Dollar canadien} MAD{Dirham marocain} DZD{Dinar algérien} LYD{Dinar libyen} other{{code}}}",
   "@currencyName": {
     "description": "Nom d'une devise à partir de son code ISO 4217 (CR-027)",

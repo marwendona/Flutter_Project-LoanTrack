@@ -408,6 +408,19 @@ class AppLocalizationsFr extends AppLocalizations {
       'La devise n\'a pas pu être modifiée';
 
   @override
+  String get settingsExport => 'Exporter les données';
+
+  @override
+  String get settingsExportSubtitle =>
+      'Enregistrer une sauvegarde au format JSON';
+
+  @override
+  String get settingsExportSuccess => 'Données exportées';
+
+  @override
+  String get settingsExportError => 'L\'export des données a échoué';
+
+  @override
   String currencyName(String code) {
     String _temp0 = intl.Intl.selectLogic(code, {
       'TND': 'Dinar tunisien',

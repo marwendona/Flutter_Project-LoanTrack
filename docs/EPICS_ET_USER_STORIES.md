@@ -168,10 +168,11 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Modifiable dans Paramètres uniquement tant qu'aucun prêt n'existe ; sinon affichée en lecture seule avec message explicatif (RG-41).
 - Devises proposées : TND, EUR, USD, GBP, CHF, CAD, MAD, DZD, LYD ; changement appliqué immédiatement (CR-027).
 
-### US-5.2 — Exporter les données · `M` · `M` · ⬜
+### US-5.2 — Exporter les données · `M` · `M` · ✅
 **Je veux** exporter toutes mes données dans un fichier **afin de** ne rien perdre si je change ou réinitialise mon téléphone.
-- [ ] Sélecteur de fichier système (SAF), nom par défaut `loantrack-sauvegarde-AAAA-MM-JJ.json`.
-- [ ] Contenu conforme à RG-50 ; message de succès / d'échec.
+- [x] Sélecteur de fichier système (SAF), nom par défaut `loantrack-sauvegarde-AAAA-MM-JJ.json`.
+- [x] Contenu conforme à RG-50 ; message de succès / d'échec.
+- Format JSON v1 détaillé dans RG-50 ; aucun message si le sélecteur est annulé (CR-028).
 
 ### US-5.3 — Importer des données · `M` · `M` · ⬜
 - [ ] Sélection du fichier, aperçu (nb d'emprunteurs / prêts / date d'export), confirmation de remplacement.

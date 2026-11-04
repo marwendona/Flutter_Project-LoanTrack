@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/money/currency.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'currency_controller.dart';
+import 'export_controller.dart';
 
 /// ECR-06 — Settings.
 class SettingsScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context).navSettings)),
-      body: ListView(children: const [_CurrencyTile()]),
+      body: ListView(children: const [_CurrencyTile(), _ExportTile()]),
     );
   }
 }
@@ -85,6 +86,46 @@ class _CurrencyDialog extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+/// Data export to a JSON file chosen with the system file picker (RG-50).
+class _ExportTile extends ConsumerWidget {
+  const _ExportTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final exporting = ref.watch(exportControllerProvider);
+
+    return ListTile(
+      leading: const Icon(Icons.upload_file_outlined),
+      title: Text(l10n.settingsExport),
+      subtitle: Text(l10n.settingsExportSubtitle),
+      trailing: exporting
+          ? const SizedBox.square(
+              dimension: 24,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : null,
+      onTap: exporting ? null : () => _export(context, ref),
+    );
+  }
+
+  Future<void> _export(BuildContext context, WidgetRef ref) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context);
+    String? message;
+    try {
+      final result = await ref.read(exportControllerProvider.notifier).export();
+      if (result == ExportResult.saved) message = l10n.settingsExportSuccess;
+    } catch (_) {
+      // Any failure (database, file picker, write) is reported, never fatal.
+      message = l10n.settingsExportError;
+    }
+    if (message != null) {
+      messenger.showSnackBar(SnackBar(content: Text(message)));
+    }
   }
 }
 
