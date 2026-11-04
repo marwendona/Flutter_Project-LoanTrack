@@ -40,3 +40,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-020](CR-020-us-3-1-enregistrer-remboursement.md) | US-3.1 : enregistrer un remboursement | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-021](CR-021-us-3-2-historique-remboursements.md) | US-3.2 : historique des remboursements d'un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-022](CR-022-us-3-3-modifier-supprimer-remboursement.md) | US-3.3 : modifier / supprimer un remboursement | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-023](CR-023-us-3-4-tests-integration-reste-du.md) | US-3.4 : tests d'intégration du calcul de reste dû | Technique | Implémentée | 2026-11-04 | — |

@@ -137,8 +137,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Modification avec plafond = reste dû + montant initial (RG-16) ; suppression avec confirmation (RG-19).
 - Accès par appui sur un remboursement de l'historique d'ECR-05 → ECR-05b en modification, avec bouton Supprimer (CR-022).
 
-### US-3.4 — Tests d'intégration du calcul de reste dû · `M` · `S` · ⬜
-- [ ] Tests DAO : agrégations remboursé / reste dû par prêt et par emprunteur, y compris prêts sans remboursement.
+### US-3.4 — Tests d'intégration du calcul de reste dû · `M` · `S` · ✅
+- [x] Tests DAO : agrégations remboursé / reste dû par prêt et par emprunteur, y compris prêts sans remboursement.
+- Tests dans `test/data/database/daos/balance_aggregation_test.dart` (CR-023).
 
 ---
 
