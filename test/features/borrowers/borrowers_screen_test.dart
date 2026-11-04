@@ -109,4 +109,17 @@ void main() {
       findsNothing,
     );
   });
+
+  testWidgets('menu offers edit and delete only (provisional entry removed)', (
+    tester,
+  ) async {
+    await pumpScreen(tester, [summary(1, 'Ali', lent: 1000)]);
+
+    await tester.tap(find.byTooltip("Plus d'actions"));
+    await tester.pumpAndSettle();
+
+    expect(find.text("Modifier l'emprunteur"), findsOneWidget);
+    expect(find.text('Supprimer'), findsOneWidget);
+    expect(find.text('Nouveau prêt'), findsNothing);
+  });
 }

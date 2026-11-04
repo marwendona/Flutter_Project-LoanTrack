@@ -327,6 +327,108 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'La date promise doit être égale ou postérieure à la date du prêt.'**
   String get loanPromisedReturnDateBeforeLoanDate;
+
+  /// Info-bulle d'un menu ⋮
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus d\'actions'**
+  String get moreActionsTooltip;
+
+  /// Message d'ECR-03 quand l'emprunteur a été supprimé
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet emprunteur n\'existe plus.'**
+  String get borrowerDetailNotFound;
+
+  /// Info-bulle du téléphone d'un emprunteur : ouvre le composeur (ECR-03)
+  ///
+  /// In fr, this message translates to:
+  /// **'Appeler'**
+  String get borrowerDetailCallTooltip;
+
+  /// Message affiché quand le composeur du téléphone ne peut pas être ouvert (ECR-03)
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'ouvrir le composeur.'**
+  String get borrowerDetailCallError;
+
+  /// Résumé d'ECR-03 : somme des prêts de l'emprunteur (RG-30)
+  ///
+  /// In fr, this message translates to:
+  /// **'Total prêté'**
+  String get borrowerDetailTotalLent;
+
+  /// Résumé d'ECR-03 : somme des remboursements de l'emprunteur (RG-30)
+  ///
+  /// In fr, this message translates to:
+  /// **'Total remboursé'**
+  String get borrowerDetailTotalRepaid;
+
+  /// État vide de la liste des prêts d'un emprunteur (ECR-03)
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun prêt. Appuyez sur « Prêt » pour en ajouter un.'**
+  String get borrowerDetailLoansEmpty;
+
+  /// Bouton flottant « + Prêt » d'ECR-03, ouvre ECR-04
+  ///
+  /// In fr, this message translates to:
+  /// **'Prêt'**
+  String get loanAddButton;
+
+  /// Date du prêt sur la carte d'un prêt (ECR-03)
+  ///
+  /// In fr, this message translates to:
+  /// **'Prêté le {date}'**
+  String loanLentOn(String date);
+
+  /// Date de retour promise sur la carte d'un prêt (ECR-03) ; « Non définie » si absente
+  ///
+  /// In fr, this message translates to:
+  /// **'Retour promis : {date}'**
+  String loanPromisedReturn(String date);
+
+  /// Montant remboursé d'un prêt (RG-21)
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursé : {amount}'**
+  String loanRepaidAmount(String amount);
+
+  /// Reste dû d'un prêt (RG-21)
+  ///
+  /// In fr, this message translates to:
+  /// **'Reste dû : {amount}'**
+  String loanRemainingAmount(String amount);
+
+  /// Date de remboursement effective d'un prêt soldé (RG-22)
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursé le {date}'**
+  String loanRepaidOn(String date);
+
+  /// Statut d'un prêt (RG-20)
+  ///
+  /// In fr, this message translates to:
+  /// **'En cours'**
+  String get loanStatusOngoing;
+
+  /// Statut d'un prêt (RG-20)
+  ///
+  /// In fr, this message translates to:
+  /// **'Partiellement remboursé'**
+  String get loanStatusPartiallyRepaid;
+
+  /// Statut d'un prêt (RG-20)
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursé'**
+  String get loanStatusRepaid;
+
+  /// Statut d'un prêt en retard avec le nombre de jours de retard (RG-20, RG-23)
+  ///
+  /// In fr, this message translates to:
+  /// **'{days, plural, =1{En retard de 1 jour} other{En retard de {days} jours}}'**
+  String loanStatusOverdue(int days);
 }
 
 class _AppLocalizationsDelegate

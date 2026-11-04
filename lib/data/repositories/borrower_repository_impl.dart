@@ -22,6 +22,10 @@ class BorrowerRepositoryImpl implements BorrowerRepository {
       _dao.watchAll().map((rows) => [for (final row in rows) row.toDomain()]);
 
   @override
+  Stream<Borrower?> watchById(int id) =>
+      _dao.watchById(id).map((row) => row?.toDomain());
+
+  @override
   Stream<List<BorrowerWithLoans>> watchAllWithLoanBalances() =>
       _dao.watchWithLoanBalances().map(_groupByBorrower);
 

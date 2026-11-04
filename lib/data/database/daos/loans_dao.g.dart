@@ -6,6 +6,7 @@ part of 'loans_dao.dart';
 mixin _$LoansDaoMixin on DatabaseAccessor<AppDatabase> {
   $BorrowersTable get borrowers => attachedDatabase.borrowers;
   $LoansTable get loans => attachedDatabase.loans;
+  $RepaymentsTable get repayments => attachedDatabase.repayments;
   LoansDaoManager get managers => LoansDaoManager(this);
 }
 
@@ -16,4 +17,6 @@ class LoansDaoManager {
       $$BorrowersTableTableManager(_db.attachedDatabase, _db.borrowers);
   $$LoansTableTableManager get loans =>
       $$LoansTableTableManager(_db.attachedDatabase, _db.loans);
+  $$RepaymentsTableTableManager get repayments =>
+      $$RepaymentsTableTableManager(_db.attachedDatabase, _db.repayments);
 }

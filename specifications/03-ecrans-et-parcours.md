@@ -30,10 +30,10 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 ## ECR-02 — Liste des emprunteurs
 
 - Liste : nom, reste dû, nombre de prêts actifs, badge retard.
+- Appui sur un emprunteur → ECR-03.
 - Barre de recherche par nom.
 - Bouton flottant **+** → dialogue / feuille « Nouvel emprunteur » (nom, téléphone, note).
-- Suppression : appui long ou menu ⋮ → « Supprimer » → dialogue de confirmation (RG-03).
-- Menu ⋮ → « Nouveau prêt » → ECR-04 : point d'entrée provisoire en attendant ECR-03 (CR-016).
+- Menu ⋮ → Modifier / Supprimer ; suppression aussi par appui long → dialogue de confirmation (RG-03).
 - État vide : « Aucun emprunteur. Appuyez sur + pour en ajouter un. »
 
 ## ECR-03 — Détail d'un emprunteur
@@ -46,7 +46,9 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - **montant remboursé** / **reste dû** + barre de progression ;
   - **statut** (puce colorée : En cours, Partiellement remboursé, Remboursé, En retard de N jours) ;
   - date de remboursement effective si « Remboursé » (RG-22).
+- État vide : « Aucun prêt. Appuyez sur « Prêt » pour en ajouter un. »
 - Bouton flottant **+ Prêt** → ECR-04.
+- Si l'emprunteur n'existe plus (supprimé) : message « Cet emprunteur n'existe plus. » ; après une suppression depuis le menu ⋮, retour à ECR-02.
 
 ## ECR-04 — Formulaire prêt (création / modification)
 

@@ -140,6 +140,60 @@ void main() {
     expect(entries.last.loans, isEmpty);
   });
 
+  test('watchById emits the borrower, then null once deleted', () async {
+    final borrowers = container.read(borrowerRepositoryProvider);
+    final id = await borrowers.add(name: 'Ali', note: 'voisin');
+
+    expect((await borrowers.watchById(id).first)?.note, 'voisin');
+    await borrowers.delete(id);
+    expect(await borrowers.watchById(id).first, isNull);
+  });
+
+  test(
+    'loan summaries aggregate repayments, most recent loan first (RG-15)',
+    () async {
+      final borrowers = container.read(borrowerRepositoryProvider);
+      final loans = container.read(loanRepositoryProvider);
+      final repayments = container.read(repaymentRepositoryProvider);
+      final ali = await borrowers.add(name: 'Ali');
+      final sami = await borrowers.add(name: 'Sami');
+      final older = await loans.add(
+        borrowerId: ali,
+        amount: const Money(5000),
+        loanDate: LocalDay(2026, 9, 1),
+      );
+      final newer = await loans.add(
+        borrowerId: ali,
+        amount: const Money(2000),
+        loanDate: LocalDay(2026, 10, 1),
+      );
+      await loans.add(
+        borrowerId: sami,
+        amount: const Money(9000),
+        loanDate: LocalDay(2026, 10, 1),
+      );
+      await repayments.add(
+        loanId: older,
+        amount: const Money(1000),
+        repaymentDate: LocalDay(2026, 10, 20),
+      );
+      await repayments.add(
+        loanId: older,
+        amount: const Money(500),
+        repaymentDate: LocalDay(2026, 9, 15),
+      );
+
+      final summaries = await loans.watchSummariesByBorrower(ali).first;
+
+      expect(summaries.map((s) => s.loan.id), [newer, older]);
+      expect(summaries.first.repaid, Money.zero);
+      expect(summaries.first.lastRepaymentDate, isNull);
+      expect(summaries.last.repaid, const Money(1500));
+      expect(summaries.last.remaining, const Money(3500));
+      expect(summaries.last.lastRepaymentDate, LocalDay(2026, 10, 20));
+    },
+  );
+
   test('deleting a borrower through the repository cascades', () async {
     final borrowers = container.read(borrowerRepositoryProvider);
     final loans = container.read(loanRepositoryProvider);

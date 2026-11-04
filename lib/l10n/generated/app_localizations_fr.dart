@@ -162,4 +162,74 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get loanPromisedReturnDateBeforeLoanDate =>
       'La date promise doit être égale ou postérieure à la date du prêt.';
+
+  @override
+  String get moreActionsTooltip => 'Plus d\'actions';
+
+  @override
+  String get borrowerDetailNotFound => 'Cet emprunteur n\'existe plus.';
+
+  @override
+  String get borrowerDetailCallTooltip => 'Appeler';
+
+  @override
+  String get borrowerDetailCallError => 'Impossible d\'ouvrir le composeur.';
+
+  @override
+  String get borrowerDetailTotalLent => 'Total prêté';
+
+  @override
+  String get borrowerDetailTotalRepaid => 'Total remboursé';
+
+  @override
+  String get borrowerDetailLoansEmpty =>
+      'Aucun prêt. Appuyez sur « Prêt » pour en ajouter un.';
+
+  @override
+  String get loanAddButton => 'Prêt';
+
+  @override
+  String loanLentOn(String date) {
+    return 'Prêté le $date';
+  }
+
+  @override
+  String loanPromisedReturn(String date) {
+    return 'Retour promis : $date';
+  }
+
+  @override
+  String loanRepaidAmount(String amount) {
+    return 'Remboursé : $amount';
+  }
+
+  @override
+  String loanRemainingAmount(String amount) {
+    return 'Reste dû : $amount';
+  }
+
+  @override
+  String loanRepaidOn(String date) {
+    return 'Remboursé le $date';
+  }
+
+  @override
+  String get loanStatusOngoing => 'En cours';
+
+  @override
+  String get loanStatusPartiallyRepaid => 'Partiellement remboursé';
+
+  @override
+  String get loanStatusRepaid => 'Remboursé';
+
+  @override
+  String loanStatusOverdue(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'En retard de $days jours',
+      one: 'En retard de 1 jour',
+    );
+    return '$_temp0';
+  }
 }

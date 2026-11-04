@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../features/borrower_detail/borrower_detail_screen.dart';
 import '../../features/borrowers/borrowers_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/loan/loan_form_screen.dart';
@@ -13,11 +14,18 @@ abstract final class AppRoutes {
   static const borrowers = '/borrowers';
   static const settings = '/settings';
 
+  /// ECR-03 — Borrower detail (US-2.2).
+  static String borrowerDetail(int borrowerId) => '$borrowers/$borrowerId';
+
   /// ECR-04 — New loan for a borrower (US-2.1).
-  static String newLoan(int borrowerId) => '$borrowers/$borrowerId/loans/new';
+  static String newLoan(int borrowerId) =>
+      '${borrowerDetail(borrowerId)}/loans/new';
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
+int _borrowerId(GoRouterState state) =>
+    int.parse(state.pathParameters['borrowerId']!);
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -44,14 +52,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const BorrowersScreen(),
                 routes: [
                   GoRoute(
-                    path: ':borrowerId/loans/new',
-                    // Full screen form, above the bottom navigation bar.
-                    parentNavigatorKey: _rootNavigatorKey,
-                    builder: (context, state) => LoanFormScreen(
-                      borrowerId: int.parse(
-                        state.pathParameters['borrowerId']!,
+                    path: ':borrowerId',
+                    builder: (context, state) =>
+                        BorrowerDetailScreen(borrowerId: _borrowerId(state)),
+                    routes: [
+                      GoRoute(
+                        path: 'loans/new',
+                        // Full screen form, above the bottom navigation bar.
+                        parentNavigatorKey: _rootNavigatorKey,
+                        builder: (context, state) =>
+                            LoanFormScreen(borrowerId: _borrowerId(state)),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),

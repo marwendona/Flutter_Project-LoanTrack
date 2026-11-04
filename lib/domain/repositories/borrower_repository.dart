@@ -4,6 +4,9 @@ import '../models/borrower_summary.dart';
 abstract interface class BorrowerRepository {
   Stream<List<Borrower>> watchAll();
 
+  /// The borrower with this id, null if it does not exist (e.g. deleted).
+  Stream<Borrower?> watchById(int id);
+
   /// Every borrower (by name) with the balance of each of its loans,
   /// re-emitted whenever a borrower, loan or repayment changes.
   Stream<List<BorrowerWithLoans>> watchAllWithLoanBalances();

@@ -100,15 +100,16 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 **En tant que** prêteur, **je veux** enregistrer le montant donné, la date du don et la date de retour promise **afin de** garder une trace fiable.
 - [x] Formulaire ECR-04 : montant, date du prêt (défaut aujourd'hui), date promise (optionnelle), note.
 - [x] Validations RG-10, RG-11, RG-12 avec messages sous les champs ; « Enregistrer » désactivé si invalide.
-- Point d'entrée provisoire : menu ⋮ d'un emprunteur (ECR-02) → « Nouveau prêt », en attendant le bouton « + Prêt » d'ECR-03 (US-2.2).
+- Point d'entrée provisoire (menu ⋮ d'ECR-02 → « Nouveau prêt ») remplacé par le bouton « + Prêt » d'ECR-03 (US-2.2, CR-017).
 
-### US-2.2 — Voir le détail d'un emprunteur et ses prêts · `M` · `M` · ⬜
+### US-2.2 — Voir le détail d'un emprunteur et ses prêts · `M` · `M` · ✅
 **Je veux** voir pour un emprunteur tous ses prêts **afin de** connaître sa situation.
-- [ ] En-tête (nom, téléphone cliquable, note) et résumé : total prêté, remboursé, reste dû.
-- [ ] Carte par prêt : montant, date du prêt, date promise, remboursé / reste dû + barre, statut, date de remboursement effective si soldé (RG-15, RG-20 à RG-23).
-- [ ] — ECR-03
+- [x] En-tête (nom, téléphone cliquable, note) et résumé : total prêté, remboursé, reste dû.
+- [x] Carte par prêt : montant, date du prêt, date promise, remboursé / reste dû + barre, statut, date de remboursement effective si soldé (RG-15, RG-20 à RG-23).
+- [x] — ECR-03
 
 ### US-2.3 — Statut calculé d'un prêt · `M` · `S` · ⬜
+> Calcul déjà implémenté et testé avec US-2.2 (`LoanStatusCalculator.compute`, CR-017) car nécessaire à l'affichage du statut ; reste à valider la story (nommage `ComputeLoanStatus`, couverture des cas limites).
 - [ ] Use case `ComputeLoanStatus` implémentant RG-20 et le nombre de jours de retard (RG-23), avec date du jour injectée.
 - [ ] Tests unitaires couvrant chaque statut et les cas limites (échéance aujourd'hui = pas en retard, reste dû 0 avec date dépassée = Remboursé).
 

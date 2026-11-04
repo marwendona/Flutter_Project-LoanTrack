@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import '../../core/date/local_day.dart';
 import '../../core/money/money.dart';
 import '../../domain/models/loan.dart';
+import '../../domain/models/loan_summary.dart';
 import '../../domain/repositories/loan_repository.dart';
 import '../database/app_database.dart';
 import '../database/daos/loans_dao.dart';
@@ -17,6 +18,20 @@ class LoanRepositoryImpl implements LoanRepository {
   Stream<List<Loan>> watchByBorrower(int borrowerId) => _dao
       .watchByBorrower(borrowerId)
       .map((rows) => [for (final row in rows) row.toDomain()]);
+
+  @override
+  Stream<List<LoanSummary>> watchSummariesByBorrower(int borrowerId) => _dao
+      .watchWithRepaymentsByBorrower(borrowerId)
+      .map(
+        (rows) => [
+          for (final row in rows)
+            LoanSummary(
+              loan: row.loan.toDomain(),
+              repaid: Money(row.repaidMinor),
+              lastRepaymentDate: row.lastRepaymentDate,
+            ),
+        ],
+      );
 
   @override
   Future<int> add({

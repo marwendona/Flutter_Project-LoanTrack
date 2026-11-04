@@ -188,5 +188,103 @@
   "loanPromisedReturnDateBeforeLoanDate": "La date promise doit être égale ou postérieure à la date du prêt.",
   "@loanPromisedReturnDateBeforeLoanDate": {
     "description": "Erreur : date de retour promise antérieure à la date du prêt (RG-12)"
+  },
+  "moreActionsTooltip": "Plus d'actions",
+  "@moreActionsTooltip": {
+    "description": "Info-bulle d'un menu ⋮"
+  },
+  "borrowerDetailNotFound": "Cet emprunteur n'existe plus.",
+  "@borrowerDetailNotFound": {
+    "description": "Message d'ECR-03 quand l'emprunteur a été supprimé"
+  },
+  "borrowerDetailCallTooltip": "Appeler",
+  "@borrowerDetailCallTooltip": {
+    "description": "Info-bulle du téléphone d'un emprunteur : ouvre le composeur (ECR-03)"
+  },
+  "borrowerDetailCallError": "Impossible d'ouvrir le composeur.",
+  "@borrowerDetailCallError": {
+    "description": "Message affiché quand le composeur du téléphone ne peut pas être ouvert (ECR-03)"
+  },
+  "borrowerDetailTotalLent": "Total prêté",
+  "@borrowerDetailTotalLent": {
+    "description": "Résumé d'ECR-03 : somme des prêts de l'emprunteur (RG-30)"
+  },
+  "borrowerDetailTotalRepaid": "Total remboursé",
+  "@borrowerDetailTotalRepaid": {
+    "description": "Résumé d'ECR-03 : somme des remboursements de l'emprunteur (RG-30)"
+  },
+  "borrowerDetailLoansEmpty": "Aucun prêt. Appuyez sur « Prêt » pour en ajouter un.",
+  "@borrowerDetailLoansEmpty": {
+    "description": "État vide de la liste des prêts d'un emprunteur (ECR-03)"
+  },
+  "loanAddButton": "Prêt",
+  "@loanAddButton": {
+    "description": "Bouton flottant « + Prêt » d'ECR-03, ouvre ECR-04"
+  },
+  "loanLentOn": "Prêté le {date}",
+  "@loanLentOn": {
+    "description": "Date du prêt sur la carte d'un prêt (ECR-03)",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loanPromisedReturn": "Retour promis : {date}",
+  "@loanPromisedReturn": {
+    "description": "Date de retour promise sur la carte d'un prêt (ECR-03) ; « Non définie » si absente",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loanRepaidAmount": "Remboursé : {amount}",
+  "@loanRepaidAmount": {
+    "description": "Montant remboursé d'un prêt (RG-21)",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loanRemainingAmount": "Reste dû : {amount}",
+  "@loanRemainingAmount": {
+    "description": "Reste dû d'un prêt (RG-21)",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loanRepaidOn": "Remboursé le {date}",
+  "@loanRepaidOn": {
+    "description": "Date de remboursement effective d'un prêt soldé (RG-22)",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loanStatusOngoing": "En cours",
+  "@loanStatusOngoing": {
+    "description": "Statut d'un prêt (RG-20)"
+  },
+  "loanStatusPartiallyRepaid": "Partiellement remboursé",
+  "@loanStatusPartiallyRepaid": {
+    "description": "Statut d'un prêt (RG-20)"
+  },
+  "loanStatusRepaid": "Remboursé",
+  "@loanStatusRepaid": {
+    "description": "Statut d'un prêt (RG-20)"
+  },
+  "loanStatusOverdue": "{days, plural, =1{En retard de 1 jour} other{En retard de {days} jours}}",
+  "@loanStatusOverdue": {
+    "description": "Statut d'un prêt en retard avec le nombre de jours de retard (RG-20, RG-23)",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   }
 }

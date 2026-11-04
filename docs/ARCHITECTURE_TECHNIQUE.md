@@ -28,6 +28,7 @@
 | Génération de code | **build_runner** | Requis par Drift / freezed / json_serializable | — |
 | Internationalisation / formats | **flutter_localizations** + **intl** (fichiers ARB, `gen-l10n`) | Textes en français centralisés, formatage montants et dates `fr` | Chaînes en dur |
 | Fichiers (export/import) | **file_picker** (`saveFile` / `pickFiles`) | Utilise le sélecteur système Android (SAF) : aucune permission de stockage | Permissions de stockage (à éviter) |
+| Composeur téléphonique | **url_launcher** (flutter.dev, CR-017) | Ouvre le composeur Android avec le numéro d'un emprunteur pré-rempli (lien `tel:`, ECR-03) : aucune permission (`CALL_PHONE` inutile), aucun accès réseau ; seule une déclaration `<queries>` du schéma `tel` est ajoutée au manifeste | Permission `CALL_PHONE` (appel direct, non souhaité), canal natif écrit à la main |
 | Date du jour | **clock** | Date du jour injectable dans les tests | `DateTime.now()` direct |
 | Qualité | **flutter_lints** + règles strictes dans `analysis_options.yaml`, `dart format` | Gratuit, standard | very_good_analysis (option) |
 | Tests | **flutter_test**, **mocktail**, Drift en mémoire (`NativeDatabase.memory()`) | Standard | — |

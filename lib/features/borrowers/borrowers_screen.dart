@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
-import '../../core/money/currency.dart';
 import '../../core/money/money_formatter.dart';
 import '../../core/router/app_router.dart';
 import '../../core/widgets/empty_state.dart';
@@ -10,6 +9,7 @@ import '../../core/widgets/overdue_badge.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower_summary.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'borrower_delete_dialog.dart';
 import 'borrower_form_sheet.dart';
 import 'borrowers_providers.dart';
 
@@ -112,23 +112,15 @@ class _BorrowerTile extends ConsumerWidget {
             ],
           ),
           PopupMenuButton<String>(
-            tooltip: l10n.actionCancel,
+            tooltip: l10n.moreActionsTooltip,
             onSelected: (action) {
-              if (action == 'newLoan') {
-                // Provisional entry point until ECR-03 and its "+ Prêt"
-                // button exist (US-2.2).
-                context.push(AppRoutes.newLoan(summary.borrower.id));
-              } else if (action == 'edit') {
+              if (action == 'edit') {
                 showBorrowerEditSheet(context, summary.borrower);
               } else if (action == 'delete') {
-                _showDeleteDialog(context, ref, summary, currency, l10n);
+                showBorrowerDeleteDialog(context, ref, summary);
               }
             },
             itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'newLoan',
-                child: Text(l10n.loanFormNewTitle),
-              ),
               PopupMenuItem(
                 value: 'edit',
                 child: Text(l10n.borrowerFormEditTitle),
@@ -141,51 +133,8 @@ class _BorrowerTile extends ConsumerWidget {
           ),
         ],
       ),
-      onLongPress: () =>
-          _showDeleteDialog(context, ref, summary, currency, l10n),
-    );
-  }
-
-  void _showDeleteDialog(
-    BuildContext context,
-    WidgetRef ref,
-    BorrowerSummary summary,
-    Currency currency,
-    AppLocalizations l10n,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.borrowerDeleteTitle),
-        content: Text(
-          l10n.borrowerDeleteMessage(
-            summary.loanCount,
-            MoneyFormatter.format(summary.remaining, currency),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(l10n.actionCancel),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              try {
-                await ref
-                    .read(borrowerRepositoryProvider)
-                    .delete(summary.borrower.id);
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(l10n.saveError)));
-                }
-              }
-            },
-            child: Text(l10n.borrowerDeleteConfirm),
-          ),
-        ],
-      ),
+      onTap: () => context.go(AppRoutes.borrowerDetail(summary.borrower.id)),
+      onLongPress: () => showBorrowerDeleteDialog(context, ref, summary),
     );
   }
 }

@@ -53,6 +53,9 @@ class BorrowersDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
+  Stream<BorrowerRow?> watchById(int id) =>
+      (select(borrowers)..where((b) => b.id.equals(id))).watchSingleOrNull();
+
   Future<BorrowerRow?> findById(int id) =>
       (select(borrowers)..where((b) => b.id.equals(id))).getSingleOrNull();
 
