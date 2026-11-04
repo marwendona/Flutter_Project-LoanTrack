@@ -4,15 +4,19 @@ import '../models/borrower.dart';
 import '../models/borrower_summary.dart';
 import '../models/loan_balance.dart';
 import 'borrower_name_key.dart';
+import 'loan_status_calculator.dart';
 
 /// Computes the borrower totals (RG-30) and the borrowers list order (RG-04).
 abstract final class BorrowerSummaryCalculator {
   /// A loan is overdue when it has a promised return date strictly before
   /// [today] and a remaining amount due (RG-20).
-  static bool isOverdue(LoanBalance loan, LocalDay today) {
-    final promised = loan.promisedReturnDate;
-    return loan.remaining.isPositive && promised != null && promised < today;
-  }
+  static bool isOverdue(LoanBalance loan, LocalDay today) =>
+      LoanStatusCalculator.overdueDays(
+        remaining: loan.remaining,
+        promisedReturnDate: loan.promisedReturnDate,
+        today: today,
+      ) !=
+      null;
 
   static BorrowerSummary summarize(
     Borrower borrower,

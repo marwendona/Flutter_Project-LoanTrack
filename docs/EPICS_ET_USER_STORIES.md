@@ -108,10 +108,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Carte par prêt : montant, date du prêt, date promise, remboursé / reste dû + barre, statut, date de remboursement effective si soldé (RG-15, RG-20 à RG-23).
 - [x] — ECR-03
 
-### US-2.3 — Statut calculé d'un prêt · `M` · `S` · ⬜
-> Calcul déjà implémenté et testé avec US-2.2 (`LoanStatusCalculator.compute`, CR-017) car nécessaire à l'affichage du statut ; reste à valider la story (nommage `ComputeLoanStatus`, couverture des cas limites).
-- [ ] Use case `ComputeLoanStatus` implémentant RG-20 et le nombre de jours de retard (RG-23), avec date du jour injectée.
-- [ ] Tests unitaires couvrant chaque statut et les cas limites (échéance aujourd'hui = pas en retard, reste dû 0 avec date dépassée = Remboursé).
+### US-2.3 — Statut calculé d'un prêt · `M` · `S` · ✅
+- [x] Service `LoanStatusCalculator` (`compute`, `overdueDays`) implémentant RG-20 et le nombre de jours de retard (RG-23), avec date du jour injectée (nom aligné sur l'architecture, CR-018).
+- [x] Tests unitaires couvrant chaque statut et les cas limites (échéance aujourd'hui = pas en retard, reste dû 0 avec date dépassée = Remboursé).
 
 ### US-2.4 — Modifier / supprimer un prêt · `M` · `S` · ⬜
 - [ ] Modification avec RG-13 (montant ≥ déjà remboursé).
