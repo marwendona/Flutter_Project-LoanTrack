@@ -12,7 +12,7 @@ Journal de **toutes les modifications** du produit : chaque changement fonctionn
 
 Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `Implémentée`
 
-Non concerné : corrections de bugs sans changement du comportement attendu, refactorings internes, mises à jour de dépendances mineures.
+**Aucune exception** (CR-015) : chaque implémentation de user story (une CR par story), correction de bug, refactoring, mise à jour de dépendance, modification de configuration, de documentation ou des fichiers d'agents a sa CR, créée **avant** la modification avec le statut `En cours`. Les changements liés à une même demande sont regroupés dans une seule CR.
 
 ## Index
 
@@ -21,3 +21,15 @@ Non concerné : corrections de bugs sans changement du comportement attendu, ref
 | [CR-001](CR-001-initialisation-projet.md) | Initialisation du projet et périmètre V1 | Initialisation | Approuvée | 2026-10-30 | — |
 | [CR-002](CR-002-flutter-et-intellij.md) | Passage à Flutter et IntelliJ IDEA, nom LoanTrack, décisions des questions ouvertes | Technique + Règle métier | Approuvée | 2026-10-30 | — |
 | [CR-003](CR-003-material-ui.md) | Adoption du paquet `material_ui` pour Material Design | Technique | Approuvée | 2026-10-30 | — |
+| [CR-004](CR-004-us-0-1-creation-projet-flutter.md) | US-0.1 : environnement et création du projet Flutter | Technique | Implémentée | 2026-11-04 | — |
+| [CR-005](CR-005-us-0-2-qualite-et-tests.md) | US-0.2 : qualité et tests | Technique | Implémentée | 2026-11-04 | — |
+| [CR-006](CR-006-us-0-3-theme-textes-navigation.md) | US-0.3 : thème, textes et navigation | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-007](CR-007-us-0-4-base-de-donnees-et-providers.md) | US-0.4 : base de données et providers | Technique | Implémentée | 2026-11-04 | — |
+| [CR-008](CR-008-us-0-5-types-money-et-localday.md) | US-0.5 : types `Money` et `LocalDay` | Technique | Implémentée | 2026-11-04 | — |
+| [CR-009](CR-009-us-0-6-signature-release.md) | US-0.6 : signature release | Technique | Implémentée | 2026-11-04 | — |
+| [CR-010](CR-010-us-1-1-lister-emprunteurs.md) | US-1.1 : lister les emprunteurs | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-011](CR-011-us-1-2-ajouter-emprunteur.md) | US-1.2 : ajouter un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-012](CR-012-us-1-3-supprimer-emprunteur.md) | US-1.3 : supprimer un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-013](CR-013-us-1-4-modifier-emprunteur.md) | US-1.4 : modifier un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-014](CR-014-us-1-5-rechercher-emprunteur.md) | US-1.5 : rechercher un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-015](CR-015-cr-pour-tout-changement.md) | Change Request obligatoire pour tout changement | Processus | Implémentée | 2026-11-04 | — |
