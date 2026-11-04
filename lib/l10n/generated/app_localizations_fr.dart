@@ -474,6 +474,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsImportError => 'L\'import des données a échoué';
 
   @override
+  String get settingsTheme => 'Thème';
+
+  @override
+  String get settingsThemeDialogTitle => 'Choisir le thème';
+
+  @override
+  String settingsThemeValue(String mode) {
+    String _temp0 = intl.Intl.selectLogic(mode, {
+      'light': 'Clair',
+      'dark': 'Sombre',
+      'other': 'Système',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsThemeChangeError => 'Le thème n\'a pas pu être modifié';
+
+  @override
+  String get settingsVersion => 'Version';
+
+  @override
+  String settingsVersionValue(String name, String code) {
+    return '$name ($code)';
+  }
+
+  @override
+  String get settingsVersionUnavailable => 'Indisponible';
+
+  @override
   String currencyName(String code) {
     String _temp0 = intl.Intl.selectLogic(code, {
       'TND': 'Dinar tunisien',

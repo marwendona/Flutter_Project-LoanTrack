@@ -92,8 +92,10 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - Ligne « Importer des données » → sélecteur de fichier système ; aucun message si le sélecteur est annulé.
   - Fichier valide → dialogue « Remplacer toutes les données ? » avec l'aperçu « Sauvegarde du JJ/MM/AAAA : N emprunteurs, M prêts. » et l'avertissement que les données actuelles seront remplacées ; boutons « Annuler » / « Remplacer ».
   - Messages : « Données importées » ; « Fichier invalide : aucune donnée n'a été modifiée » ; « Version de fichier non prise en charge : aucune donnée n'a été modifiée » ; « L'import des données a échoué ». Ligne désactivée (indicateur de progression) pendant la lecture et l'import.
-- Thème : Système / Clair / Sombre.
-- Version de l'application.
+- Thème : Système / Clair / Sombre (CR-030).
+  - Ligne « Thème » affichant le thème choisi ; appui → dialogue « Choisir le thème » : *Système* (défaut, suit le réglage du téléphone), *Clair*, *Sombre*.
+  - Le choix est enregistré et appliqué immédiatement à toute l'application ; les couleurs dynamiques (Material You) restent utilisées. Le thème n'est pas inclus dans l'export (préférence propre à l'appareil).
+- Version de l'application (CR-030) : ligne « Version » en lecture seule, `versionName (versionCode)` du paquet installé, ex. « 1.0.0 (1) » ; « Indisponible » si elle ne peut pas être lue.
 
 ## Formats d'affichage
 

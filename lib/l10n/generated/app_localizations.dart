@@ -782,6 +782,48 @@ abstract class AppLocalizations {
   /// **'L\'import des données a échoué'**
   String get settingsImportError;
 
+  /// Libellé de la ligne Thème des paramètres (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème'**
+  String get settingsTheme;
+
+  /// Titre du dialogue de choix du thème (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir le thème'**
+  String get settingsThemeDialogTitle;
+
+  /// Nom d'un thème à partir de son identifiant system / light / dark (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'{mode, select, light{Clair} dark{Sombre} other{Système}}'**
+  String settingsThemeValue(String mode);
+
+  /// Message d'échec de l'enregistrement du thème (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le thème n\'a pas pu être modifié'**
+  String get settingsThemeChangeError;
+
+  /// Libellé de la ligne Version des paramètres (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'Version'**
+  String get settingsVersion;
+
+  /// Version de l'application : versionName (versionCode), ex. 1.0.0 (1) (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'{name} ({code})'**
+  String settingsVersionValue(String name, String code);
+
+  /// Version de l'application illisible (CR-030)
+  ///
+  /// In fr, this message translates to:
+  /// **'Indisponible'**
+  String get settingsVersionUnavailable;
+
   /// Nom d'une devise à partir de son code ISO 4217 (CR-027)
   ///
   /// In fr, this message translates to:

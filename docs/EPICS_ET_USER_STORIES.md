@@ -14,9 +14,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E0 | Socle technique | V1 | 6 | ✅ |
 | E1 | Gestion des emprunteurs | V1 | 5 | ✅ |
 | E2 | Gestion des prêts | V1 | 4 | ✅ |
-| E3 | Gestion des remboursements | V1 | 4 | ⬜ |
-| E4 | Tableau de bord et totaux | V1 | 3 | 🟨 |
-| E5 | Paramètres, sauvegarde et restauration | V1 | 4 | 🟨 |
+| E3 | Gestion des remboursements | V1 | 4 | ✅ |
+| E4 | Tableau de bord et totaux | V1 | 3 | ✅ |
+| E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ✅ |
 | E6 | Finitions et livraison de l'APK | V1 | 4 | ⬜ |
 | E7 | Améliorations V2 | V2 | 4 | ⬜ |
 
@@ -180,8 +180,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Test aller-retour export → import identique.
 - Contrôles détaillés dans RG-51 ; la devise du fichier est appliquée ; message spécifique pour une version de format inconnue (CR-029).
 
-### US-5.4 — Thème et informations · `C` · `XS` · ⬜
-- [ ] Choix du thème Système / Clair / Sombre ; affichage de la version.
+### US-5.4 — Thème et informations · `C` · `XS` · ✅
+- [x] Choix du thème Système / Clair / Sombre ; affichage de la version.
+- Thème enregistré dans `shared_preferences` et appliqué immédiatement ; version lue avec `package_info_plus` (CR-030).
 
 ---
 

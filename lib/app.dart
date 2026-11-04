@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/app_theme_mode.dart';
+import 'features/settings/theme_controller.dart';
 import 'l10n/generated/app_localizations.dart';
 
 class LoanTrackApp extends ConsumerWidget {
@@ -14,6 +16,7 @@ class LoanTrackApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
+    final themeMode = ref.watch(themeControllerProvider);
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) => MaterialApp.router(
         onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
@@ -28,6 +31,11 @@ class LoanTrackApp extends ConsumerWidget {
         ],
         theme: AppTheme.light(lightDynamic),
         darkTheme: AppTheme.dark(darkDynamic),
+        themeMode: switch (themeMode) {
+          AppThemeMode.system => ThemeMode.system,
+          AppThemeMode.light => ThemeMode.light,
+          AppThemeMode.dark => ThemeMode.dark,
+        },
         routerConfig: router,
       ),
     );

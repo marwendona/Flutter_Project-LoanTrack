@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/core/date/local_day.dart';
 import 'package:loantrack/core/money/currency.dart';
 import 'package:loantrack/core/money/money.dart';
+import 'package:loantrack/core/theme/app_theme_mode.dart';
 import 'package:loantrack/data/backup/backup_dto.dart';
 import 'package:loantrack/data/backup/backup_service.dart';
 import 'package:loantrack/data/backup/backup_validator.dart';
@@ -309,4 +310,10 @@ class _FailingSettingsStore implements SettingsStore {
   @override
   Future<void> setCurrency(Currency currency) async =>
       throw StateError('not saved');
+
+  @override
+  AppThemeMode get themeMode => AppThemeMode.system;
+
+  @override
+  Future<void> setThemeMode(AppThemeMode mode) async {}
 }

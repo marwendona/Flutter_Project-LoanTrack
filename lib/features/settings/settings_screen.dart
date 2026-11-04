@@ -4,12 +4,15 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/date/date_formatter.dart';
 import '../../core/date/local_day.dart';
 import '../../core/money/currency.dart';
+import '../../core/theme/app_theme_mode.dart';
 import '../../data/backup/backup_dto.dart';
 import '../../data/backup/backup_validator.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'app_version_provider.dart';
 import 'currency_controller.dart';
 import 'export_controller.dart';
 import 'import_controller.dart';
+import 'theme_controller.dart';
 
 /// ECR-06 — Settings.
 class SettingsScreen extends StatelessWidget {
@@ -20,8 +23,102 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context).navSettings)),
       body: ListView(
-        children: const [_CurrencyTile(), _ExportTile(), _ImportTile()],
+        children: const [
+          _CurrencyTile(),
+          _ExportTile(),
+          _ImportTile(),
+          _ThemeTile(),
+          _VersionTile(),
+        ],
       ),
+    );
+  }
+}
+
+/// Theme setting: system, light or dark, applied immediately (CR-030).
+class _ThemeTile extends ConsumerWidget {
+  const _ThemeTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final mode = ref.watch(themeControllerProvider);
+
+    return ListTile(
+      leading: const Icon(Icons.palette_outlined),
+      title: Text(l10n.settingsTheme),
+      subtitle: Text(l10n.settingsThemeValue(mode.name)),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () => _chooseTheme(context, ref, mode),
+    );
+  }
+
+  Future<void> _chooseTheme(
+    BuildContext context,
+    WidgetRef ref,
+    AppThemeMode current,
+  ) async {
+    final chosen = await showDialog<AppThemeMode>(
+      context: context,
+      builder: (_) => _ThemeDialog(current: current),
+    );
+    if (chosen == null || !context.mounted) return;
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context);
+    try {
+      await ref.read(themeControllerProvider.notifier).change(chosen);
+    } catch (_) {
+      // The store throws a StateError when shared_preferences fails.
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.settingsThemeChangeError)),
+      );
+    }
+  }
+}
+
+class _ThemeDialog extends StatelessWidget {
+  const _ThemeDialog({required this.current});
+
+  final AppThemeMode current;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return SimpleDialog(
+      title: Text(l10n.settingsThemeDialogTitle),
+      children: [
+        for (final mode in AppThemeMode.values)
+          ListTile(
+            title: Text(l10n.settingsThemeValue(mode.name)),
+            selected: mode == current,
+            trailing: mode == current ? const Icon(Icons.check) : null,
+            onTap: () => Navigator.of(context).pop(mode),
+          ),
+      ],
+    );
+  }
+}
+
+/// Installed app version, read only (CR-030).
+class _VersionTile extends ConsumerWidget {
+  const _VersionTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final version = ref.watch(appVersionProvider);
+
+    return ListTile(
+      leading: const Icon(Icons.info_outline),
+      title: Text(l10n.settingsVersion),
+      subtitle: Text(switch (version) {
+        AsyncData(:final value) => l10n.settingsVersionValue(
+          value.name,
+          value.code,
+        ),
+        AsyncError() => l10n.settingsVersionUnavailable,
+        _ => '',
+      }),
     );
   }
 }

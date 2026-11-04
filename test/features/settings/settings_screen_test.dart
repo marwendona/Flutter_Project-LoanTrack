@@ -12,6 +12,8 @@ import 'package:loantrack/data/backup/backup_service.dart';
 import 'package:loantrack/data/providers.dart';
 import 'package:loantrack/data/settings/settings_store.dart';
 import 'package:loantrack/domain/repositories/loan_repository.dart';
+import 'package:loantrack/core/theme/app_theme_mode.dart';
+import 'package:loantrack/features/settings/app_version_provider.dart';
 import 'package:loantrack/features/settings/currency_controller.dart';
 import 'package:loantrack/features/settings/settings_screen.dart';
 import 'package:loantrack/l10n/generated/app_localizations.dart';
@@ -72,6 +74,7 @@ void main() {
     WidgetTester tester, {
     required bool hasLoans,
     ThemeData? theme,
+    Future<AppVersion> Function()? version,
   }) async {
     when(() => loans.hasAny()).thenAnswer((_) async => hasLoans);
     await tester.pumpWidget(
@@ -83,6 +86,9 @@ void main() {
           backupServiceProvider.overrideWithValue(backupService),
           backupFileSaverProvider.overrideWithValue(saver),
           backupFilePickerProvider.overrideWithValue(picker),
+          appVersionProvider.overrideWith(
+            (ref) => (version ?? () async => (name: '1.0.0', code: '1'))(),
+          ),
         ],
         child: MaterialApp(
           locale: const Locale('fr'),
@@ -345,6 +351,76 @@ void main() {
 
       expect(find.text('Remplacer toutes les données ?'), findsOneWidget);
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('theme (US-5.4)', () {
+    testWidgets('shows Système by default', (tester) async {
+      await pumpScreen(tester, hasLoans: false);
+
+      expect(find.text('Thème'), findsOneWidget);
+      expect(find.text('Système'), findsOneWidget);
+    });
+
+    testWidgets('chooses and saves another theme', (tester) async {
+      await pumpScreen(tester, hasLoans: false);
+
+      await tester.tap(find.text('Thème'));
+      await tester.pumpAndSettle();
+      expect(find.text('Choisir le thème'), findsOneWidget);
+      final options = find.descendant(
+        of: find.byType(SimpleDialog),
+        matching: find.byType(ListTile),
+      );
+      expect(options, findsNWidgets(3));
+      expect(
+        find.descendant(of: options, matching: find.text('Clair')),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text('Sombre'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Choisir le thème'), findsNothing);
+      expect(find.text('Sombre'), findsOneWidget);
+      expect(settings.themeMode, AppThemeMode.dark);
+    });
+
+    testWidgets('keeps the theme when the dialog is dismissed', (tester) async {
+      await pumpScreen(tester, hasLoans: false);
+
+      await tester.tap(find.text('Thème'));
+      await tester.pumpAndSettle();
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Choisir le thème'), findsNothing);
+      expect(settings.themeMode, AppThemeMode.system);
+    });
+  });
+
+  group('version (US-5.4)', () {
+    testWidgets('shows the installed version', (tester) async {
+      await pumpScreen(
+        tester,
+        hasLoans: false,
+        version: () async => (name: '1.2.3', code: '7'),
+      );
+
+      expect(find.text('Version'), findsOneWidget);
+      expect(find.text('1.2.3 (7)'), findsOneWidget);
+    });
+
+    testWidgets('shows Indisponible when the version cannot be read', (
+      tester,
+    ) async {
+      await pumpScreen(
+        tester,
+        hasLoans: false,
+        version: () async => throw Exception('no platform'),
+      );
+
+      expect(find.text('Indisponible'), findsOneWidget);
     });
   });
 

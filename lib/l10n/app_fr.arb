@@ -600,6 +600,47 @@
   "@settingsImportError": {
     "description": "Message d'échec de l'import (US-5.3)"
   },
+  "settingsTheme": "Thème",
+  "@settingsTheme": {
+    "description": "Libellé de la ligne Thème des paramètres (CR-030)"
+  },
+  "settingsThemeDialogTitle": "Choisir le thème",
+  "@settingsThemeDialogTitle": {
+    "description": "Titre du dialogue de choix du thème (CR-030)"
+  },
+  "settingsThemeValue": "{mode, select, light{Clair} dark{Sombre} other{Système}}",
+  "@settingsThemeValue": {
+    "description": "Nom d'un thème à partir de son identifiant system / light / dark (CR-030)",
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsThemeChangeError": "Le thème n'a pas pu être modifié",
+  "@settingsThemeChangeError": {
+    "description": "Message d'échec de l'enregistrement du thème (CR-030)"
+  },
+  "settingsVersion": "Version",
+  "@settingsVersion": {
+    "description": "Libellé de la ligne Version des paramètres (CR-030)"
+  },
+  "settingsVersionValue": "{name} ({code})",
+  "@settingsVersionValue": {
+    "description": "Version de l'application : versionName (versionCode), ex. 1.0.0 (1) (CR-030)",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsVersionUnavailable": "Indisponible",
+  "@settingsVersionUnavailable": {
+    "description": "Version de l'application illisible (CR-030)"
+  },
   "currencyName": "{code, select, TND{Dinar tunisien} EUR{Euro} USD{Dollar américain} GBP{Livre sterling} CHF{Franc suisse} CAD{Dollar canadien} MAD{Dirham marocain} DZD{Dinar algérien} LYD{Dinar libyen} other{{code}}}",
   "@currencyName": {
     "description": "Nom d'une devise à partir de son code ISO 4217 (CR-027)",

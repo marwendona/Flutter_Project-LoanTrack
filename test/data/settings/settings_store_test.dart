@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/core/money/currency.dart';
+import 'package:loantrack/core/theme/app_theme_mode.dart';
 import 'package:loantrack/data/settings/settings_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,6 +35,42 @@ void main() {
       'EUR',
     );
   });
+
+  test('theme defaults to system when nothing is saved', () async {
+    expect((await store({})).themeMode, AppThemeMode.system);
+  });
+
+  test('theme falls back to system for an unknown saved value', () async {
+    expect(
+      (await store({'themeMode': 'sepia'})).themeMode,
+      AppThemeMode.system,
+    );
+  });
+
+  test('saved theme is persisted in shared_preferences', () async {
+    final settings = await store({});
+
+    await settings.setThemeMode(AppThemeMode.dark);
+
+    expect(settings.themeMode, AppThemeMode.dark);
+    final preferences = await SharedPreferences.getInstance();
+    expect(
+      preferences.getString(SharedPreferencesSettingsStore.themeModeKey),
+      'dark',
+    );
+  });
+
+  test(
+    'in-memory store defaults to system and keeps the chosen theme',
+    () async {
+      final settings = InMemorySettingsStore();
+      expect(settings.themeMode, AppThemeMode.system);
+
+      await settings.setThemeMode(AppThemeMode.light);
+
+      expect(settings.themeMode, AppThemeMode.light);
+    },
+  );
 
   test(
     'in-memory store defaults to TND and keeps the chosen currency',
