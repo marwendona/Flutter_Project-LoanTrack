@@ -46,3 +46,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-026](CR-026-us-4-3-filtres-tableau-de-bord.md) | US-4.3 : filtres du tableau de bord | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-027](CR-027-us-5-1-choix-devise.md) | US-5.1 : choix de la devise | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-028](CR-028-us-5-2-exporter-donnees.md) | US-5.2 : exporter les données | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-029](CR-029-us-5-3-importer-donnees.md) | US-5.3 : importer des données | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |

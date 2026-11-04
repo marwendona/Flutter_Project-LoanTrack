@@ -548,6 +548,58 @@
   "@settingsExportError": {
     "description": "Message d'échec de l'export (US-5.2)"
   },
+  "settingsImport": "Importer des données",
+  "@settingsImport": {
+    "description": "Libellé de la ligne d'import d'ECR-06 (RG-51)"
+  },
+  "settingsImportSubtitle": "Remplacer les données par une sauvegarde JSON",
+  "@settingsImportSubtitle": {
+    "description": "Sous-titre de la ligne d'import d'ECR-06"
+  },
+  "settingsImportConfirmTitle": "Remplacer toutes les données ?",
+  "@settingsImportConfirmTitle": {
+    "description": "Titre du dialogue de confirmation de l'import (US-5.3)"
+  },
+  "settingsImportConfirmMessage": "Sauvegarde du {date} : {borrowerCount, plural, =0{aucun emprunteur} =1{1 emprunteur} other{{borrowerCount} emprunteurs}}, {loanCount, plural, =0{aucun prêt} =1{1 prêt} other{{loanCount} prêts}}.\n\nToutes les données actuelles seront remplacées par celles de ce fichier.",
+  "@settingsImportConfirmMessage": {
+    "description": "Aperçu de la sauvegarde dans le dialogue de confirmation de l'import (US-5.3)",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "04/11/2026"
+      },
+      "borrowerCount": {
+        "type": "int"
+      },
+      "loanCount": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsImportConfirm": "Remplacer",
+  "@settingsImportConfirm": {
+    "description": "Bouton de confirmation de l'import (US-5.3)"
+  },
+  "settingsImportCancel": "Annuler",
+  "@settingsImportCancel": {
+    "description": "Bouton d'annulation de l'import (US-5.3)"
+  },
+  "settingsImportSuccess": "Données importées",
+  "@settingsImportSuccess": {
+    "description": "Message de succès de l'import (US-5.3)"
+  },
+  "settingsImportInvalid": "Fichier invalide : aucune donnée n'a été modifiée",
+  "@settingsImportInvalid": {
+    "description": "Message d'un fichier refusé à l'import (RG-51)"
+  },
+  "settingsImportUnsupportedVersion": "Version de fichier non prise en charge : aucune donnée n'a été modifiée",
+  "@settingsImportUnsupportedVersion": {
+    "description": "Message d'un fichier d'une version de format inconnue (RG-51)"
+  },
+  "settingsImportError": "L'import des données a échoué",
+  "@settingsImportError": {
+    "description": "Message d'échec de l'import (US-5.3)"
+  },
   "currencyName": "{code, select, TND{Dinar tunisien} EUR{Euro} USD{Dollar américain} GBP{Livre sterling} CHF{Franc suisse} CAD{Dollar canadien} MAD{Dirham marocain} DZD{Dinar algérien} LYD{Dinar libyen} other{{code}}}",
   "@currencyName": {
     "description": "Nom d'une devise à partir de son code ISO 4217 (CR-027)",

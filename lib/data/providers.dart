@@ -4,6 +4,7 @@ import '../core/money/currency.dart';
 import '../domain/repositories/borrower_repository.dart';
 import '../domain/repositories/loan_repository.dart';
 import '../domain/repositories/repayment_repository.dart';
+import 'backup/backup_file_picker.dart';
 import 'backup/backup_file_saver.dart';
 import 'backup/backup_service.dart';
 import 'database/app_database.dart';
@@ -45,7 +46,7 @@ final repaymentRepositoryProvider = Provider<RepaymentRepository>(
       RepaymentRepositoryImpl(ref.watch(appDatabaseProvider).repaymentsDao),
 );
 
-/// Builds the backup file (RG-50).
+/// Builds the backup file (RG-50) and restores it (RG-51).
 final backupServiceProvider = Provider<BackupService>(
   (ref) => BackupService(
     ref.watch(appDatabaseProvider),
@@ -56,4 +57,10 @@ final backupServiceProvider = Provider<BackupService>(
 /// Saves the backup file through the system file picker. Override it in tests.
 final backupFileSaverProvider = Provider<BackupFileSaver>(
   (ref) => const FilePickerBackupFileSaver(),
+);
+
+/// Reads the backup file to import through the system file picker. Override
+/// it in tests.
+final backupFilePickerProvider = Provider<BackupFilePicker>(
+  (ref) => const FilePickerBackupFilePicker(),
 );

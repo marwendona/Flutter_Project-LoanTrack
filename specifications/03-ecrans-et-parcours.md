@@ -88,7 +88,10 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 - Exporter les données (choix de l'emplacement du fichier) — RG-50 (CR-028).
   - Ligne « Exporter les données » → sélecteur de fichier système, nom proposé `loantrack-sauvegarde-AAAA-MM-JJ.json` (date du jour).
   - Après enregistrement : message « Données exportées » ; en cas d'erreur : « L'export des données a échoué » ; aucun message si le sélecteur est annulé. Ligne désactivée (indicateur de progression) pendant l'export.
-- Importer des données (choix du fichier + confirmation de remplacement) — RG-51.
+- Importer des données (choix du fichier + confirmation de remplacement) — RG-51 (CR-029).
+  - Ligne « Importer des données » → sélecteur de fichier système ; aucun message si le sélecteur est annulé.
+  - Fichier valide → dialogue « Remplacer toutes les données ? » avec l'aperçu « Sauvegarde du JJ/MM/AAAA : N emprunteurs, M prêts. » et l'avertissement que les données actuelles seront remplacées ; boutons « Annuler » / « Remplacer ».
+  - Messages : « Données importées » ; « Fichier invalide : aucune donnée n'a été modifiée » ; « Version de fichier non prise en charge : aucune donnée n'a été modifiée » ; « L'import des données a échoué ». Ligne désactivée (indicateur de progression) pendant la lecture et l'import.
 - Thème : Système / Clair / Sombre.
 - Version de l'application.
 

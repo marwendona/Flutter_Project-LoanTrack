@@ -174,10 +174,11 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Contenu conforme à RG-50 ; message de succès / d'échec.
 - Format JSON v1 détaillé dans RG-50 ; aucun message si le sélecteur est annulé (CR-028).
 
-### US-5.3 — Importer des données · `M` · `M` · ⬜
-- [ ] Sélection du fichier, aperçu (nb d'emprunteurs / prêts / date d'export), confirmation de remplacement.
-- [ ] Validation complète avant écriture ; remplacement transactionnel ; fichier invalide refusé sans modification (RG-51).
-- [ ] Test aller-retour export → import identique.
+### US-5.3 — Importer des données · `M` · `M` · ✅
+- [x] Sélection du fichier, aperçu (nb d'emprunteurs / prêts / date d'export), confirmation de remplacement.
+- [x] Validation complète avant écriture ; remplacement transactionnel ; fichier invalide refusé sans modification (RG-51).
+- [x] Test aller-retour export → import identique.
+- Contrôles détaillés dans RG-51 ; la devise du fichier est appliquée ; message spécifique pour une version de format inconnue (CR-029).
 
 ### US-5.4 — Thème et informations · `C` · `XS` · ⬜
 - [ ] Choix du thème Système / Clair / Sombre ; affichage de la version.

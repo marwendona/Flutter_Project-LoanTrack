@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/core/money/currency.dart';
 import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/data/backup/backup_dto.dart';
+import 'package:loantrack/data/backup/backup_file_picker.dart';
 import 'package:loantrack/data/backup/backup_file_saver.dart';
 import 'package:loantrack/data/backup/backup_service.dart';
 import 'package:loantrack/data/providers.dart';
@@ -20,6 +22,8 @@ class _MockLoanRepository extends Mock implements LoanRepository {}
 
 class _MockBackupFileSaver extends Mock implements BackupFileSaver {}
 
+class _MockBackupFilePicker extends Mock implements BackupFilePicker {}
+
 class _MockBackupService extends Mock implements BackupService {}
 
 void main() {
@@ -29,14 +33,28 @@ void main() {
   late InMemorySettingsStore settings;
   late _MockLoanRepository loans;
   late _MockBackupFileSaver saver;
+  late _MockBackupFilePicker picker;
   late _MockBackupService backupService;
 
-  setUpAll(() => registerFallbackValue(Uint8List(0)));
+  setUpAll(() {
+    registerFallbackValue(Uint8List(0));
+    registerFallbackValue(
+      BackupDto(
+        formatVersion: BackupDto.currentFormatVersion,
+        exportedAt: DateTime.utc(2026, 11, 4),
+        currency: 'TND',
+        borrowers: const [],
+        loans: const [],
+        repayments: const [],
+      ),
+    );
+  });
 
   setUp(() {
     settings = InMemorySettingsStore();
     loans = _MockLoanRepository();
     saver = _MockBackupFileSaver();
+    picker = _MockBackupFilePicker();
     backupService = _MockBackupService();
     when(backupService.createBackup).thenAnswer(
       (_) async => BackupDto(
@@ -64,6 +82,7 @@ void main() {
           currencyLockedProvider.overrideWith((ref) => Stream.value(hasLoans)),
           backupServiceProvider.overrideWithValue(backupService),
           backupFileSaverProvider.overrideWithValue(saver),
+          backupFilePickerProvider.overrideWithValue(picker),
         ],
         child: MaterialApp(
           locale: const Locale('fr'),
@@ -171,6 +190,161 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text("L'export des données a échoué"), findsOneWidget);
+    });
+  });
+
+  group('import (US-5.3)', () {
+    Uint8List fileOf(Map<String, Object?> json) =>
+        Uint8List.fromList(utf8.encode(jsonEncode(json)));
+
+    final validFile = fileOf({
+      'formatVersion': 1,
+      'exportedAt': '2026-11-04T09:30:00.000Z',
+      'currency': 'TND',
+      'borrowers': [
+        for (final (id, name) in [(1, 'Ali'), (2, 'Sana')])
+          {
+            'id': id,
+            'name': name,
+            'phone': null,
+            'note': null,
+            'createdAt': '2026-10-01',
+          },
+      ],
+      'loans': [
+        {
+          'id': 1,
+          'borrowerId': 1,
+          'amountMinor': 10000,
+          'loanDate': '2026-10-01',
+          'promisedReturnDate': null,
+          'note': null,
+        },
+      ],
+      'repayments': <Object>[],
+    });
+
+    setUp(() {
+      when(() => backupService.restore(any())).thenAnswer((_) async {});
+    });
+
+    Future<void> tapImport(WidgetTester tester) async {
+      await tester.tap(find.text('Importer des données'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('previews the backup, then replaces the data once confirmed', (
+      tester,
+    ) async {
+      when(() => picker.pick()).thenAnswer((_) async => validFile);
+      await pumpScreen(tester, hasLoans: false);
+
+      await tapImport(tester);
+
+      expect(find.text('Remplacer toutes les données ?'), findsOneWidget);
+      expect(
+        find.textContaining(
+          'Sauvegarde du 04/11/2026 : 2 emprunteurs, 1 prêt.',
+        ),
+        findsOneWidget,
+      );
+      verifyNever(() => backupService.restore(any()));
+
+      await tester.tap(find.text('Remplacer'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Données importées'), findsOneWidget);
+      final restored =
+          verify(() => backupService.restore(captureAny())).captured.single
+              as BackupDto;
+      expect(restored.borrowers, hasLength(2));
+    });
+
+    testWidgets('changes nothing when the replacement is cancelled', (
+      tester,
+    ) async {
+      when(() => picker.pick()).thenAnswer((_) async => validFile);
+      await pumpScreen(tester, hasLoans: false);
+
+      await tapImport(tester);
+      await tester.tap(find.text('Annuler'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Remplacer toutes les données ?'), findsNothing);
+      expect(find.byType(SnackBar), findsNothing);
+      verifyNever(() => backupService.restore(any()));
+    });
+
+    testWidgets('shows nothing when the file picker is cancelled', (
+      tester,
+    ) async {
+      when(() => picker.pick()).thenAnswer((_) async => null);
+      await pumpScreen(tester, hasLoans: false);
+
+      await tapImport(tester);
+
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(find.byType(SnackBar), findsNothing);
+    });
+
+    testWidgets('refuses an invalid file without modifying anything (RG-51)', (
+      tester,
+    ) async {
+      when(
+        () => picker.pick(),
+      ).thenAnswer((_) async => Uint8List.fromList(utf8.encode('pas du json')));
+      await pumpScreen(tester, hasLoans: false);
+
+      await tapImport(tester);
+
+      expect(
+        find.text("Fichier invalide : aucune donnée n'a été modifiée"),
+        findsOneWidget,
+      );
+      expect(find.byType(AlertDialog), findsNothing);
+      verifyNever(() => backupService.restore(any()));
+    });
+
+    testWidgets('refuses an unknown format version (RG-51)', (tester) async {
+      when(() => picker.pick())
+          .thenAnswer((_) async => fileOf({'formatVersion': 2}));
+      await pumpScreen(tester, hasLoans: false);
+
+      await tapImport(tester);
+
+      expect(
+        find.text(
+          "Version de fichier non prise en charge : aucune donnée n'a été "
+          'modifiée',
+        ),
+        findsOneWidget,
+      );
+      verifyNever(() => backupService.restore(any()));
+    });
+
+    testWidgets('shows a failure message when the import fails', (
+      tester,
+    ) async {
+      when(() => picker.pick()).thenAnswer((_) async => validFile);
+      when(() => backupService.restore(any()))
+          .thenAnswer((_) async => throw Exception('write failed'));
+      await pumpScreen(tester, hasLoans: false);
+
+      await tapImport(tester);
+      await tester.tap(find.text('Remplacer'));
+      await tester.pumpAndSettle();
+
+      expect(find.text("L'import des données a échoué"), findsOneWidget);
+    });
+
+    testWidgets('renders the confirmation in dark mode', (tester) async {
+      when(() => picker.pick()).thenAnswer((_) async => validFile);
+      await pumpScreen(tester, hasLoans: false, theme: AppTheme.dark(null));
+
+      await tapImport(tester);
+
+      expect(find.text('Remplacer toutes les données ?'), findsOneWidget);
+      expect(tester.takeException(), isNull);
     });
   });
 

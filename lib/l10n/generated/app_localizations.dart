@@ -718,6 +718,70 @@ abstract class AppLocalizations {
   /// **'L\'export des données a échoué'**
   String get settingsExportError;
 
+  /// Libellé de la ligne d'import d'ECR-06 (RG-51)
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer des données'**
+  String get settingsImport;
+
+  /// Sous-titre de la ligne d'import d'ECR-06
+  ///
+  /// In fr, this message translates to:
+  /// **'Remplacer les données par une sauvegarde JSON'**
+  String get settingsImportSubtitle;
+
+  /// Titre du dialogue de confirmation de l'import (US-5.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Remplacer toutes les données ?'**
+  String get settingsImportConfirmTitle;
+
+  /// Aperçu de la sauvegarde dans le dialogue de confirmation de l'import (US-5.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegarde du {date} : {borrowerCount, plural, =0{aucun emprunteur} =1{1 emprunteur} other{{borrowerCount} emprunteurs}}, {loanCount, plural, =0{aucun prêt} =1{1 prêt} other{{loanCount} prêts}}.\n\nToutes les données actuelles seront remplacées par celles de ce fichier.'**
+  String settingsImportConfirmMessage(
+    String date,
+    int borrowerCount,
+    int loanCount,
+  );
+
+  /// Bouton de confirmation de l'import (US-5.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Remplacer'**
+  String get settingsImportConfirm;
+
+  /// Bouton d'annulation de l'import (US-5.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get settingsImportCancel;
+
+  /// Message de succès de l'import (US-5.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Données importées'**
+  String get settingsImportSuccess;
+
+  /// Message d'un fichier refusé à l'import (RG-51)
+  ///
+  /// In fr, this message translates to:
+  /// **'Fichier invalide : aucune donnée n\'a été modifiée'**
+  String get settingsImportInvalid;
+
+  /// Message d'un fichier d'une version de format inconnue (RG-51)
+  ///
+  /// In fr, this message translates to:
+  /// **'Version de fichier non prise en charge : aucune donnée n\'a été modifiée'**
+  String get settingsImportUnsupportedVersion;
+
+  /// Message d'échec de l'import (US-5.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'import des données a échoué'**
+  String get settingsImportError;
+
   /// Nom d'une devise à partir de son code ISO 4217 (CR-027)
   ///
   /// In fr, this message translates to:

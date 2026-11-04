@@ -421,6 +421,59 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsExportError => 'L\'export des données a échoué';
 
   @override
+  String get settingsImport => 'Importer des données';
+
+  @override
+  String get settingsImportSubtitle =>
+      'Remplacer les données par une sauvegarde JSON';
+
+  @override
+  String get settingsImportConfirmTitle => 'Remplacer toutes les données ?';
+
+  @override
+  String settingsImportConfirmMessage(
+    String date,
+    int borrowerCount,
+    int loanCount,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      borrowerCount,
+      locale: localeName,
+      other: '$borrowerCount emprunteurs',
+      one: '1 emprunteur',
+      zero: 'aucun emprunteur',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      loanCount,
+      locale: localeName,
+      other: '$loanCount prêts',
+      one: '1 prêt',
+      zero: 'aucun prêt',
+    );
+    return 'Sauvegarde du $date : $_temp0, $_temp1.\n\nToutes les données actuelles seront remplacées par celles de ce fichier.';
+  }
+
+  @override
+  String get settingsImportConfirm => 'Remplacer';
+
+  @override
+  String get settingsImportCancel => 'Annuler';
+
+  @override
+  String get settingsImportSuccess => 'Données importées';
+
+  @override
+  String get settingsImportInvalid =>
+      'Fichier invalide : aucune donnée n\'a été modifiée';
+
+  @override
+  String get settingsImportUnsupportedVersion =>
+      'Version de fichier non prise en charge : aucune donnée n\'a été modifiée';
+
+  @override
+  String get settingsImportError => 'L\'import des données a échoué';
+
+  @override
   String currencyName(String code) {
     String _temp0 = intl.Intl.selectLogic(code, {
       'TND': 'Dinar tunisien',
