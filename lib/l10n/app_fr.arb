@@ -484,6 +484,22 @@
   "@dashboardAddBorrower": {
     "description": "Bouton de l'état vide d'ECR-01, ouvre la feuille « Nouvel emprunteur »"
   },
+  "dashboardFilterAll": "Tous",
+  "@dashboardFilterAll": {
+    "description": "Dashboard filter: every borrower (US-4.3)"
+  },
+  "dashboardFilterWithRemaining": "Avec reste dû",
+  "@dashboardFilterWithRemaining": {
+    "description": "Dashboard filter: borrowers whose remaining due is > 0 (US-4.3)"
+  },
+  "dashboardFilterOverdue": "En retard",
+  "@dashboardFilterOverdue": {
+    "description": "Dashboard filter: borrowers with an overdue loan (US-4.3)"
+  },
+  "dashboardFilterNoMatch": "Aucun emprunteur ne correspond à ce filtre",
+  "@dashboardFilterNoMatch": {
+    "description": "Message when no borrower matches the dashboard filter (US-4.3)"
+  },
   "dashboardByBorrowerTitle": "Par emprunteur",
   "@dashboardByBorrowerTitle": {
     "description": "Titre de la liste des totaux par emprunteur d'ECR-01 (RG-30)"

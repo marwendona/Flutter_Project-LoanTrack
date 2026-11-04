@@ -634,6 +634,30 @@ abstract class AppLocalizations {
   /// **'Ajouter un emprunteur'**
   String get dashboardAddBorrower;
 
+  /// Dashboard filter: every borrower (US-4.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous'**
+  String get dashboardFilterAll;
+
+  /// Dashboard filter: borrowers whose remaining due is > 0 (US-4.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Avec reste dû'**
+  String get dashboardFilterWithRemaining;
+
+  /// Dashboard filter: borrowers with an overdue loan (US-4.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'En retard'**
+  String get dashboardFilterOverdue;
+
+  /// Message when no borrower matches the dashboard filter (US-4.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun emprunteur ne correspond à ce filtre'**
+  String get dashboardFilterNoMatch;
+
   /// Titre de la liste des totaux par emprunteur d'ECR-01 (RG-30)
   ///
   /// In fr, this message translates to:

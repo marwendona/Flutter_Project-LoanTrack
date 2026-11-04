@@ -155,8 +155,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Liste sous les indicateurs, tri RG-04, tap → détail emprunteur. — RG-30
 - Tous les emprunteurs sont listés, y compris ceux sans prêt (CR-025).
 
-### US-4.3 — Filtres du tableau de bord · `S` · `XS` · ⬜
-- [ ] Filtres *Tous* / *Avec reste dû* / *En retard* sur la liste par emprunteur.
+### US-4.3 — Filtres du tableau de bord · `S` · `XS` · ✅
+- [x] Filtres *Tous* / *Avec reste dû* / *En retard* sur la liste par emprunteur.
+- Boutons segmentés sous « Par emprunteur », *Tous* par défaut, filtre non persisté, message si aucun résultat (CR-026).
 
 ---
 

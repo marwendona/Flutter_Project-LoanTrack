@@ -23,7 +23,7 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 - **Carte « Reste à recevoir »** (mise en avant) : montant global restant dû.
 - **Indicateurs** : total prêté, total remboursé, taux de remboursement (barre de progression), nombre de prêts en retard + montant en retard (en rouge si > 0).
 - **Liste « Par emprunteur »** : pour chaque emprunteur → nom, total prêté, total remboursé, reste dû, badge « En retard » le cas échéant. Tri : reste dû décroissant (RG-04).
-- Filtre rapide : *Tous* / *Avec reste dû* / *En retard*.
+- Filtre rapide de la liste « Par emprunteur » : *Tous* (par défaut) / *Avec reste dû* (reste dû > 0) / *En retard* (au moins un prêt en retard). Le tri RG-04 est conservé, les indicateurs globaux ne sont pas filtrés ; si aucun emprunteur ne correspond : « Aucun emprunteur ne correspond à ce filtre ». Le filtre est conservé pendant la session, non persisté (CR-026).
 - État vide : message « Aucun prêt enregistré » + bouton « Ajouter un emprunteur ».
 - Règles : RG-30 à RG-33.
 

@@ -373,5 +373,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dashboardAddBorrower => 'Ajouter un emprunteur';
 
   @override
+  String get dashboardFilterAll => 'Tous';
+
+  @override
+  String get dashboardFilterWithRemaining => 'Avec reste dû';
+
+  @override
+  String get dashboardFilterOverdue => 'En retard';
+
+  @override
+  String get dashboardFilterNoMatch =>
+      'Aucun emprunteur ne correspond à ce filtre';
+
+  @override
   String get dashboardByBorrowerTitle => 'Par emprunteur';
 }

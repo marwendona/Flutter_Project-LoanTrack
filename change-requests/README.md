@@ -43,3 +43,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-023](CR-023-us-3-4-tests-integration-reste-du.md) | US-3.4 : tests d'intégration du calcul de reste dû | Technique | Implémentée | 2026-11-04 | — |
 | [CR-024](CR-024-us-4-1-totaux-globaux.md) | US-4.1 : totaux globaux | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-025](CR-025-us-4-2-totaux-par-emprunteur.md) | US-4.2 : totaux par emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-026](CR-026-us-4-3-filtres-tableau-de-bord.md) | US-4.3 : filtres du tableau de bord | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |

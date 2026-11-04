@@ -11,6 +11,7 @@ import 'package:loantrack/core/theme/status_colors.dart';
 import 'package:loantrack/core/widgets/overdue_badge.dart';
 import 'package:loantrack/domain/models/borrower.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
+import 'package:loantrack/domain/models/borrower_summary_filter.dart';
 import 'package:loantrack/domain/models/global_totals.dart';
 import 'package:loantrack/features/borrowers/borrower_form_sheet.dart';
 import 'package:loantrack/features/borrowers/borrowers_providers.dart';
@@ -237,6 +238,90 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('ECR-03 1'), findsOneWidget);
+    });
+  });
+
+  group('filters (US-4.3)', () {
+    final summaries = [
+      summary(id: 2, name: 'Sami', lent: 2000000, repaid: 500000, overdue: 1),
+      summary(id: 1, name: 'Ali', lent: 1300000, repaid: 50000),
+      summary(id: 3, name: 'Mona', lent: 500000, repaid: 500000),
+    ];
+
+    Finder segment(String label) => find.descendant(
+      of: find.byType(SegmentedButton<BorrowerSummaryFilter>),
+      matching: find.text(label),
+    );
+
+    Future<void> selectFilter(WidgetTester tester, String label) async {
+      await tester.ensureVisible(segment(label));
+      await tester.pumpAndSettle();
+      await tester.tap(segment(label));
+      await tester.pumpAndSettle();
+    }
+
+    Set<BorrowerSummaryFilter> selection(WidgetTester tester) => tester
+        .widget<SegmentedButton<BorrowerSummaryFilter>>(
+          find.byType(SegmentedButton<BorrowerSummaryFilter>),
+        )
+        .selected;
+
+    testWidgets('shows the three filters, "Tous" selected by default', (
+      tester,
+    ) async {
+      await pumpScreen(tester, totals(), summaries: summaries);
+      await tester.scrollUntilVisible(find.text('Mona'), 100);
+
+      expect(segment('Tous'), findsOneWidget);
+      expect(segment('Avec reste dû'), findsOneWidget);
+      expect(segment('En retard'), findsOneWidget);
+      expect(selection(tester), {BorrowerSummaryFilter.all});
+      expect(find.text('Sami'), findsOneWidget);
+      expect(find.text('Ali'), findsOneWidget);
+      expect(find.text('Mona'), findsOneWidget);
+    });
+
+    testWidgets('"Avec reste dû" hides fully repaid borrowers', (tester) async {
+      await pumpScreen(tester, totals(), summaries: summaries);
+
+      await selectFilter(tester, 'Avec reste dû');
+
+      expect(selection(tester), {BorrowerSummaryFilter.withRemaining});
+      expect(find.text('Sami'), findsOneWidget);
+      expect(find.text('Ali'), findsOneWidget);
+      expect(find.text('Mona'), findsNothing);
+    });
+
+    testWidgets('"En retard" keeps only overdue borrowers', (tester) async {
+      await pumpScreen(tester, totals(), summaries: summaries);
+
+      await selectFilter(tester, 'En retard');
+
+      expect(find.text('Sami'), findsOneWidget);
+      expect(find.text('Ali'), findsNothing);
+      expect(find.text('Mona'), findsNothing);
+      // Global indicators are not filtered.
+      expect(find.text(tnd(2750000)), findsOneWidget);
+    });
+
+    testWidgets('shows a message when no borrower matches', (tester) async {
+      await pumpScreen(tester, totals(), summaries: summaries.sublist(1));
+
+      await selectFilter(tester, 'En retard');
+
+      expect(
+        find.text('Aucun emprunteur ne correspond à ce filtre'),
+        findsOneWidget,
+      );
+      expect(find.text('Ali'), findsNothing);
+
+      await selectFilter(tester, 'Tous');
+
+      expect(
+        find.text('Aucun emprunteur ne correspond à ce filtre'),
+        findsNothing,
+      );
+      expect(find.text('Ali'), findsOneWidget);
     });
   });
 }
