@@ -398,5 +398,47 @@
   "repaymentAddButton": "Remboursement",
   "@repaymentAddButton": {
     "description": "Bouton flottant « + Remboursement » d'ECR-05, ouvre ECR-05b"
+  },
+  "repaymentFormEditTitle": "Modifier le remboursement",
+  "@repaymentFormEditTitle": {
+    "description": "Titre de la feuille ECR-05b en modification (US-3.3)"
+  },
+  "repaymentFormMaxAmount": "Montant maximal : {amount}",
+  "@repaymentFormMaxAmount": {
+    "description": "Rappel du plafond d'un remboursement modifié : reste dû + montant initial (RG-16)",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "repaymentAmountExceedsMax": "Le montant ne peut pas dépasser {max} (reste dû + montant initial).",
+  "@repaymentAmountExceedsMax": {
+    "description": "Erreur : remboursement modifié supérieur au plafond (RG-16)",
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "repaymentDeleteTitle": "Supprimer ce remboursement ?",
+  "@repaymentDeleteTitle": {
+    "description": "Titre du dialogue de confirmation de suppression d'un remboursement (RG-19)"
+  },
+  "repaymentDeleteMessage": "Le remboursement de {amount} du {date} sera supprimé.",
+  "@repaymentDeleteMessage": {
+    "description": "Message du dialogue de suppression d'un remboursement (RG-19)",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repaymentDeleteConfirm": "Supprimer",
+  "@repaymentDeleteConfirm": {
+    "description": "Bouton de suppression d'un remboursement (ECR-05b) et de confirmation (RG-19)"
   }
 }

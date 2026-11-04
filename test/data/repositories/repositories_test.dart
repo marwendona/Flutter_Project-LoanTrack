@@ -11,6 +11,7 @@ import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_balance.dart';
 import 'package:loantrack/domain/models/repayment.dart';
 import 'package:loantrack/domain/repositories/loan_repository.dart';
+import 'package:loantrack/domain/repositories/repayment_repository.dart';
 import 'package:loantrack/domain/services/borrower_validator.dart';
 
 void main() {
@@ -349,6 +350,46 @@ void main() {
       expect(await loans.getSummaryById(loanId), isNull);
       expect(await repayments.watchByLoan(loanId).first, isEmpty);
       expect(await loans.watchByBorrower(borrowerId).first, isEmpty);
+    });
+
+    test('repayment update changes the loan aggregates (US-3.3)', () async {
+      final loans = container.read(loanRepositoryProvider);
+      final repayments = container.read(repaymentRepositoryProvider);
+      final latest = (await repayments.watchByLoan(loanId).first).first;
+      final updated = latest.copyWith(
+        amount: const Money(4500),
+        repaymentDate: LocalDay(2026, 9, 5),
+        note: 'virement',
+      );
+
+      await repayments.update(updated);
+
+      final history = await repayments.watchByLoan(loanId).first;
+      expect(history.last, updated);
+      final summary = await loans.getSummaryById(loanId);
+      expect(summary?.repaid, const Money(5000));
+      expect(summary?.firstRepaymentDate, LocalDay(2026, 9, 5));
+    });
+
+    test('update of a missing repayment throws', () async {
+      final repayments = container.read(repaymentRepositoryProvider);
+      final latest = (await repayments.watchByLoan(loanId).first).first;
+
+      await expectLater(
+        repayments.update(latest.copyWith(id: latest.id + 100)),
+        throwsA(isA<RepaymentNotFoundException>()),
+      );
+    });
+
+    test('repayment delete updates the loan aggregates (US-3.3)', () async {
+      final loans = container.read(loanRepositoryProvider);
+      final repayments = container.read(repaymentRepositoryProvider);
+      final latest = (await repayments.watchByLoan(loanId).first).first;
+
+      await repayments.delete(latest.id);
+
+      expect(await repayments.watchByLoan(loanId).first, hasLength(1));
+      expect((await loans.getSummaryById(loanId))?.repaid, const Money(500));
     });
   });
 

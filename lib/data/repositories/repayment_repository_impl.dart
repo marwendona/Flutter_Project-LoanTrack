@@ -36,5 +36,19 @@ class RepaymentRepositoryImpl implements RepaymentRepository {
   }
 
   @override
+  Future<void> update(Repayment repayment) async {
+    final updated = await _dao.updateRepayment(
+      RepaymentRow(
+        id: repayment.id,
+        loanId: repayment.loanId,
+        amountMinor: repayment.amount.amountMinor,
+        repaymentDate: repayment.repaymentDate,
+        note: repayment.note,
+      ),
+    );
+    if (!updated) throw RepaymentNotFoundException(repayment.id);
+  }
+
+  @override
   Future<void> delete(int id) => _dao.deleteById(id);
 }

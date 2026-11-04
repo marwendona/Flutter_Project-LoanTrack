@@ -306,4 +306,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get repaymentAddButton => 'Remboursement';
+
+  @override
+  String get repaymentFormEditTitle => 'Modifier le remboursement';
+
+  @override
+  String repaymentFormMaxAmount(String amount) {
+    return 'Montant maximal : $amount';
+  }
+
+  @override
+  String repaymentAmountExceedsMax(String max) {
+    return 'Le montant ne peut pas dépasser $max (reste dû + montant initial).';
+  }
+
+  @override
+  String get repaymentDeleteTitle => 'Supprimer ce remboursement ?';
+
+  @override
+  String repaymentDeleteMessage(String amount, String date) {
+    return 'Le remboursement de $amount du $date sera supprimé.';
+  }
+
+  @override
+  String get repaymentDeleteConfirm => 'Supprimer';
 }

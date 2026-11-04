@@ -6,6 +6,7 @@ import 'package:loantrack/core/money/money.dart';
 import 'package:loantrack/data/providers.dart';
 import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_summary.dart';
+import 'package:loantrack/domain/models/repayment.dart';
 import 'package:loantrack/domain/repositories/repayment_repository.dart';
 import 'package:loantrack/domain/services/repayment_validator.dart';
 import 'package:loantrack/features/repayment/repayment_form_controller.dart';
@@ -28,10 +29,22 @@ void main() {
     ),
     repaid: const Money(250000),
   );
+  final RepaymentFormTarget newRepayment = (loan: loan, existing: null);
+
+  // One of the repayments of the loan: 200 TND on 10/10/2026.
+  final existing = Repayment(
+    id: 9,
+    loanId: 5,
+    amount: const Money(200000),
+    repaymentDate: LocalDay(2026, 10, 10),
+    note: 'espèces',
+  );
+  final RepaymentFormTarget editedRepayment = (loan: loan, existing: existing);
 
   setUpAll(() {
     registerFallbackValue(Money.zero);
     registerFallbackValue(today);
+    registerFallbackValue(existing);
   });
 
   setUp(() {
@@ -41,15 +54,18 @@ void main() {
     );
     // Today is frozen when the controller is built.
     withClock(Clock.fixed(DateTime(2026, 11, 4, 23, 30)), () {
-      container.listen(repaymentFormControllerProvider(loan), (_, _) {});
+      container.listen(
+        repaymentFormControllerProvider(newRepayment),
+        (_, _) {},
+      );
     });
   });
   tearDown(() => container.dispose());
 
   RepaymentFormController controller() =>
-      container.read(repaymentFormControllerProvider(loan).notifier);
+      container.read(repaymentFormControllerProvider(newRepayment).notifier);
   RepaymentFormState state() =>
-      container.read(repaymentFormControllerProvider(loan));
+      container.read(repaymentFormControllerProvider(newRepayment));
 
   void stubAdd(Future<int> Function() answer) => when(
     () => repository.add(
@@ -64,7 +80,7 @@ void main() {
     expect(state().repaymentDate, today);
     expect(state().today, today);
     expect(state().loanDate, LocalDay(2026, 10, 1));
-    expect(state().remaining, const Money(750000));
+    expect(state().maxAmount, const Money(750000));
     expect(state().amountError, RepaymentAmountError.required);
     expect(state().isAmountDirty, isFalse);
     expect(state().canSave, isFalse);
@@ -179,5 +195,84 @@ void main() {
 
     controller().amountChanged('101');
     expect(state().hasSaveFailed, isFalse);
+  });
+
+  group('edition (US-3.3)', () {
+    setUp(() {
+      withClock(Clock.fixed(DateTime(2026, 11, 4, 23, 30)), () {
+        container.listen(
+          repaymentFormControllerProvider(editedRepayment),
+          (_, _) {},
+        );
+      });
+    });
+
+    RepaymentFormController editController() => container.read(
+      repaymentFormControllerProvider(editedRepayment).notifier,
+    );
+    RepaymentFormState editState() =>
+        container.read(repaymentFormControllerProvider(editedRepayment));
+
+    test('starts with the repayment values, valid', () {
+      expect(editState().isEditing, isTrue);
+      expect(editState().amountInput, '200,000');
+      expect(editState().repaymentDate, LocalDay(2026, 10, 10));
+      expect(editState().note, 'espèces');
+      expect(editState().isAmountDirty, isTrue);
+      expect(editState().canSave, isTrue);
+    });
+
+    test('caps the amount at the remaining + initial amount (RG-16)', () {
+      expect(editState().maxAmount, const Money(950000));
+
+      editController().amountChanged('950');
+      expect(editState().amountError, isNull);
+
+      editController().amountChanged('950,001');
+      expect(editState().amountError, RepaymentAmountError.exceedsRemaining);
+      expect(editState().canSave, isFalse);
+    });
+
+    test('"Totalité" fills the maximum amount', () {
+      expect(editController().fillRemaining(), '950,000');
+      expect(editState().canSave, isTrue);
+    });
+
+    test('save updates the repayment and keeps its id', () async {
+      when(() => repository.update(any())).thenAnswer((_) async {});
+      editController()
+        ..amountChanged('300')
+        ..repaymentDateChanged(LocalDay(2026, 10, 12))
+        ..noteChanged('  ');
+
+      expect(await editController().save(), isTrue);
+
+      verify(
+        () => repository.update(
+          Repayment(
+            id: 9,
+            loanId: 5,
+            amount: const Money(300000),
+            repaymentDate: LocalDay(2026, 10, 12),
+          ),
+        ),
+      ).called(1);
+      verifyNever(
+        () => repository.add(
+          loanId: any(named: 'loanId'),
+          amount: any(named: 'amount'),
+          repaymentDate: any(named: 'repaymentDate'),
+          note: any(named: 'note'),
+        ),
+      );
+    });
+
+    test('save reports a repayment that no longer exists', () async {
+      when(() => repository.update(any()))
+          .thenThrow(const RepaymentNotFoundException(9));
+
+      expect(await editController().save(), isFalse);
+      expect(editState().hasSaveFailed, isTrue);
+    });
   });
 }

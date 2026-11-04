@@ -23,6 +23,10 @@ class RepaymentsDao extends DatabaseAccessor<AppDatabase>
   Future<int> insertRepayment(RepaymentsCompanion entry) =>
       into(repayments).insert(entry);
 
+  /// Returns true if a repayment was updated.
+  Future<bool> updateRepayment(RepaymentRow row) =>
+      update(repayments).replace(row);
+
   Future<int> deleteById(int id) =>
       (delete(repayments)..where((r) => r.id.equals(id))).go();
 }

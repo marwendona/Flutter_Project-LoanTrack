@@ -166,6 +166,27 @@ void main() {
     expect(find.text('Nouveau remboursement'), findsOneWidget);
   });
 
+  testWidgets('a tap on a repayment opens ECR-05b in edition (US-3.3)', (
+    tester,
+  ) async {
+    await pumpScreen(
+      tester,
+      detail(
+        repaid: 1000000,
+        status: LoanStatus.repaid(repaidOn: LocalDay(2026, 10, 20)),
+        repayments: [repayment(1, 1000000, LocalDay(2026, 10, 20))],
+      ),
+    );
+
+    await tester.tap(find.text('20/10/2026'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Modifier le remboursement'), findsOneWidget);
+    // Fully repaid loan: the maximum is the initial amount itself (RG-16).
+    expect(find.text('Montant maximal : ${tnd(1000000)}'), findsOneWidget);
+    expect(find.text('Supprimer'), findsOneWidget);
+  });
+
   testWidgets('"+ Remboursement" is hidden once the loan is repaid', (
     tester,
   ) async {

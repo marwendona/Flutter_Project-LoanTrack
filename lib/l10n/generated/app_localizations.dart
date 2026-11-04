@@ -555,6 +555,42 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Remboursement'**
   String get repaymentAddButton;
+
+  /// Titre de la feuille ECR-05b en modification (US-3.3)
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le remboursement'**
+  String get repaymentFormEditTitle;
+
+  /// Rappel du plafond d'un remboursement modifié : reste dû + montant initial (RG-16)
+  ///
+  /// In fr, this message translates to:
+  /// **'Montant maximal : {amount}'**
+  String repaymentFormMaxAmount(String amount);
+
+  /// Erreur : remboursement modifié supérieur au plafond (RG-16)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le montant ne peut pas dépasser {max} (reste dû + montant initial).'**
+  String repaymentAmountExceedsMax(String max);
+
+  /// Titre du dialogue de confirmation de suppression d'un remboursement (RG-19)
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer ce remboursement ?'**
+  String get repaymentDeleteTitle;
+
+  /// Message du dialogue de suppression d'un remboursement (RG-19)
+  ///
+  /// In fr, this message translates to:
+  /// **'Le remboursement de {amount} du {date} sera supprimé.'**
+  String repaymentDeleteMessage(String amount, String date);
+
+  /// Bouton de suppression d'un remboursement (ECR-05b) et de confirmation (RG-19)
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get repaymentDeleteConfirm;
 }
 
 class _AppLocalizationsDelegate

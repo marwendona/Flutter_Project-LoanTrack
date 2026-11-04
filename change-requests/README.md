@@ -39,3 +39,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-019](CR-019-us-2-4-modifier-supprimer-pret.md) | US-2.4 : modifier / supprimer un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-020](CR-020-us-3-1-enregistrer-remboursement.md) | US-3.1 : enregistrer un remboursement | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-021](CR-021-us-3-2-historique-remboursements.md) | US-3.2 : historique des remboursements d'un prêt | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-022](CR-022-us-3-3-modifier-supprimer-remboursement.md) | US-3.3 : modifier / supprimer un remboursement | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |

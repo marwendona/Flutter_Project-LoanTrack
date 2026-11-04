@@ -8,9 +8,15 @@ import '../../core/money/money_formatter.dart';
 import '../../core/money/money_parser.dart';
 import '../../data/providers.dart';
 import '../../domain/models/loan_summary.dart';
+import '../../domain/models/repayment.dart';
 import '../../domain/services/repayment_validator.dart';
 
 part 'repayment_form_controller.freezed.dart';
+
+/// What the repayment sheet (ECR-05b) edits: a new repayment of [loan] when
+/// [existing] is null (US-3.1), otherwise that existing repayment (US-3.3).
+/// [loan] is the loan as shown when the sheet opens.
+typedef RepaymentFormTarget = ({LoanSummary loan, Repayment? existing});
 
 /// State of the repayment sheet (ECR-05b). Errors are derived from the
 /// fields, never stored.
@@ -25,11 +31,15 @@ abstract class RepaymentFormState with _$RepaymentFormState {
     /// Date of the repaid loan: lower bound of the repayment date (RG-17).
     required LocalDay loanDate,
 
-    /// Remaining amount due of the loan: upper bound of the amount (RG-16).
-    required Money remaining,
+    /// Upper bound of the amount (RG-16): the remaining amount due of the
+    /// loan, plus the initial amount of the edited repayment.
+    required Money maxAmount,
     required LocalDay repaymentDate,
     @Default('') String amountInput,
     @Default('') String note,
+
+    /// The sheet edits an existing repayment.
+    @Default(false) bool isEditing,
 
     /// The amount was edited: its error can be shown.
     @Default(false) bool isAmountDirty,
@@ -45,7 +55,7 @@ abstract class RepaymentFormState with _$RepaymentFormState {
       RepaymentValidator.validateAmountInput(
         amountInput,
         currency,
-        remaining: remaining,
+        remaining: maxAmount,
       );
 
   RepaymentDateError? get repaymentDateError =>
@@ -64,28 +74,44 @@ abstract class RepaymentFormState with _$RepaymentFormState {
   bool get canSave => isValid && !isSaving;
 }
 
-/// The repayment sheet of a loan, keyed by the loan as shown when the sheet
-/// opens.
 final repaymentFormControllerProvider = NotifierProvider.autoDispose
-    .family<RepaymentFormController, RepaymentFormState, LoanSummary>(
+    .family<RepaymentFormController, RepaymentFormState, RepaymentFormTarget>(
       RepaymentFormController.new,
     );
 
-/// Edits and saves a new repayment of a loan (US-3.1).
+/// Edits and saves a new repayment of a loan (US-3.1) or an existing one
+/// (US-3.3).
 class RepaymentFormController extends Notifier<RepaymentFormState> {
-  RepaymentFormController(this._loan);
+  RepaymentFormController(this._target);
 
-  final LoanSummary _loan;
+  final RepaymentFormTarget _target;
 
   @override
   RepaymentFormState build() {
     final today = LocalDay.today();
+    final currency = ref.watch(currencyProvider);
+    final loan = _target.loan;
+    final existing = _target.existing;
+    if (existing == null) {
+      return RepaymentFormState(
+        currency: currency,
+        today: today,
+        loanDate: loan.loan.loanDate,
+        maxAmount: loan.remaining,
+        repaymentDate: today,
+      );
+    }
     return RepaymentFormState(
-      currency: ref.watch(currencyProvider),
+      currency: currency,
       today: today,
-      loanDate: _loan.loan.loanDate,
-      remaining: _loan.remaining,
-      repaymentDate: today,
+      loanDate: loan.loan.loanDate,
+      maxAmount: loan.remaining + existing.amount,
+      repaymentDate: existing.repaymentDate,
+      amountInput: MoneyFormatter.formatAmount(existing.amount, currency),
+      note: existing.note ?? '',
+      isEditing: true,
+      // Pre-filled: errors are shown as soon as the amount is invalid.
+      isAmountDirty: true,
     );
   }
 
@@ -95,10 +121,10 @@ class RepaymentFormController extends Notifier<RepaymentFormState> {
     hasSaveFailed: false,
   );
 
-  /// Fills the amount with the remaining amount due (RG-18) and returns the
-  /// text put in the field.
+  /// Fills the amount with the maximum amount, which repays the loan in full
+  /// (RG-18), and returns the text put in the field.
   String fillRemaining() {
-    final input = MoneyFormatter.formatAmount(state.remaining, state.currency);
+    final input = MoneyFormatter.formatAmount(state.maxAmount, state.currency);
     amountChanged(input);
     return input;
   }
@@ -117,16 +143,27 @@ class RepaymentFormController extends Notifier<RepaymentFormState> {
     }
     final amount = MoneyParser.tryParse(state.amountInput, state.currency)!;
     final trimmedNote = state.note.trim();
+    final note = trimmedNote.isEmpty ? null : trimmedNote;
     state = state.copyWith(isSaving: true, hasSaveFailed: false);
+    final repository = ref.read(repaymentRepositoryProvider);
     try {
-      await ref
-          .read(repaymentRepositoryProvider)
-          .add(
-            loanId: _loan.loan.id,
+      final existing = _target.existing;
+      if (existing == null) {
+        await repository.add(
+          loanId: _target.loan.loan.id,
+          amount: amount,
+          repaymentDate: state.repaymentDate,
+          note: note,
+        );
+      } else {
+        await repository.update(
+          existing.copyWith(
             amount: amount,
             repaymentDate: state.repaymentDate,
-            note: trimmedNote.isEmpty ? null : trimmedNote,
-          );
+            note: note,
+          ),
+        );
+      }
       if (ref.mounted) state = state.copyWith(isSaving: false);
       return true;
     } on Exception {

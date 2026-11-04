@@ -135,7 +135,7 @@ class _LoanDetailBody extends StatelessWidget {
           )
         else
           for (final repayment in detail.repayments)
-            _RepaymentTile(repayment: repayment),
+            _RepaymentTile(loan: detail.summary, repayment: repayment),
       ],
     );
   }
@@ -226,10 +226,12 @@ class _LoanInfo extends ConsumerWidget {
   }
 }
 
-/// One repayment of the history: actual date, amount and note.
+/// One repayment of the history: actual date, amount and note. A tap opens
+/// ECR-05b to edit or delete it (RG-19).
 class _RepaymentTile extends ConsumerWidget {
-  const _RepaymentTile({required this.repayment});
+  const _RepaymentTile({required this.loan, required this.repayment});
 
+  final LoanSummary loan;
   final Repayment repayment;
 
   @override
@@ -244,6 +246,7 @@ class _RepaymentTile extends ConsumerWidget {
         MoneyFormatter.format(repayment.amount, currency),
         style: Theme.of(context).textTheme.titleMedium,
       ),
+      onTap: () => showRepaymentFormSheet(context, loan, existing: repayment),
     );
   }
 }

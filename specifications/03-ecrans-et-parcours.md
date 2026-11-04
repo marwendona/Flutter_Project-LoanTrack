@@ -64,7 +64,7 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 
 - Titre « Détail du prêt ». Ouvert par un appui sur une carte de prêt d'ECR-03.
 - Toutes les infos du prêt + statut : montant, puce de statut, date du prêt, date de retour promise (ou « Non définie »), date de remboursement effective si « Remboursé » (RG-22), note, montant remboursé / reste dû + barre de progression.
-- **Historique des remboursements** : pour chacun, **date réelle** et **montant** (et note si présente), du plus récent au plus ancien ; état vide « Aucun remboursement. » ; appui → modifier / supprimer (RG-19, US-3.3).
+- **Historique des remboursements** : pour chacun, **date réelle** et **montant** (et note si présente), du plus récent au plus ancien ; état vide « Aucun remboursement. » ; appui sur un remboursement → ECR-05b en modification (RG-19, CR-022).
 - Bouton **+ Remboursement** → ECR-05b. Masqué si le prêt est remboursé.
 - Menu ⋮ → Modifier le prêt / Supprimer le prêt (RG-14) ; après suppression, retour à ECR-03.
 - Mise à jour immédiate après un ajout de remboursement ou une modification du prêt.
@@ -77,6 +77,7 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 - Rappel du reste dû et bouton « Totalité » qui pré-remplit le montant avec le reste dû (RG-18).
 - Validation en ligne RG-16, RG-17 avec messages sous les champs ; bouton « Enregistrer » désactivé tant que la saisie est invalide.
 - Après enregistrement, la feuille se ferme ; reste dû, statut et totaux sont mis à jour immédiatement.
+- **En modification** (CR-022, ouverte depuis l'historique d'ECR-05) : titre « Modifier le remboursement », champs pré-remplis ; le rappel devient « Montant maximal : … » = reste dû + montant initial du remboursement (RG-16), plafond aussi utilisé par « Totalité » ; bouton **Supprimer** → dialogue « Supprimer ce remboursement ? » rappelant le montant et la date (RG-19), puis fermeture de la feuille.
 
 ## ECR-06 — Paramètres
 

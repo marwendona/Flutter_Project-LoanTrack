@@ -9,6 +9,7 @@ import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/data/providers.dart';
 import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_summary.dart';
+import 'package:loantrack/domain/models/repayment.dart';
 import 'package:loantrack/domain/repositories/repayment_repository.dart';
 import 'package:loantrack/features/repayment/repayment_form_sheet.dart';
 import 'package:loantrack/l10n/generated/app_localizations.dart';
@@ -52,7 +53,7 @@ void main() {
   });
 
   /// Opens the sheet from a button, as ECR-03 does.
-  Future<void> openSheet(WidgetTester tester) async {
+  Future<void> openSheet(WidgetTester tester, {Repayment? existing}) async {
     await withClock(Clock.fixed(DateTime(2026, 11, 4)), () async {
       await tester.pumpWidget(
         ProviderScope(
@@ -70,7 +71,8 @@ void main() {
             home: Scaffold(
               body: Builder(
                 builder: (context) => TextButton(
-                  onPressed: () => showRepaymentFormSheet(context, loan),
+                  onPressed: () =>
+                      showRepaymentFormSheet(context, loan, existing: existing),
                   child: const Text('open'),
                 ),
               ),
@@ -182,5 +184,113 @@ void main() {
         note: any(named: 'note'),
       ),
     );
+    expect(find.text('Supprimer'), findsNothing);
+  });
+
+  group('edition (US-3.3)', () {
+    // One of the repayments of the loan: 200 TND on 10/10/2026.
+    final existing = Repayment(
+      id: 9,
+      loanId: 5,
+      amount: const Money(200000),
+      repaymentDate: LocalDay(2026, 10, 10),
+      note: 'espèces',
+    );
+
+    setUp(() {
+      registerFallbackValue(existing);
+      when(() => repository.update(any())).thenAnswer((_) async {});
+      when(() => repository.delete(any())).thenAnswer((_) async {});
+    });
+
+    testWidgets('shows the pre-filled repayment and the maximum amount', (
+      tester,
+    ) async {
+      await openSheet(tester, existing: existing);
+
+      expect(find.text('Modifier le remboursement'), findsOneWidget);
+      expect(find.text('Montant maximal : ${tnd(950000)}'), findsOneWidget);
+      expect(find.text('200,000'), findsOneWidget);
+      expect(find.text('10/10/2026'), findsOneWidget);
+      expect(find.text('espèces'), findsOneWidget);
+      expect(saveButton(tester).onPressed, isNotNull);
+    });
+
+    testWidgets('refuses an amount above remaining + initial amount (RG-16)', (
+      tester,
+    ) async {
+      await openSheet(tester, existing: existing);
+
+      await tester.enterText(find.byType(TextField).first, '950,001');
+      await tester.pump();
+
+      expect(
+        find.text(
+          'Le montant ne peut pas dépasser ${tnd(950000)} '
+          '(reste dû + montant initial).',
+        ),
+        findsOneWidget,
+      );
+      expect(saveButton(tester).onPressed, isNull);
+    });
+
+    testWidgets('saves the modified repayment', (tester) async {
+      await openSheet(tester, existing: existing);
+
+      await tester.enterText(find.byType(TextField).first, '950');
+      await tester.pump();
+      await tester.tap(find.text('Enregistrer'));
+      await tester.pumpAndSettle();
+
+      verify(
+        () => repository.update(existing.copyWith(amount: const Money(950000))),
+      ).called(1);
+      expect(find.text('Modifier le remboursement'), findsNothing);
+    });
+
+    testWidgets('deletes the repayment after confirmation (RG-19)', (
+      tester,
+    ) async {
+      await openSheet(tester, existing: existing);
+
+      await tester.tap(find.text('Supprimer'));
+      await tester.pumpAndSettle();
+      expect(find.text('Supprimer ce remboursement ?'), findsOneWidget);
+      expect(
+        find.text(
+          'Le remboursement de ${tnd(200000)} du 10/10/2026 sera supprimé.',
+        ),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.text('Supprimer'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      verify(() => repository.delete(9)).called(1);
+      expect(find.text('Modifier le remboursement'), findsNothing);
+    });
+
+    testWidgets('keeps the repayment when the deletion is cancelled', (
+      tester,
+    ) async {
+      await openSheet(tester, existing: existing);
+
+      await tester.tap(find.text('Supprimer'));
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.text('Annuler'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      verifyNever(() => repository.delete(any()));
+      expect(find.text('Modifier le remboursement'), findsOneWidget);
+    });
   });
 }
