@@ -33,7 +33,7 @@
 | Date du jour | **clock** | Date du jour injectable dans les tests | `DateTime.now()` direct |
 | Qualité | **flutter_lints** + règles strictes dans `analysis_options.yaml`, `dart format` | Gratuit, standard | very_good_analysis (option) |
 | Tests | **flutter_test**, **mocktail**, Drift en mémoire (`NativeDatabase.memory()`) | Standard | — |
-| Icône / splash | **flutter_launcher_icons**, **flutter_native_splash** (dev dependencies) | Génération automatique | — |
+| Icône / splash | **flutter_launcher_icons**, **flutter_native_splash** (dev dependencies) | Génération automatique des ressources Android (icône adaptative + monochrome Android 13+, écran de démarrage classique et API SplashScreen Android 12+) depuis `flutter_launcher_icons.yaml` / `flutter_native_splash.yaml` ; images sources dans `assets/icon/`, produites par `tool/generate_icon_sources.dart` (CR-031). Régénération : `dart run tool/generate_icon_sources.dart`, `dart run flutter_launcher_icons`, `dart run flutter_native_splash:create` | Ressources dessinées à la main |
 
 ### Versions cibles
 
@@ -93,7 +93,9 @@ Architecture en **3 couches** avec flux de données unidirectionnel :
 .
 ├── pubspec.yaml / pubspec.lock / analysis_options.yaml / l10n.yaml
 ├── android/                         projet Android généré par Flutter (manifeste, signature)
-├── assets/icon/                     icône source
+├── flutter_launcher_icons.yaml / flutter_native_splash.yaml   configuration icône et démarrage
+├── assets/icon/                     images sources de l'icône et de l'écran de démarrage
+├── tool/                            scripts de développement (generate_icon_sources.dart)
 ├── lib/
 │   ├── main.dart                    ProviderScope + LoanTrackApp
 │   ├── app.dart                     MaterialApp.router, thème, localisations

@@ -1,0 +1,19 @@
+# Launcher icon (US-6.1, CR-031). Regenerate with:
+#   dart run flutter_launcher_icons
+# Source images: assets/icon/ (see tool/generate_icon_sources.dart).
+flutter_launcher_icons:
+  android: true
+  ios: false
+  web:
+    generate: false
+  windows:
+    generate: false
+  macos:
+    generate: false
+  min_sdk_android: 26
+  image_path: "assets/icon/icon.png"
+  # Adaptive icon: theme seed color (AppTheme.seedColor) + white motif.
+  adaptive_icon_background: "#00695C"
+  adaptive_icon_foreground: "assets/icon/icon_foreground.png"
+  # Themed icon (Android 13+).
+  adaptive_icon_monochrome: "assets/icon/icon_monochrome.png"

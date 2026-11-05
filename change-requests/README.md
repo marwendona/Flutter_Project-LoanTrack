@@ -48,3 +48,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-028](CR-028-us-5-2-exporter-donnees.md) | US-5.2 : exporter les données | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-029](CR-029-us-5-3-importer-donnees.md) | US-5.3 : importer des données | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-030](CR-030-us-5-4-theme-et-informations.md) | US-5.4 : thème et informations | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
+| [CR-031](CR-031-us-6-1-icone-et-ecran-de-demarrage.md) | US-6.1 : icône et écran de démarrage | Nouvelle fonctionnalité | Implémentée | 2026-11-05 | — |

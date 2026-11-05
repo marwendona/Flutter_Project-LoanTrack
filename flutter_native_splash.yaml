@@ -1,0 +1,22 @@
+# Splash screen (US-6.1, CR-031). Regenerate with:
+#   dart run flutter_native_splash:create
+# Source image: assets/icon/splash.png (see tool/generate_icon_sources.dart).
+flutter_native_splash:
+  android: true
+  ios: false
+  web: false
+
+  # Android 11 and earlier.
+  color: "#00695C"
+  image: assets/icon/splash.png
+  color_dark: "#00332C"
+  image_dark: assets/icon/splash.png
+
+  # Android 12+ SplashScreen API (the S22).
+  android_12:
+    image: assets/icon/splash.png
+    color: "#00695C"
+    icon_background_color: "#00695C"
+    image_dark: assets/icon/splash.png
+    color_dark: "#00332C"
+    icon_background_color_dark: "#00332C"
