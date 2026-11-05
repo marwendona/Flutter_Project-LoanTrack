@@ -50,4 +50,5 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-030](CR-030-us-5-4-theme-et-informations.md) | US-5.4 : thème et informations | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-031](CR-031-us-6-1-icone-et-ecran-de-demarrage.md) | US-6.1 : icône et écran de démarrage | Nouvelle fonctionnalité | Implémentée | 2026-11-05 | — |
 | [CR-032](CR-032-us-6-2-accessibilite-et-ergonomie.md) | US-6.2 : accessibilité et ergonomie | Évolution | Implémentée | 2026-11-05 | — |
-| [CR-033](CR-033-us-6-3-test-parcours-complet.md) | US-6.3 : test du parcours complet | Technique | En cours | 2026-11-05 | — |
+| [CR-033](CR-033-us-6-3-test-parcours-complet.md) | US-6.3 : test du parcours complet | Technique | Implémentée | 2026-11-05 | — |
+| [CR-034](CR-034-us-6-4-livraison-v1-0-0.md) | US-6.4 : livraison V1.0.0 | Technique | En cours | 2026-11-05 | — |

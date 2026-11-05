@@ -17,7 +17,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E3 | Gestion des remboursements | V1 | 4 | ✅ |
 | E4 | Tableau de bord et totaux | V1 | 3 | ✅ |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ✅ |
-| E6 | Finitions et livraison de l'APK | V1 | 4 | ⬜ |
+| E6 | Finitions et livraison de l'APK | V1 | 4 | 🟨 |
 | E7 | Améliorations V2 | V2 | 4 | ⬜ |
 
 ---
@@ -199,12 +199,13 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 ### US-6.3 — Test du parcours complet · `M` · `S` · ✅
 - [x] Test de widgets (`testWidgets`) : ajouter emprunteur → prêt → remboursement partiel → vérifier les totaux du tableau de bord.
 
-### US-6.4 — Livraison V1.0.0 · `M` · `S` · ⬜
-- [ ] `version: 1.0.0+1` dans `pubspec.yaml`, APK release signé (`--target-platform android-arm64`) installé sur le S22. — ENF-01, ENF-11
+### US-6.4 — Livraison V1.0.0 · `M` · `S` · 🟨
+- [ ] `version: 1.0.0+1` dans `pubspec.yaml` *(fait)*, APK release signé (`--target-platform android-arm64`) installé sur le S22. — ENF-01, ENF-11
 - [ ] Vérification : l'APK release ne contient pas la permission `INTERNET`. — ENF-02
 - [ ] Vérification sur le S22 : rendu clair/sombre et couleurs dynamiques (Material You). *(reporté de E0)*
 - [ ] Vérifications manuelles : mode avion OK, mise à jour d'APK sans perte de données, export/import sur l'appareil.
 - [ ] CR-001 et CR-002 passées à « Implémentée ».
+- Contrôle statique fait : manifeste `main` et manifestes des 8 plugins Android sans aucune permission ; build, installation et recette sur le S22 à réaliser sur le poste de développement (liste dans CR-034).
 
 ---
 
