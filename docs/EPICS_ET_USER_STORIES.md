@@ -196,8 +196,8 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] `tooltip` / `Semantics` sur les icônes, statuts toujours accompagnés d'un libellé, zones tactiles ≥ 48 dp, test avec police agrandie. — ENF-08
 - Test `test/accessibility_test.dart` : guidelines Flutter (zones tactiles, libellés, contraste) en clair et sombre et police ×2 sans débordement, au format du S22, sur tous les écrans et feuilles ; montants qui passent sous leur libellé, boutons de formulaire empilables (CR-032). Vérification TalkBack sur le S22 (US-6.4).
 
-### US-6.3 — Test du parcours complet · `M` · `S` · ⬜
-- [ ] Test de widgets (`testWidgets`) : ajouter emprunteur → prêt → remboursement partiel → vérifier les totaux du tableau de bord.
+### US-6.3 — Test du parcours complet · `M` · `S` · ✅
+- [x] Test de widgets (`testWidgets`) : ajouter emprunteur → prêt → remboursement partiel → vérifier les totaux du tableau de bord.
 
 ### US-6.4 — Livraison V1.0.0 · `M` · `S` · ⬜
 - [ ] `version: 1.0.0+1` dans `pubspec.yaml`, APK release signé (`--target-platform android-arm64`) installé sur le S22. — ENF-01, ENF-11
