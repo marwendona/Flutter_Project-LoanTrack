@@ -49,3 +49,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-029](CR-029-us-5-3-importer-donnees.md) | US-5.3 : importer des données | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-030](CR-030-us-5-4-theme-et-informations.md) | US-5.4 : thème et informations | Nouvelle fonctionnalité | Implémentée | 2026-11-04 | — |
 | [CR-031](CR-031-us-6-1-icone-et-ecran-de-demarrage.md) | US-6.1 : icône et écran de démarrage | Nouvelle fonctionnalité | Implémentée | 2026-11-05 | — |
+| [CR-032](CR-032-us-6-2-accessibilite-et-ergonomie.md) | US-6.2 : accessibilité et ergonomie | Évolution | Implémentée | 2026-11-05 | — |

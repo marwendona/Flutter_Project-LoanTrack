@@ -84,52 +84,59 @@ class _BorrowerTile extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final currency = ref.watch(currencyProvider);
+    // Name and badge on the first line, active loans and remaining due on the
+    // second: the amount moves to its own line rather than overflowing when
+    // the system font is enlarged (ENF-08).
     return ListTile(
-      title: Text(
-        summary.borrower.name,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Text(l10n.borrowersActiveLoans(summary.activeLoanCount)),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
+      title: Row(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Semantics(
-                label: l10n.borrowersRemainingLabel,
-                child: Text(
-                  MoneyFormatter.format(summary.remaining, currency),
-                  style: textTheme.titleMedium,
+          Expanded(
+            child: Text(
+              summary.borrower.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (summary.isOverdue) ...[
+            const SizedBox(width: 8),
+            const Flexible(child: OverdueBadge()),
+          ],
+        ],
+      ),
+      subtitle: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.end,
+          spacing: 16,
+          children: [
+            Text(l10n.borrowersActiveLoans(summary.activeLoanCount)),
+            Semantics(
+              label: l10n.borrowersRemainingLabel,
+              child: Text(
+                MoneyFormatter.format(summary.remaining, currency),
+                style: textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
-              if (summary.isOverdue) ...[
-                const SizedBox(height: 4),
-                const OverdueBadge(),
-              ],
-            ],
-          ),
-          PopupMenuButton<String>(
-            tooltip: l10n.moreActionsTooltip,
-            onSelected: (action) {
-              if (action == 'edit') {
-                showBorrowerEditSheet(context, summary.borrower);
-              } else if (action == 'delete') {
-                showBorrowerDeleteDialog(context, ref, summary);
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'edit',
-                child: Text(l10n.borrowerFormEditTitle),
-              ),
-              PopupMenuItem(
-                value: 'delete',
-                child: Text(l10n.borrowerDeleteConfirm),
-              ),
-            ],
+            ),
+          ],
+        ),
+      ),
+      trailing: PopupMenuButton<String>(
+        tooltip: l10n.moreActionsTooltip,
+        onSelected: (action) {
+          if (action == 'edit') {
+            showBorrowerEditSheet(context, summary.borrower);
+          } else if (action == 'delete') {
+            showBorrowerDeleteDialog(context, ref, summary);
+          }
+        },
+        itemBuilder: (context) => [
+          PopupMenuItem(value: 'edit', child: Text(l10n.borrowerFormEditTitle)),
+          PopupMenuItem(
+            value: 'delete',
+            child: Text(l10n.borrowerDeleteConfirm),
           ),
         ],
       ),

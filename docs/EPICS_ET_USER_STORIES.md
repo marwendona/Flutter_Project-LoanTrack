@@ -192,8 +192,9 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Icône adaptative et icône thématique Android 13+ (`flutter_launcher_icons`), écran de démarrage (`flutter_native_splash`).
 - Motif blanc (pièce + flèche circulaire) sur fond `#00695C` ; démarrage `#00695C` en clair, `#00332C` en sombre ; sources dans `assets/icon/` générées par `tool/generate_icon_sources.dart` (CR-031). Rendu à vérifier sur le S22 (US-6.4).
 
-### US-6.2 — Accessibilité et ergonomie · `S` · `S` · ⬜
-- [ ] `tooltip` / `Semantics` sur les icônes, statuts toujours accompagnés d'un libellé, zones tactiles ≥ 48 dp, test avec police agrandie. — ENF-08
+### US-6.2 — Accessibilité et ergonomie · `S` · `S` · ✅
+- [x] `tooltip` / `Semantics` sur les icônes, statuts toujours accompagnés d'un libellé, zones tactiles ≥ 48 dp, test avec police agrandie. — ENF-08
+- Test `test/accessibility_test.dart` : guidelines Flutter (zones tactiles, libellés, contraste) en clair et sombre et police ×2 sans débordement, au format du S22, sur tous les écrans et feuilles ; montants qui passent sous leur libellé, boutons de formulaire empilables (CR-032). Vérification TalkBack sur le S22 (US-6.4).
 
 ### US-6.3 — Test du parcours complet · `M` · `S` · ⬜
 - [ ] Test de widgets (`testWidgets`) : ajouter emprunteur → prêt → remboursement partiel → vérifier les totaux du tableau de bord.

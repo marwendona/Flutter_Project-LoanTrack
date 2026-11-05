@@ -6,6 +6,7 @@ import '../../core/money/money_formatter.dart';
 import '../../core/router/app_router.dart';
 import '../../core/theme/status_colors.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/label_value_row.dart';
 import '../../core/widgets/overdue_badge.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower_summary.dart';
@@ -173,7 +174,10 @@ class _IndicatorsCard extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 8),
-            LinearProgressIndicator(value: totals.repaymentRatio),
+            // The rate is already read above: the bar is decorative.
+            ExcludeSemantics(
+              child: LinearProgressIndicator(value: totals.repaymentRatio),
+            ),
             const Divider(height: 32),
             _OverdueRow(totals: totals),
           ],
@@ -202,12 +206,7 @@ class _IndicatorRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = (this.style ?? Theme.of(context).textTheme.bodyLarge)
         ?.copyWith(color: color);
-    return Row(
-      children: [
-        Expanded(child: Text(label, style: style)),
-        Text(value, style: style),
-      ],
-    );
+    return LabelValueRow(label: label, value: value, style: style);
   }
 }
 

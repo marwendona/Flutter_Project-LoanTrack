@@ -6,6 +6,7 @@ import '../../core/date/date_formatter.dart';
 import '../../core/money/money_formatter.dart';
 import '../../core/widgets/date_field.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/form_actions.dart';
 import '../../data/providers.dart';
 import '../../domain/models/loan_summary.dart';
 import '../../domain/services/loan_validator.dart';
@@ -188,14 +189,12 @@ class _LoanForm extends ConsumerWidget {
           ),
         ],
         const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        FormActions(
           children: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(l10n.actionCancel),
             ),
-            const SizedBox(width: 8),
             FilledButton(
               onPressed: state.canSave ? save : null,
               child: Text(l10n.actionSave),

@@ -7,6 +7,7 @@ import '../../core/date/date_formatter.dart';
 import '../../core/money/money_formatter.dart';
 import '../../core/router/app_router.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/label_value_row.dart';
 import '../../core/widgets/loan_status_chip.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower.dart';
@@ -274,12 +275,7 @@ class _TotalRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final style = emphasized ? textTheme.titleMedium : textTheme.bodyLarge;
-    return Row(
-      children: [
-        Expanded(child: Text(label, style: style)),
-        Text(value, style: style),
-      ],
-    );
+    return LabelValueRow(label: label, value: value, style: style);
   }
 }
 
@@ -325,7 +321,8 @@ class _LoanCard extends ConsumerWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      LoanStatusChip(status: status),
+                      // Its label wraps rather than pushing the menu out.
+                      Flexible(child: LoanStatusChip(status: status)),
                       _LoanMenu(summary: summary),
                     ],
                   ),
@@ -344,8 +341,11 @@ class _LoanCard extends ConsumerWidget {
                 Text(l10n.loanRepaidOn(DateFormatter.format(repaidOn))),
               const SizedBox(height: 12),
               // Ratio for display only: amounts themselves stay integers.
-              LinearProgressIndicator(
-                value: summary.repaid.amountMinor / loan.amount.amountMinor,
+              // Decorative: repaid and remaining are read just below.
+              ExcludeSemantics(
+                child: LinearProgressIndicator(
+                  value: summary.repaid.amountMinor / loan.amount.amountMinor,
+                ),
               ),
               const SizedBox(height: 8),
               Wrap(

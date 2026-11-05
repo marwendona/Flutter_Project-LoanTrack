@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/date/date_formatter.dart';
 import '../../core/money/money_formatter.dart';
 import '../../core/widgets/date_field.dart';
+import '../../core/widgets/form_actions.dart';
 import '../../domain/models/loan_summary.dart';
 import '../../domain/models/repayment.dart';
 import '../../domain/services/repayment_validator.dart';
@@ -97,47 +98,46 @@ class _RepaymentFormSheetState extends ConsumerState<RepaymentFormSheet> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            Text(
-              state.isEditing
-                  ? l10n.repaymentFormMaxAmount(maxAmount)
-                  : l10n.loanRemainingAmount(maxAmount),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // Reminder of the maximum and "Totalité" next to it; the button
+            // moves below when both do not fit (enlarged font — ENF-08).
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: _amount,
-                    autofocus: !state.isEditing,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,\s]')),
-                    ],
-                    decoration: InputDecoration(
-                      labelText: l10n.repaymentFormAmount,
-                      suffixText: state.currency.code,
-                      errorText: state.isAmountDirty
-                          ? _amountErrorText(state, l10n)
-                          : null,
-                      errorMaxLines: 2,
-                    ),
-                    onChanged: controller.amountChanged,
-                  ),
+                Text(
+                  state.isEditing
+                      ? l10n.repaymentFormMaxAmount(maxAmount)
+                      : l10n.loanRemainingAmount(maxAmount),
                 ),
-                const SizedBox(width: 8),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: OutlinedButton(
-                    onPressed: () {
-                      _amount.text = controller.fillRemaining();
-                    },
-                    child: Text(l10n.repaymentFormFullAmount),
-                  ),
+                OutlinedButton(
+                  onPressed: () {
+                    _amount.text = controller.fillRemaining();
+                  },
+                  child: Text(l10n.repaymentFormFullAmount),
                 ),
               ],
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _amount,
+              autofocus: !state.isEditing,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.,\s]')),
+              ],
+              decoration: InputDecoration(
+                labelText: l10n.repaymentFormAmount,
+                suffixText: state.currency.code,
+                errorText: state.isAmountDirty
+                    ? _amountErrorText(state, l10n)
+                    : null,
+                errorMaxLines: 2,
+              ),
+              onChanged: controller.amountChanged,
             ),
             const SizedBox(height: 16),
             DateField(
@@ -184,7 +184,7 @@ class _RepaymentFormSheetState extends ConsumerState<RepaymentFormSheet> {
               ),
             ],
             const SizedBox(height: 16),
-            Row(
+            FormActions(
               children: [
                 if (existing != null)
                   TextButton(
@@ -194,12 +194,10 @@ class _RepaymentFormSheetState extends ConsumerState<RepaymentFormSheet> {
                     ),
                     child: Text(l10n.repaymentDeleteConfirm),
                   ),
-                const Spacer(),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(l10n.actionCancel),
                 ),
-                const SizedBox(width: 8),
                 FilledButton(
                   onPressed: state.canSave ? save : null,
                   child: Text(l10n.actionSave),

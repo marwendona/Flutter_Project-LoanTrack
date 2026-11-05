@@ -6,6 +6,7 @@ import '../../core/date/date_formatter.dart';
 import '../../core/money/money_formatter.dart';
 import '../../core/router/app_router.dart';
 import '../../core/widgets/empty_state.dart';
+import '../../core/widgets/label_value_row.dart';
 import '../../core/widgets/loan_status_chip.dart';
 import '../../data/providers.dart';
 import '../../domain/models/loan_status.dart';
@@ -195,8 +196,11 @@ class _LoanInfo extends ConsumerWidget {
             ],
             const SizedBox(height: 12),
             // Ratio for display only: amounts themselves stay integers.
-            LinearProgressIndicator(
-              value: summary.repaid.amountMinor / loan.amount.amountMinor,
+            // Decorative: repaid and remaining are read just below.
+            ExcludeSemantics(
+              child: LinearProgressIndicator(
+                value: summary.repaid.amountMinor / loan.amount.amountMinor,
+              ),
             ),
             const SizedBox(height: 8),
             Wrap(
@@ -238,14 +242,16 @@ class _RepaymentTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currency = ref.watch(currencyProvider);
     final note = repayment.note;
+    // Date and amount in the title: the amount moves below the date rather
+    // than overflowing when the system font is enlarged (ENF-08).
     return ListTile(
       leading: const Icon(Icons.payments_outlined),
-      title: Text(DateFormatter.format(repayment.repaymentDate)),
-      subtitle: note == null ? null : Text(note),
-      trailing: Text(
-        MoneyFormatter.format(repayment.amount, currency),
-        style: Theme.of(context).textTheme.titleMedium,
+      title: LabelValueRow(
+        label: DateFormatter.format(repayment.repaymentDate),
+        value: MoneyFormatter.format(repayment.amount, currency),
+        valueStyle: Theme.of(context).textTheme.titleMedium,
       ),
+      subtitle: note == null ? null : Text(note),
       onTap: () => showRepaymentFormSheet(context, loan, existing: repayment),
     );
   }

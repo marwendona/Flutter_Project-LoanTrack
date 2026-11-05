@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../core/widgets/form_actions.dart';
 import '../../domain/models/borrower.dart';
 import '../../domain/services/borrower_validator.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -149,14 +150,12 @@ class _BorrowerFormSheetState extends ConsumerState<BorrowerFormSheet> {
                 ),
               ],
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              FormActions(
                 children: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: Text(l10n.actionCancel),
                   ),
-                  const SizedBox(width: 8),
                   FilledButton(
                     onPressed: state.isSaving ? null : _save,
                     child: Text(l10n.actionSave),

@@ -9,7 +9,7 @@
 | **ENF-05** Fiabilité des calculs | Montants en entiers (unités mineures) : aucune erreur d'arrondi. Calculs couverts par des tests unitaires. |
 | **ENF-06** Intégrité | Les opérations multi-tables (suppression en cascade, import) sont transactionnelles : tout ou rien. |
 | **ENF-07** Évolutivité du schéma | Les évolutions de la base passent par des migrations de base de données testées ; aucune perte de données lors d'une mise à jour de l'APK. |
-| **ENF-08** Ergonomie | Material 3, mode clair/sombre, couleurs dynamiques (Material You via `dynamic_color`), tailles de police système respectées, zones tactiles ≥ 48 dp. |
+| **ENF-08** Ergonomie | Material 3, mode clair/sombre, couleurs dynamiques (Material You via `dynamic_color`), tailles de police système respectées, zones tactiles ≥ 48 dp. Accessibilité (CR-032) : tout bouton icône a une infobulle (`tooltip`) lue par TalkBack ; les icônes et barres de progression purement décoratives sont exclues de la lecture ; un statut ou un retard est toujours écrit en toutes lettres, jamais porté par la seule couleur ; avec la police système agrandie (jusqu'à ×2), aucun contenu ne déborde : un montant passe sous son libellé et les boutons d'un formulaire s'empilent s'ils ne tiennent pas sur une ligne. |
 | **ENF-09** Langue | Interface en français. |
 | **ENF-10** Appareil | Optimisé pour Samsung Galaxy S22 (écran 6,1", Android 14+), utilisable en portrait. minSdk 26 pour garder une marge. |
 | **ENF-11** Distribution | APK release signé avec une clé personnelle, installable en mise à jour sur la version précédente (même clé de signature obligatoire). |
