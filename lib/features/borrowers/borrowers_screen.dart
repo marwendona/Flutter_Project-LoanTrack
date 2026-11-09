@@ -6,6 +6,7 @@ import '../../core/money/money_formatter.dart';
 import '../../core/router/app_router.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/overdue_badge.dart';
+import '../../core/widgets/reliability_indicator.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower_summary.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -84,9 +85,9 @@ class _BorrowerTile extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final textTheme = Theme.of(context).textTheme;
     final currency = ref.watch(currencyProvider);
-    // Name and badge on the first line, active loans and remaining due on the
-    // second: the amount moves to its own line rather than overflowing when
-    // the system font is enlarged (ENF-08).
+    // Name and badge on the first line, reliability on the second (RG-62),
+    // active loans and remaining due on the third: the amount moves to its own
+    // line rather than overflowing when the system font is enlarged (ENF-08).
     return ListTile(
       title: Row(
         children: [
@@ -103,25 +104,34 @@ class _BorrowerTile extends ConsumerWidget {
           ],
         ],
       ),
-      subtitle: SizedBox(
-        width: double.infinity,
-        child: Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          crossAxisAlignment: WrapCrossAlignment.end,
-          spacing: 16,
-          children: [
-            Text(l10n.borrowersActiveLoans(summary.activeLoanCount)),
-            Semantics(
-              label: l10n.borrowersRemainingLabel,
-              child: Text(
-                MoneyFormatter.format(summary.remaining, currency),
-                style: textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Semantics(
+            label: l10n.reliabilityTitle,
+            child: ReliabilityIndicator(color: summary.reliability.color),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.end,
+              spacing: 16,
+              children: [
+                Text(l10n.borrowersActiveLoans(summary.activeLoanCount)),
+                Semantics(
+                  label: l10n.borrowersRemainingLabel,
+                  child: Text(
+                    MoneyFormatter.format(summary.remaining, currency),
+                    style: textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       trailing: PopupMenuButton<String>(
         tooltip: l10n.moreActionsTooltip,

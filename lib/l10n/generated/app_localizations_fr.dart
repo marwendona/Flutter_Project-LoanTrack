@@ -47,6 +47,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String get borrowersRemainingLabel => 'Reste dû';
 
   @override
+  String get reliabilityTitle => 'Fiabilité';
+
+  @override
+  String reliabilityColorLabel(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'green': 'Toujours à l\'heure',
+      'blue': '1 retard court',
+      'purple': '1 retard long',
+      'yellow': '2 retards courts',
+      'orange': '2 retards dont 1 long',
+      'red': 'Retards fréquents',
+      'black': 'Retards très fréquents',
+      'other': 'Non évalué',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String reliabilityDelayDetail(int late, int longDelays) {
+    String _temp0 = intl.Intl.pluralLogic(
+      late,
+      locale: localeName,
+      other: '$late prêts en retard',
+      one: '1 prêt en retard',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      longDelays,
+      locale: localeName,
+      other: 'dont $longDelays de plus d\'un mois',
+      zero: 'dont aucun de plus d\'un mois',
+    );
+    return '$_temp0, $_temp1';
+  }
+
+  @override
   String get actionCancel => 'Annuler';
 
   @override

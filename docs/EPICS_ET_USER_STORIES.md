@@ -226,13 +226,14 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Tests unitaires : chaque couleur ; remboursé le jour de la date promise = à l'heure ; retard de 1 mois pile = court, 1 mois + 1 jour = long ; date promise en fin de mois (31/01 → 28/02) ; prêt non soldé en retard compté jusqu'à aujourd'hui ; prêt non échu ou sans date promise ignoré ; N = 2 et L = 2 → Rouge ; N = 4 → Noir ; aucun prêt → Non évalué.
 - `ReliabilityColor` / `LoanPunctuality` et `BorrowerReliability` (`lib/domain/models`), service `ReliabilityCalculator` (`loanPunctuality`, `shortDelayLimit`, `evaluate`, `colorFor`) ; `LoanBalance` porte la date du dernier remboursement, agrégée en SQL par `BorrowersDao.watchWithLoanBalances` (CR-037).
 
-### US-7.2 — Afficher la couleur de fiabilité d'un emprunteur · `M` · `S` · ⬜
+### US-7.2 — Afficher la couleur de fiabilité d'un emprunteur · `M` · `S` · ✅
 **Je veux** voir la couleur de fiabilité dans la liste des emprunteurs et sur la fiche d'un emprunteur **afin de** la repérer sans chercher.
-- [ ] Couleurs de fiabilité fixes définies dans le thème, lisibles en clair et en sombre (contour de la pastille noire en sombre) — « Formats d'affichage ».
-- [ ] ECR-02 : pastille + libellé (RG-62) sur chaque ligne.
-- [ ] ECR-03 : pastille + libellé et « N prêts en retard, dont L de plus d'un mois » (omis si Vert ou Non évalué).
-- [ ] Mise à jour immédiate après ajout / modification / suppression d'un prêt ou d'un remboursement.
-- [ ] Libellés dans `app_fr.arb` ; couleur jamais seule (ENF-08) ; tests de widgets et test d'accessibilité mis à jour.
+- [x] Couleurs de fiabilité fixes définies dans le thème, lisibles en clair et en sombre (contour de la pastille noire en sombre) — « Formats d'affichage ».
+- [x] ECR-02 : pastille + libellé (RG-62) sur chaque ligne.
+- [x] ECR-03 : pastille + libellé et « N prêts en retard, dont L de plus d'un mois » (omis si Vert ou Non évalué).
+- [x] Mise à jour immédiate après ajout / modification / suppression d'un prêt ou d'un remboursement.
+- [x] Libellés dans `app_fr.arb` ; couleur jamais seule (ENF-08) ; tests de widgets et test d'accessibilité mis à jour.
+- Extension de thème `ReliabilityColors`, widgets `ReliabilityIndicator` / `ReliabilityDot` (`lib/core`), `BorrowerSummary.reliability` calculé par `BorrowerSummaryCalculator` (CR-038).
 
 ### US-7.3 — Page « Emprunteurs par couleur » · `M` · `M` · ⬜
 **Je veux** une page où les emprunteurs sont regroupés par couleur **afin de** voir rapidement qui est fiable et qui ne l'est pas.

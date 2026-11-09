@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../core/money/money.dart';
 import 'borrower.dart';
+import 'borrower_reliability.dart';
 import 'loan_balance.dart';
 
 part 'borrower_summary.freezed.dart';
@@ -21,6 +22,9 @@ abstract class BorrowerSummary with _$BorrowerSummary {
     /// Loans not fully repaid (remaining due > 0).
     required int activeLoanCount,
     required int overdueLoanCount,
+
+    /// Reliability color with N and L, of the day (RG-62, RG-63).
+    required BorrowerReliability reliability,
   }) = _BorrowerSummary;
 
   const BorrowerSummary._();

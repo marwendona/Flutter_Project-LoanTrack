@@ -18,4 +18,14 @@ abstract class BorrowerReliability with _$BorrowerReliability {
     required int longDelayCount,
     required ReliabilityColor color,
   }) = _BorrowerReliability;
+
+  const BorrowerReliability._();
+
+  /// Reliability of a borrower without any evaluated loan (Q-12).
+  static const notEvaluated = BorrowerReliability(
+    evaluatedLoanCount: 0,
+    lateLoanCount: 0,
+    longDelayCount: 0,
+    color: ReliabilityColor.notEvaluated,
+  );
 }

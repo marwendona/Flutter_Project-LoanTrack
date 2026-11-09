@@ -6,8 +6,11 @@ import 'package:loantrack/core/money/money.dart';
 import 'package:loantrack/core/money/money_formatter.dart';
 import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/core/widgets/overdue_badge.dart';
+import 'package:loantrack/core/widgets/reliability_indicator.dart';
 import 'package:loantrack/domain/models/borrower.dart';
+import 'package:loantrack/domain/models/borrower_reliability.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
+import 'package:loantrack/domain/models/reliability_color.dart';
 import 'package:loantrack/features/borrowers/borrowers_providers.dart';
 import 'package:loantrack/features/borrowers/borrowers_screen.dart';
 import 'package:loantrack/l10n/generated/app_localizations.dart';
@@ -51,6 +54,7 @@ void main() {
     int repaid = 0,
     int active = 1,
     int overdue = 0,
+    ReliabilityColor color = ReliabilityColor.notEvaluated,
   }) => BorrowerSummary(
     borrower: Borrower(id: id, name: name, createdAt: LocalDay(2026, 10, 1)),
     totalLent: Money(lent),
@@ -58,6 +62,7 @@ void main() {
     loanCount: active,
     activeLoanCount: active,
     overdueLoanCount: overdue,
+    reliability: BorrowerReliability.notEvaluated.copyWith(color: color),
   );
 
   testWidgets('shows the empty state', (tester) async {
@@ -108,6 +113,35 @@ void main() {
       find.descendant(of: sami, matching: find.byType(OverdueBadge)),
       findsNothing,
     );
+  });
+
+  testWidgets('shows the reliability dot and label on each row (US-7.2)', (
+    tester,
+  ) async {
+    await pumpScreen(tester, [
+      summary(1, 'Ali', lent: 3000, color: ReliabilityColor.orange),
+      summary(2, 'Sami', lent: 2000, color: ReliabilityColor.green),
+      summary(3, 'Zied', lent: 1000),
+    ]);
+
+    final tiles = find.byType(ListTile);
+    for (final (index, label) in [
+      (0, '2 retards dont 1 long'),
+      (1, "Toujours à l'heure"),
+      (2, 'Non évalué'),
+    ]) {
+      expect(
+        find.descendant(of: tiles.at(index), matching: find.text(label)),
+        findsOne,
+      );
+      expect(
+        find.descendant(
+          of: tiles.at(index),
+          matching: find.byType(ReliabilityDot),
+        ),
+        findsOne,
+      );
+    }
   });
 
   testWidgets('menu offers edit and delete only (provisional entry removed)', (

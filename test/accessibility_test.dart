@@ -9,11 +9,13 @@ import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/data/providers.dart';
 import 'package:loantrack/data/settings/settings_store.dart';
 import 'package:loantrack/domain/models/borrower.dart';
+import 'package:loantrack/domain/models/borrower_reliability.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
 import 'package:loantrack/domain/models/global_totals.dart';
 import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_status.dart';
 import 'package:loantrack/domain/models/loan_summary.dart';
+import 'package:loantrack/domain/models/reliability_color.dart';
 import 'package:loantrack/domain/models/repayment.dart';
 import 'package:loantrack/features/borrower_detail/borrower_detail_providers.dart';
 import 'package:loantrack/features/borrower_detail/borrower_detail_screen.dart';
@@ -42,18 +44,33 @@ void main() {
     createdAt: createdAt,
   );
 
-  BorrowerSummary summary(Borrower b, {int overdue = 1}) => BorrowerSummary(
+  BorrowerSummary summary(
+    Borrower b, {
+    int overdue = 1,
+    ReliabilityColor color = ReliabilityColor.black,
+  }) => BorrowerSummary(
     borrower: b,
     totalLent: const Money(12345678),
     totalRepaid: const Money(1250500),
     loanCount: 2,
     activeLoanCount: 2,
     overdueLoanCount: overdue,
+    // N and L only matter for the detail text of ECR-03 (US-7.2).
+    reliability: BorrowerReliability(
+      evaluatedLoanCount: 5,
+      lateLoanCount: 4,
+      longDelayCount: 2,
+      color: color,
+    ),
   );
 
   final summaries = [
     summary(borrower),
-    summary(Borrower(id: 2, name: 'Sami', createdAt: createdAt), overdue: 0),
+    summary(
+      Borrower(id: 2, name: 'Sami', createdAt: createdAt),
+      overdue: 0,
+      color: ReliabilityColor.green,
+    ),
   ];
 
   const totals = GlobalTotals(
@@ -241,6 +258,34 @@ void main() {
     );
     expect(find.bySemanticsLabel(RegExp('En retard')), findsOneWidget);
     expect(find.bySemanticsLabel(RegExp('Reste dû')), findsNWidgets(2));
+    semantics.dispose();
+  });
+
+  testWidgets('reliability colors are read as text (US-7.2, ENF-08)', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    await pumpScreen(
+      tester,
+      const BorrowersScreen(),
+      theme: AppTheme.light(null),
+    );
+    expect(
+      find.bySemanticsLabel(RegExp('Fiabilité\nRetards très fréquents')),
+      findsOne,
+    );
+    expect(
+      find.bySemanticsLabel(RegExp("Fiabilité\nToujours à l'heure")),
+      findsOne,
+    );
+
+    await pumpScreen(
+      tester,
+      const BorrowerDetailScreen(borrowerId: 1),
+      theme: AppTheme.dark(null),
+    );
+    expect(find.text('Retards très fréquents'), findsOne);
+    expect(find.text("4 prêts en retard, dont 2 de plus d'un mois"), findsOne);
     semantics.dispose();
   });
 }

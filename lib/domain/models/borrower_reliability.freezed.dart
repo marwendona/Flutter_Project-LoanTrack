@@ -217,8 +217,8 @@ return $default(_that.evaluatedLoanCount,_that.lateLoanCount,_that.longDelayCoun
 /// @nodoc
 
 
-class _BorrowerReliability implements BorrowerReliability {
-  const _BorrowerReliability({required this.evaluatedLoanCount, required this.lateLoanCount, required this.longDelayCount, required this.color});
+class _BorrowerReliability extends BorrowerReliability {
+  const _BorrowerReliability({required this.evaluatedLoanCount, required this.lateLoanCount, required this.longDelayCount, required this.color}): super._();
 
 
 /// Number of loans on time or late (RG-60).

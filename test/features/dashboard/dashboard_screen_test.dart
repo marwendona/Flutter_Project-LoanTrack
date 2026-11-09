@@ -10,6 +10,7 @@ import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/core/theme/status_colors.dart';
 import 'package:loantrack/core/widgets/overdue_badge.dart';
 import 'package:loantrack/domain/models/borrower.dart';
+import 'package:loantrack/domain/models/borrower_reliability.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
 import 'package:loantrack/domain/models/borrower_summary_filter.dart';
 import 'package:loantrack/domain/models/global_totals.dart';
@@ -78,6 +79,7 @@ void main() {
     loanCount: 1,
     activeLoanCount: lent > repaid ? 1 : 0,
     overdueLoanCount: overdue,
+    reliability: BorrowerReliability.notEvaluated,
   );
 
   String tnd(int amountMinor) =>

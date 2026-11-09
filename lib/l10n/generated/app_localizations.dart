@@ -148,6 +148,24 @@ abstract class AppLocalizations {
   /// **'Reste dû'**
   String get borrowersRemainingLabel;
 
+  /// Titre de la couleur de fiabilité d'un emprunteur (ECR-02, ECR-03, RG-62)
+  ///
+  /// In fr, this message translates to:
+  /// **'Fiabilité'**
+  String get reliabilityTitle;
+
+  /// Libellé d'une couleur de fiabilité (RG-62) à partir du nom de la couleur ; « Non évalué » pour le gris
+  ///
+  /// In fr, this message translates to:
+  /// **'{color, select, green{Toujours à l\'heure} blue{1 retard court} purple{1 retard long} yellow{2 retards courts} orange{2 retards dont 1 long} red{Retards fréquents} black{Retards très fréquents} other{Non évalué}}'**
+  String reliabilityColorLabel(String color);
+
+  /// Détail de la fiabilité sur ECR-03 : N prêts en retard dont L de plus d'un mois (RG-62)
+  ///
+  /// In fr, this message translates to:
+  /// **'{late, plural, =1{1 prêt en retard} other{{late} prêts en retard}}, {longDelays, plural, =0{dont aucun de plus d\'un mois} other{dont {longDelays} de plus d\'un mois}}'**
+  String reliabilityDelayDetail(int late, int longDelays);
+
   /// Bouton d'annulation d'un formulaire ou d'un dialogue
   ///
   /// In fr, this message translates to:

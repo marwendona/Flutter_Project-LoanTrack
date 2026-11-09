@@ -55,3 +55,4 @@ Statuts possibles : `Proposée` · `Approuvée` · `Rejetée` · `En cours` · `
 | [CR-035](CR-035-v2-couleur-fiabilite-emprunteurs.md) | V2 : couleur de fiabilité des emprunteurs et périmètre V2 | Nouvelle fonctionnalité + Règle métier | Implémentée | 2026-11-09 | — |
 | [CR-036](CR-036-renumerotation-epics-v2.md) | Renumérotation des epics V2 (E7 ↔ E8) | Évolution (backlog) | Implémentée | 2026-11-09 | — |
 | [CR-037](CR-037-us-7-1-calcul-couleur-fiabilite.md) | US-7.1 : calcul de la couleur de fiabilité | Nouvelle fonctionnalité | Implémentée | 2026-11-09 | — |
+| [CR-038](CR-038-us-7-2-afficher-couleur-fiabilite.md) | US-7.2 : afficher la couleur de fiabilité d'un emprunteur | Nouvelle fonctionnalité | Implémentée | 2026-11-09 | — |

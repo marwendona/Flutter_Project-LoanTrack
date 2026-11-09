@@ -9,11 +9,14 @@ import '../../core/router/app_router.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/widgets/label_value_row.dart';
 import '../../core/widgets/loan_status_chip.dart';
+import '../../core/widgets/reliability_indicator.dart';
 import '../../data/providers.dart';
 import '../../domain/models/borrower.dart';
+import '../../domain/models/borrower_reliability.dart';
 import '../../domain/models/borrower_summary.dart';
 import '../../domain/models/loan_status.dart';
 import '../../domain/models/loan_summary.dart';
+import '../../domain/models/reliability_color.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../borrowers/borrower_delete_dialog.dart';
 import '../borrowers/borrower_form_sheet.dart';
@@ -163,6 +166,7 @@ class _BorrowerDetailBody extends StatelessWidget {
       children: [
         _Contact(borrower: borrower),
         _Totals(summary: detail.summary),
+        _Reliability(reliability: detail.summary.reliability),
         if (detail.loans.isEmpty)
           EmptyState(
             icon: Icons.payments_outlined,
@@ -276,6 +280,48 @@ class _TotalRow extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final style = emphasized ? textTheme.titleMedium : textTheme.bodyLarge;
     return LabelValueRow(label: label, value: value, style: style);
+  }
+}
+
+/// Reliability color with its label and, when the borrower has delays, the
+/// number of late loans N and of long delays L (RG-62).
+class _Reliability extends StatelessWidget {
+  const _Reliability({required this.reliability});
+
+  final BorrowerReliability reliability;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final textTheme = Theme.of(context).textTheme;
+    final color = reliability.color;
+    final showDetail =
+        color != ReliabilityColor.green &&
+        color != ReliabilityColor.notEvaluated;
+    return Card(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.reliabilityTitle, style: textTheme.titleSmall),
+            const SizedBox(height: 8),
+            ReliabilityIndicator(color: color, style: textTheme.bodyLarge),
+            if (showDetail) ...[
+              const SizedBox(height: 4),
+              Text(
+                l10n.reliabilityDelayDetail(
+                  reliability.lateLoanCount,
+                  reliability.longDelayCount,
+                ),
+                style: textTheme.bodyMedium,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }
 

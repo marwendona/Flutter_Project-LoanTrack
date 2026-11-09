@@ -5,8 +5,10 @@ import '../models/borrower_summary.dart';
 import '../models/loan_balance.dart';
 import 'borrower_name_key.dart';
 import 'loan_status_calculator.dart';
+import 'reliability_calculator.dart';
 
-/// Computes the borrower totals (RG-30) and the borrowers list order (RG-04).
+/// Computes the borrower totals (RG-30), its reliability (RG-62) and the
+/// borrowers list order (RG-04).
 abstract final class BorrowerSummaryCalculator {
   /// A loan is overdue when it has a promised return date strictly before
   /// [today] and a remaining amount due (RG-20).
@@ -40,6 +42,7 @@ abstract final class BorrowerSummaryCalculator {
       loanCount: loans.length,
       activeLoanCount: activeLoanCount,
       overdueLoanCount: overdueLoanCount,
+      reliability: ReliabilityCalculator.evaluate(loans, today),
     );
   }
 

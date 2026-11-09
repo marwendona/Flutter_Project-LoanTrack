@@ -8,10 +8,13 @@ import 'package:loantrack/core/money/money_formatter.dart';
 import 'package:loantrack/core/router/app_router.dart';
 import 'package:loantrack/core/theme/app_theme.dart';
 import 'package:loantrack/core/widgets/loan_status_chip.dart';
+import 'package:loantrack/core/widgets/reliability_indicator.dart';
 import 'package:loantrack/data/providers.dart';
 import 'package:loantrack/domain/repositories/loan_repository.dart';
 import 'package:loantrack/domain/models/borrower.dart';
+import 'package:loantrack/domain/models/borrower_reliability.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
+import 'package:loantrack/domain/models/reliability_color.dart';
 import 'package:loantrack/domain/models/loan.dart';
 import 'package:loantrack/domain/models/loan_status.dart';
 import 'package:loantrack/domain/models/loan_summary.dart';
@@ -111,7 +114,10 @@ void main() {
     status: status,
   );
 
-  BorrowerDetail detail(List<LoanItem> loans) => (
+  BorrowerDetail detail(
+    List<LoanItem> loans, {
+    BorrowerReliability reliability = BorrowerReliability.notEvaluated,
+  }) => (
     summary: BorrowerSummary(
       borrower: borrower,
       totalLent: Money(
@@ -123,9 +129,77 @@ void main() {
       loanCount: loans.length,
       activeLoanCount: 0,
       overdueLoanCount: 0,
+      reliability: reliability,
     ),
     loans: loans,
   );
+
+  group('reliability (US-7.2)', () {
+    BorrowerReliability reliability(
+      ReliabilityColor color, {
+      int late = 0,
+      int long = 0,
+    }) => BorrowerReliability(
+      evaluatedLoanCount: late + 1,
+      lateLoanCount: late,
+      longDelayCount: long,
+      color: color,
+    );
+
+    for (final (color, late, long, label, detailText) in [
+      (
+        ReliabilityColor.blue,
+        1,
+        0,
+        '1 retard court',
+        "1 prêt en retard, dont aucun de plus d'un mois",
+      ),
+      (
+        ReliabilityColor.orange,
+        2,
+        1,
+        '2 retards dont 1 long',
+        "2 prêts en retard, dont 1 de plus d'un mois",
+      ),
+      (
+        ReliabilityColor.black,
+        5,
+        3,
+        'Retards très fréquents',
+        "5 prêts en retard, dont 3 de plus d'un mois",
+      ),
+    ]) {
+      testWidgets('$color shows its label and N / L', (tester) async {
+        await pumpScreen(
+          tester,
+          detail(
+            const [],
+            reliability: reliability(color, late: late, long: long),
+          ),
+        );
+
+        expect(find.text('Fiabilité'), findsOneWidget);
+        expect(find.byType(ReliabilityDot), findsOneWidget);
+        expect(find.text(label), findsOneWidget);
+        expect(find.text(detailText), findsOneWidget);
+      });
+    }
+
+    for (final (color, label) in [
+      (ReliabilityColor.green, "Toujours à l'heure"),
+      (ReliabilityColor.notEvaluated, 'Non évalué'),
+    ]) {
+      testWidgets('$color shows its label without N / L', (tester) async {
+        await pumpScreen(
+          tester,
+          detail(const [], reliability: reliability(color)),
+        );
+
+        expect(find.text(label), findsOneWidget);
+        expect(find.textContaining('en retard, dont'), findsNothing);
+      });
+    }
+  });
 
   testWidgets('shows contact, totals and the empty loans state', (
     tester,

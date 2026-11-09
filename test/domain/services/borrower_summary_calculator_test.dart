@@ -2,7 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/core/date/local_day.dart';
 import 'package:loantrack/core/money/money.dart';
 import 'package:loantrack/domain/models/borrower.dart';
+import 'package:loantrack/domain/models/borrower_reliability.dart';
 import 'package:loantrack/domain/models/loan_balance.dart';
+import 'package:loantrack/domain/models/reliability_color.dart';
 import 'package:loantrack/domain/services/borrower_summary_calculator.dart';
 
 void main() {
@@ -79,6 +81,37 @@ void main() {
       expect(summary.activeLoanCount, 2);
       expect(summary.overdueLoanCount, 1);
       expect(summary.isOverdue, isTrue);
+    });
+  });
+
+  group('summarize: reliability (RG-62)', () {
+    test('borrower without loans is not evaluated', () {
+      final summary = BorrowerSummaryCalculator.summarize(
+        borrower(1, 'Ali'),
+        const [],
+        today,
+      );
+      expect(summary.reliability, BorrowerReliability.notEvaluated);
+    });
+
+    test('counts the delays of all the loans with the day of [today]', () {
+      final summary = BorrowerSummaryCalculator.summarize(borrower(1, 'Ali'), [
+        // Still due, promised more than a month ago: long delay.
+        loan(1000, promised: LocalDay(2026, 9, 1)),
+        // Still due, promised yesterday: short delay.
+        loan(1000, promised: LocalDay(2026, 11, 1)),
+        // Not due yet: not evaluated.
+        loan(1000, promised: LocalDay(2026, 12, 1)),
+      ], today);
+      expect(
+        summary.reliability,
+        const BorrowerReliability(
+          evaluatedLoanCount: 2,
+          lateLoanCount: 2,
+          longDelayCount: 1,
+          color: ReliabilityColor.orange,
+        ),
+      );
     });
   });
 

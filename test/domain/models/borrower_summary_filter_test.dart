@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:loantrack/core/date/local_day.dart';
 import 'package:loantrack/core/money/money.dart';
 import 'package:loantrack/domain/models/borrower.dart';
+import 'package:loantrack/domain/models/borrower_reliability.dart';
 import 'package:loantrack/domain/models/borrower_summary.dart';
 import 'package:loantrack/domain/models/borrower_summary_filter.dart';
 
@@ -18,6 +19,7 @@ void main() {
     loanCount: lent > 0 ? 1 : 0,
     activeLoanCount: lent > repaid ? 1 : 0,
     overdueLoanCount: overdue,
+    reliability: BorrowerReliability.notEvaluated,
   );
 
   final late = summary('Late', lent: 1000, repaid: 200, overdue: 1);
