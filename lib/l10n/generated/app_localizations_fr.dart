@@ -82,6 +82,52 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get reliabilityNoDelay => 'Aucun prêt en retard';
+
+  @override
+  String reliabilityColorCondition(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'green': 'Tous les prêts évalués ont été remboursés au plus tard à la date promise.',
+      'blue': 'Un seul prêt en retard, d\'un mois au plus.',
+      'purple': 'Un seul prêt en retard, de plus d\'un mois.',
+      'yellow': 'Deux prêts en retard, d\'un mois au plus chacun.',
+      'orange': 'Deux prêts en retard, dont un de plus d\'un mois.',
+      'red':
+          'Deux prêts en retard de plus d\'un mois, ou trois prêts en retard.',
+      'black': 'Plus de trois prêts en retard.',
+      'other': 'Aucun prêt évalué : aucun prêt, ou seulement des prêts sans date promise ou pas encore échus.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get reliabilityLegendTitle => 'Signification des couleurs';
+
+  @override
+  String get reliabilityLegendFootnote =>
+      'Un prêt est en retard s\'il a été soldé après la date promise, ou s\'il ne l\'est toujours pas alors que cette date est passée. Les retards comptent sur tous les prêts, même soldés.';
+
+  @override
+  String get borrowersByColorTitle => 'Emprunteurs par couleur';
+
+  @override
+  String get borrowersByColorEmpty => 'Aucun emprunteur.';
+
+  @override
+  String borrowersByColorCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emprunteurs',
+      one: '1 emprunteur',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get actionClose => 'Fermer';
+
+  @override
   String get actionCancel => 'Annuler';
 
   @override

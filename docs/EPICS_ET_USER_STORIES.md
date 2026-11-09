@@ -18,7 +18,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E4 | Tableau de bord et totaux | V1 | 3 | ✅ |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ✅ |
 | E6 | Finitions et livraison de l'APK | V1 | 4 | ✅ |
-| E7 | Fiabilité des emprunteurs (couleurs) | V2 | 3 | 🟨 |
+| E7 | Fiabilité des emprunteurs (couleurs) | V2 | 3 | ✅ |
 | E8 | Améliorations V2 | V2 | 4 | ⬜ |
 
 ---
@@ -235,14 +235,15 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 - [x] Libellés dans `app_fr.arb` ; couleur jamais seule (ENF-08) ; tests de widgets et test d'accessibilité mis à jour.
 - Extension de thème `ReliabilityColors`, widgets `ReliabilityIndicator` / `ReliabilityDot` (`lib/core`), `BorrowerSummary.reliability` calculé par `BorrowerSummaryCalculator` (CR-038).
 
-### US-7.3 — Page « Emprunteurs par couleur » · `M` · `M` · ⬜
+### US-7.3 — Page « Emprunteurs par couleur » · `M` · `M` · ✅
 **Je veux** une page où les emprunteurs sont regroupés par couleur **afin de** voir rapidement qui est fiable et qui ne l'est pas.
-- [ ] Bouton icône « Emprunteurs par couleur » (infobulle) dans la barre du haut d'ECR-02 → ECR-07 (route `go_router` sous l'onglet Emprunteurs).
-- [ ] Une section par couleur dans l'ordre RG-64, en-tête avec pastille, libellé et nombre d'emprunteurs ; couleurs vides masquées ; tri RG-04 dans chaque section.
-- [ ] Ligne : nom, reste dû, N et L ; appui → ECR-03.
-- [ ] Bouton « Signification des couleurs » → dialogue reprenant RG-62 en clair.
-- [ ] État vide « Aucun emprunteur. » ; mode sombre et police agrandie vérifiés (test d'accessibilité étendu à ECR-07).
-- [ ] Tests de widgets : regroupement, ordre des sections, navigation vers ECR-03. — ECR-07
+- [x] Bouton icône « Emprunteurs par couleur » (infobulle) dans la barre du haut d'ECR-02 → ECR-07 (route `go_router` sous l'onglet Emprunteurs).
+- [x] Une section par couleur dans l'ordre RG-64, en-tête avec pastille, libellé et nombre d'emprunteurs ; couleurs vides masquées ; tri RG-04 dans chaque section.
+- [x] Ligne : nom, reste dû, N et L ; appui → ECR-03.
+- [x] Bouton « Signification des couleurs » → dialogue reprenant RG-62 en clair.
+- [x] État vide « Aucun emprunteur. » ; mode sombre et police agrandie vérifiés (test d'accessibilité étendu à ECR-07).
+- [x] Tests de widgets : regroupement, ordre des sections, navigation vers ECR-03. — ECR-07
+- Route `/borrowers/by-color` (`AppRoutes.borrowersByColor`), service `ReliabilityGrouping` (`lib/domain/services`), `borrowersByColorProvider`, `BorrowersByColorScreen` et `ReliabilityLegendDialog` (`lib/features/borrowers_by_color`) (CR-039).
 
 ## E8 — Améliorations V2
 

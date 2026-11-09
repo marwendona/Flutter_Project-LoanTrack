@@ -22,6 +22,8 @@ import 'package:loantrack/features/borrower_detail/borrower_detail_screen.dart';
 import 'package:loantrack/features/borrowers/borrower_form_sheet.dart';
 import 'package:loantrack/features/borrowers/borrowers_providers.dart';
 import 'package:loantrack/features/borrowers/borrowers_screen.dart';
+import 'package:loantrack/features/borrowers_by_color/borrowers_by_color_screen.dart';
+import 'package:loantrack/features/borrowers_by_color/reliability_legend_dialog.dart';
 import 'package:loantrack/features/dashboard/dashboard_providers.dart';
 import 'package:loantrack/features/dashboard/dashboard_screen.dart';
 import 'package:loantrack/features/loan/loan_form_screen.dart';
@@ -149,6 +151,8 @@ void main() {
     'ECR-04 loan form': const LoanFormScreen(borrowerId: 1),
     'ECR-05 loan detail': const LoanDetailScreen(borrowerId: 1, loanId: 1),
     'ECR-06 settings': const SettingsScreen(),
+    'ECR-07 borrowers by color': const BorrowersByColorScreen(),
+    'reliability legend dialog': sheetHost(showReliabilityLegendDialog),
     'borrower form sheet': sheetHost(showBorrowerFormSheet),
     'repayment form sheet': sheetHost(
       (context) => showRepaymentFormSheet(context, loanSummary(1)),

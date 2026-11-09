@@ -166,6 +166,54 @@ abstract class AppLocalizations {
   /// **'{late, plural, =1{1 prêt en retard} other{{late} prêts en retard}}, {longDelays, plural, =0{dont aucun de plus d\'un mois} other{dont {longDelays} de plus d\'un mois}}'**
   String reliabilityDelayDetail(int late, int longDelays);
 
+  /// Détail N / L d'un emprunteur sans prêt en retard (ECR-07, RG-62)
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun prêt en retard'**
+  String get reliabilityNoDelay;
+
+  /// Condition en clair d'une couleur de fiabilité dans le dialogue « Signification des couleurs » (ECR-07, RG-62)
+  ///
+  /// In fr, this message translates to:
+  /// **'{color, select, green{Tous les prêts évalués ont été remboursés au plus tard à la date promise.} blue{Un seul prêt en retard, d\'un mois au plus.} purple{Un seul prêt en retard, de plus d\'un mois.} yellow{Deux prêts en retard, d\'un mois au plus chacun.} orange{Deux prêts en retard, dont un de plus d\'un mois.} red{Deux prêts en retard de plus d\'un mois, ou trois prêts en retard.} black{Plus de trois prêts en retard.} other{Aucun prêt évalué : aucun prêt, ou seulement des prêts sans date promise ou pas encore échus.}}'**
+  String reliabilityColorCondition(String color);
+
+  /// Bouton et titre du dialogue expliquant les couleurs de fiabilité (ECR-07)
+  ///
+  /// In fr, this message translates to:
+  /// **'Signification des couleurs'**
+  String get reliabilityLegendTitle;
+
+  /// Définition d'un prêt en retard sous le tableau des couleurs (ECR-07, RG-60, RG-61)
+  ///
+  /// In fr, this message translates to:
+  /// **'Un prêt est en retard s\'il a été soldé après la date promise, ou s\'il ne l\'est toujours pas alors que cette date est passée. Les retards comptent sur tous les prêts, même soldés.'**
+  String get reliabilityLegendFootnote;
+
+  /// Titre d'ECR-07 et infobulle du bouton qui l'ouvre depuis ECR-02
+  ///
+  /// In fr, this message translates to:
+  /// **'Emprunteurs par couleur'**
+  String get borrowersByColorTitle;
+
+  /// État vide d'ECR-07
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun emprunteur.'**
+  String get borrowersByColorEmpty;
+
+  /// Nombre d'emprunteurs d'une section d'ECR-07
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{1 emprunteur} other{{count} emprunteurs}}'**
+  String borrowersByColorCount(int count);
+
+  /// Bouton de fermeture d'un dialogue d'information
+  ///
+  /// In fr, this message translates to:
+  /// **'Fermer'**
+  String get actionClose;
+
   /// Bouton d'annulation d'un formulaire ou d'un dialogue
   ///
   /// In fr, this message translates to:

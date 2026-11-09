@@ -66,6 +66,48 @@
       }
     }
   },
+  "reliabilityNoDelay": "Aucun prêt en retard",
+  "@reliabilityNoDelay": {
+    "description": "Détail N / L d'un emprunteur sans prêt en retard (ECR-07, RG-62)"
+  },
+  "reliabilityColorCondition": "{color, select, green{Tous les prêts évalués ont été remboursés au plus tard à la date promise.} blue{Un seul prêt en retard, d'un mois au plus.} purple{Un seul prêt en retard, de plus d'un mois.} yellow{Deux prêts en retard, d'un mois au plus chacun.} orange{Deux prêts en retard, dont un de plus d'un mois.} red{Deux prêts en retard de plus d'un mois, ou trois prêts en retard.} black{Plus de trois prêts en retard.} other{Aucun prêt évalué : aucun prêt, ou seulement des prêts sans date promise ou pas encore échus.}}",
+  "@reliabilityColorCondition": {
+    "description": "Condition en clair d'une couleur de fiabilité dans le dialogue « Signification des couleurs » (ECR-07, RG-62)",
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "reliabilityLegendTitle": "Signification des couleurs",
+  "@reliabilityLegendTitle": {
+    "description": "Bouton et titre du dialogue expliquant les couleurs de fiabilité (ECR-07)"
+  },
+  "reliabilityLegendFootnote": "Un prêt est en retard s'il a été soldé après la date promise, ou s'il ne l'est toujours pas alors que cette date est passée. Les retards comptent sur tous les prêts, même soldés.",
+  "@reliabilityLegendFootnote": {
+    "description": "Définition d'un prêt en retard sous le tableau des couleurs (ECR-07, RG-60, RG-61)"
+  },
+  "borrowersByColorTitle": "Emprunteurs par couleur",
+  "@borrowersByColorTitle": {
+    "description": "Titre d'ECR-07 et infobulle du bouton qui l'ouvre depuis ECR-02"
+  },
+  "borrowersByColorEmpty": "Aucun emprunteur.",
+  "@borrowersByColorEmpty": {
+    "description": "État vide d'ECR-07"
+  },
+  "borrowersByColorCount": "{count, plural, =1{1 emprunteur} other{{count} emprunteurs}}",
+  "@borrowersByColorCount": {
+    "description": "Nombre d'emprunteurs d'une section d'ECR-07",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "actionClose": "Fermer",
+  "@actionClose": {
+    "description": "Bouton de fermeture d'un dialogue d'information"
+  },
   "actionCancel": "Annuler",
   "@actionCancel": {
     "description": "Bouton d'annulation d'un formulaire ou d'un dialogue"

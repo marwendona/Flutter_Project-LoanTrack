@@ -25,6 +25,13 @@ class BorrowersScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.navBorrowers),
+        actions: [
+          IconButton(
+            tooltip: l10n.borrowersByColorTitle,
+            icon: const Icon(Icons.palette_outlined),
+            onPressed: () => context.go(AppRoutes.borrowersByColor),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Padding(

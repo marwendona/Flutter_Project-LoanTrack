@@ -119,6 +119,7 @@ Architecture en **3 couches** avec flux de données unidirectionnel :
 │   └── features/
 │       ├── dashboard/               dashboard_screen.dart, dashboard_controller.dart, widgets/
 │       ├── borrowers/               liste + formulaire emprunteur
+│       ├── borrowers_by_color/      ECR-07 emprunteurs par couleur, dialogue des couleurs
 │       ├── borrower_detail/
 │       ├── loan/                    formulaire et détail prêt, saisie remboursement
 │       └── settings/

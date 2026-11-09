@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../features/borrower_detail/borrower_detail_screen.dart';
 import '../../features/borrowers/borrowers_screen.dart';
+import '../../features/borrowers_by_color/borrowers_by_color_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/loan/loan_form_screen.dart';
 import '../../features/loan_detail/loan_detail_screen.dart';
@@ -14,6 +15,9 @@ abstract final class AppRoutes {
   static const dashboard = '/dashboard';
   static const borrowers = '/borrowers';
   static const settings = '/settings';
+
+  /// ECR-07 — Borrowers grouped by reliability color (US-7.3).
+  static const borrowersByColor = '$borrowers/by-color';
 
   /// ECR-03 — Borrower detail (US-2.2).
   static String borrowerDetail(int borrowerId) => '$borrowers/$borrowerId';
@@ -62,6 +66,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutes.borrowers,
                 builder: (context, state) => const BorrowersScreen(),
                 routes: [
+                  // Declared before ':borrowerId' so that it matches first.
+                  GoRoute(
+                    path: 'by-color',
+                    builder: (context, state) => const BorrowersByColorScreen(),
+                  ),
                   GoRoute(
                     path: ':borrowerId',
                     builder: (context, state) =>
