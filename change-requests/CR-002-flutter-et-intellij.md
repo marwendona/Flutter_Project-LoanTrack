@@ -43,8 +43,8 @@ Analyse de faisabilité : **aucun point bloquant**. Limites acceptées (détaill
 
 ## 5. Critères d'acceptation
 
-- [ ] Documentation cohérente : aucune référence résiduelle à Kotlin / Compose / Room / Hilt / Android Studio comme choix retenu.
-- [ ] Le projet Flutter s'ouvre, se compile et se lance depuis IntelliJ IDEA sur le S22 (vérifié en US-0.1).
+- [x] Documentation cohérente : aucune référence résiduelle à Kotlin / Compose / Room / Hilt / Android Studio comme choix retenu.
+- [x] Le projet Flutter s'ouvre, se compile et se lance depuis IntelliJ IDEA sur le S22 (vérifié en US-0.1).
 
 ## 6. Décision
 

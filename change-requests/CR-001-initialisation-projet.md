@@ -44,10 +44,10 @@ Remplacer un suivi informel (mémoire, papier, notes) par un outil fiable, priv�
 
 ## 5. Critères d'acceptation
 
-- [ ] Le propriétaire a relu et validé les spécifications.
-- [ ] Les questions ouvertes (`specifications/05-questions-ouvertes.md`) sont tranchées.
-- [ ] Les choix techniques sont validés.
-- [ ] Le backlog et l'ordre des epics sont validés.
+- [x] Le propriétaire a relu et validé les spécifications.
+- [x] Les questions ouvertes (`specifications/05-questions-ouvertes.md`) sont tranchées.
+- [x] Les choix techniques sont validés.
+- [x] Le backlog et l'ordre des epics sont validés.
 
 ## 6. Décision
 

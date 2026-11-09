@@ -2,7 +2,7 @@
 
 | Champ | Valeur |
 |---|---|
-| **Statut** | En cours |
+| **Statut** | Implémentée |
 | **Type** | Technique |
 | **Date de création** | 2026-11-05 |
 | **Date de décision** | 2026-10-30 (backlog validé avec CR-001 et CR-002) |
@@ -38,11 +38,11 @@ Dernière story de la V1 : elle regroupe toutes les vérifications sur l'APK rel
 ## 5. Critères d'acceptation
 
 - [x] `version: 1.0.0+1` dans `pubspec.yaml`.
-- [ ] APK release signé (`--target-platform android-arm64`) installé sur le S22. — ENF-01, ENF-11
-- [ ] L'APK release ne contient pas la permission `INTERNET`. — ENF-02
-- [ ] Sur le S22 : rendu clair / sombre et couleurs dynamiques (Material You).
-- [ ] Vérifications manuelles : mode avion OK, mise à jour d'APK sans perte de données, export / import sur l'appareil.
-- [ ] CR-001 et CR-002 passées à « Implémentée ».
+- [x] APK release signé (`--target-platform android-arm64`) installé sur le S22. — ENF-01, ENF-11
+- [x] L'APK release ne contient pas la permission `INTERNET`. — ENF-02
+- [x] Sur le S22 : rendu clair / sombre et couleurs dynamiques (Material You).
+- [x] Vérifications manuelles : mode avion OK, mise à jour d'APK sans perte de données, export / import sur l'appareil.
+- [x] CR-001 et CR-002 passées à « Implémentée ».
 - [x] `flutter analyze` sans nouvel avertissement et `flutter test` vert.
 
 ## 6. Décision
@@ -61,14 +61,19 @@ Approuvée dans le cadre du backlog V1 (CR-001, CR-002) le 2026-10-30.
 ### Procédure de livraison (à exécuter sur le poste de développement)
 
 1. `flutter pub get` puis `flutter build apk --release --target-platform android-arm64` (keystore et `android/key.properties` présents).
-2. Vérifier la signature : `apksigner verify --print-certs build/app/outputs/flutter-apk/app-release.apk` (certificat du keystore personnel, pas la clé debug).
-3. Vérifier les permissions : `aapt dump permissions build/app/outputs/flutter-apk/app-release.apk` (ou IntelliJ › *Analyze APK*) → aucune ligne `android.permission.INTERNET`. — ENF-02
-4. **Mise à jour sans perte** : avec une version antérieure installée et des données saisies, `flutter install --release` (ou `adb install -r …`) → les données sont conservées. — ENF-11
-5. Version affichée dans Paramètres : `1.0.0 (1)`.
-6. Mode avion activé : lancement, création / modification / suppression d'emprunteur, prêt et remboursement fonctionnent. — ENF-01
-7. Thème : Système / Clair / Sombre, couleurs dynamiques Material You (changer de fond d'écran) ; parcourir tous les écrans et feuilles en sombre.
-8. Icône adaptative, icône thématique (Android 13+), écran de démarrage clair (`#00695C`) et sombre (`#00332C`) — réserve CR-031.
-9. Accessibilité : TalkBack activé et taille de police au maximum sur tous les écrans — réserve CR-032.
-10. Export JSON via le sélecteur système, puis import du fichier exporté → données identiques ; contrôle du dialogue d'import en sombre — réserves CR-028, CR-029.
-11. Bouton d'appel d'un emprunteur : ouverture du composeur pré-rempli — réserve CR-017.
-12. Une fois tout validé : cocher les critères ci-dessus, passer CR-034, CR-001 et CR-002 à « Implémentée » (version `1.0.0+1`), et compléter les critères reportés de CR-004, CR-006 et CR-009.
+2. Ajouter un fichier dans C:\Users\MSI\Documents\Freelance\LoanTrack\android\key.propertie et le remplir par:
+   storePassword=<votre_mot_de_passe>
+   keyPassword=<votre_mot_de_passe>
+   keyAlias=upload
+   storeFile=upload-keystore.jks
+3. Vérifier la signature : `C:\Flutter\Android_SDK\build-tools\36.0.0\apksigner.bat verify --print-certs build/app/outputs/flutter-apk/app-release.apk` (certificat du keystore personnel, pas la clé debug).
+4. Vérifier les permissions : `C:\Flutter\Android_SDK\build-tools\36.0.0\aapt.exe dump permissions build/app/outputs/flutter-apk/app-release.apk` (ou IntelliJ › *Analyze APK*) → aucune ligne `android.permission.INTERNET`. — ENF-02
+5. **Mise à jour sans perte** : avec une version antérieure installée et des données saisies, `flutter install --release` (ou `adb install -r …`) → les données sont conservées. — ENF-11
+6. Version affichée dans Paramètres : `1.0.0 (1)`.
+7. Mode avion activé : lancement, création / modification / suppression d'emprunteur, prêt et remboursement fonctionnent. — ENF-01
+8. Thème : Système / Clair / Sombre, couleurs dynamiques Material You (changer de fond d'écran) ; parcourir tous les écrans et feuilles en sombre.
+9. Icône adaptative, icône thématique (Android 13+), écran de démarrage clair (`#00695C`) et sombre (`#00332C`) — réserve CR-031.
+10. Accessibilité : TalkBack activé et taille de police au maximum sur tous les écrans — réserve CR-032.
+11. Export JSON via le sélecteur système, puis import du fichier exporté → données identiques ; contrôle du dialogue d'import en sombre — réserves CR-028, CR-029.
+12. Bouton d'appel d'un emprunteur : ouverture du composeur pré-rempli — réserve CR-017.
+13. Une fois tout validé : cocher les critères ci-dessus, passer CR-034, CR-001 et CR-002 à « Implémentée » (version `1.0.0+1`), et compléter les critères reportés de CR-004, CR-006 et CR-009.

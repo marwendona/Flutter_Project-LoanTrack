@@ -2,7 +2,7 @@
 
 | Champ | Valeur |
 |---|---|
-| **Statut** | En cours |
+| **Statut** | Implémentée |
 | **Type** | Technique |
 | **Date de création** | 2026-11-05 |
 | **Date de décision** | 2026-10-30 (backlog validé avec CR-001 et CR-002) |
