@@ -182,6 +182,19 @@ void main() {
       ]);
     });
 
+    test('per borrower: most recent repayment date of each loan '
+        '(RG-22, RG-60)', () async {
+      final rows = await db.borrowersDao.watchWithLoanBalances().first;
+
+      expect(rows.map((r) => (r.loan?.id, r.lastRepaymentDate)), [
+        (aliPartial, LocalDay(2026, 10, 5)),
+        (aliUnpaid, null),
+        (aliRepaid, LocalDay(2026, 9, 25)),
+        (samiLoan, LocalDay(2026, 10, 1)),
+        (null, null),
+      ]);
+    });
+
     test('per borrower: total lent, repaid and remaining due (RG-30), '
         'zero for a borrower without loan', () async {
       final rows = await db.borrowersDao.watchWithLoanBalances().first;

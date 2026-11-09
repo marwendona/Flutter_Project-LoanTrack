@@ -32,5 +32,6 @@ abstract class LoanSummary with _$LoanSummary {
     amount: loan.amount,
     repaid: repaid,
     promisedReturnDate: loan.promisedReturnDate,
+    lastRepaymentDate: lastRepaymentDate,
   );
 }

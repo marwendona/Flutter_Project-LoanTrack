@@ -1,16 +1,19 @@
 import 'package:drift/drift.dart';
 
+import '../../../core/date/local_day.dart';
 import '../app_database.dart';
 import '../tables.dart';
 
 part 'borrowers_dao.g.dart';
 
-/// One borrower with one of its loans (null if it has none) and the sum of
-/// that loan's repayments in minor units.
+/// One borrower with one of its loans (null if it has none), the sum of that
+/// loan's repayments in minor units and the date of its most recent repayment
+/// (null if it has none).
 typedef BorrowerLoanBalanceRow = ({
   BorrowerRow borrower,
   LoanRow? loan,
   int repaidMinor,
+  LocalDay? lastRepaymentDate,
 });
 
 @DriftAccessor(tables: [Borrowers, Loans, Repayments])
@@ -22,9 +25,11 @@ class BorrowersDao extends DatabaseAccessor<AppDatabase>
       (select(borrowers)..orderBy([(b) => OrderingTerm.asc(b.name)])).watch();
 
   /// One row per (borrower, loan), borrowers by name, then loans by id.
-  /// Repaid amounts are aggregated in SQL, never stored (RG-21).
+  /// Repaid amounts and last repayment dates are aggregated in SQL, never
+  /// stored (RG-21, RG-22).
   Stream<List<BorrowerLoanBalanceRow>> watchWithLoanBalances() {
     final repaid = repayments.amountMinor.sum();
+    final lastRepaymentDate = repayments.repaymentDate.max();
     final query =
         select(borrowers).join([
             leftOuterJoin(loans, loans.borrowerId.equalsExp(borrowers.id)),
@@ -34,7 +39,7 @@ class BorrowersDao extends DatabaseAccessor<AppDatabase>
               useColumns: false,
             ),
           ])
-          ..addColumns([repaid])
+          ..addColumns([repaid, lastRepaymentDate])
           ..groupBy([borrowers.id, loans.id])
           ..orderBy([
             OrderingTerm.asc(borrowers.name),
@@ -48,6 +53,10 @@ class BorrowersDao extends DatabaseAccessor<AppDatabase>
             borrower: row.readTable(borrowers),
             loan: row.readTableOrNull(loans),
             repaidMinor: row.read(repaid) ?? 0,
+            lastRepaymentDate: switch (row.read(lastRepaymentDate)) {
+              final int epochDay => LocalDay.fromEpochDay(epochDay),
+              null => null,
+            },
           ),
       ],
     );

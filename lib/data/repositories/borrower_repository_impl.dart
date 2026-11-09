@@ -45,6 +45,7 @@ class BorrowerRepositoryImpl implements BorrowerRepository {
             amount: Money(loan.amountMinor),
             repaid: Money(row.repaidMinor),
             promisedReturnDate: loan.promisedReturnDate,
+            lastRepaymentDate: row.lastRepaymentDate,
           ),
         );
       }

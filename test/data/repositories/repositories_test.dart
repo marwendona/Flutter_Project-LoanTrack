@@ -136,6 +136,7 @@ void main() {
         amount: const Money(5000),
         repaid: const Money(1500),
         promisedReturnDate: LocalDay(2026, 10, 31),
+        lastRepaymentDate: LocalDay(2026, 10, 20),
       ),
       const LoanBalance(amount: Money(2000), repaid: Money.zero),
     ]);

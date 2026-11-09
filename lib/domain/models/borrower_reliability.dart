@@ -1,0 +1,21 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'reliability_color.dart';
+
+part 'borrower_reliability.freezed.dart';
+
+/// Derived reliability of a borrower (RG-62). Never stored nor exported (RG-63).
+@freezed
+abstract class BorrowerReliability with _$BorrowerReliability {
+  const factory BorrowerReliability({
+    /// Number of loans on time or late (RG-60).
+    required int evaluatedLoanCount,
+
+    /// N: number of late loans.
+    required int lateLoanCount,
+
+    /// L: number of late loans whose delay is long (RG-61).
+    required int longDelayCount,
+    required ReliabilityColor color,
+  }) = _BorrowerReliability;
+}

@@ -18,7 +18,7 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E4 | Tableau de bord et totaux | V1 | 3 | ✅ |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ✅ |
 | E6 | Finitions et livraison de l'APK | V1 | 4 | ✅ |
-| E7 | Fiabilité des emprunteurs (couleurs) | V2 | 3 | ⬜ |
+| E7 | Fiabilité des emprunteurs (couleurs) | V2 | 3 | 🟨 |
 | E8 | Améliorations V2 | V2 | 4 | ⬜ |
 
 ---
@@ -218,12 +218,13 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 > Objectif : savoir d'un coup d'œil quels emprunteurs remboursent à l'heure, grâce à une couleur calculée à partir de leurs retards (RG-60 à RG-64), et les retrouver regroupés par couleur.
 
-### US-7.1 — Calcul de la couleur de fiabilité · `M` · `M` · ⬜
+### US-7.1 — Calcul de la couleur de fiabilité · `M` · `M` · ✅
 **En tant que** prêteur, **je veux** que chaque emprunteur reçoive automatiquement une couleur selon la ponctualité de ses remboursements **afin de** juger sa fiabilité sans relire tout son historique.
-- [ ] Modèle `domain` de la couleur de fiabilité (Vert, Bleu, Violet, Jaune, Orange, Rouge, Noir, Non évalué) dans l'ordre RG-64.
-- [ ] Service `domain/services` (Dart pur, date du jour injectée) calculant pour un prêt : évaluable ou non, à l'heure / en retard, retard court / long (RG-60, RG-61) ; et pour un emprunteur : N, L et la couleur (RG-62).
-- [ ] Données nécessaires (date promise, reste dû, date du dernier remboursement par prêt) fournies par les repositories sans nouvelle colonne ni migration ; couleur jamais stockée ni exportée (RG-63).
-- [ ] Tests unitaires : chaque couleur ; remboursé le jour de la date promise = à l'heure ; retard de 1 mois pile = court, 1 mois + 1 jour = long ; date promise en fin de mois (31/01 → 28/02) ; prêt non soldé en retard compté jusqu'à aujourd'hui ; prêt non échu ou sans date promise ignoré ; N = 2 et L = 2 → Rouge ; N = 4 → Noir ; aucun prêt → Non évalué.
+- [x] Modèle `domain` de la couleur de fiabilité (Vert, Bleu, Violet, Jaune, Orange, Rouge, Noir, Non évalué) dans l'ordre RG-64.
+- [x] Service `domain/services` (Dart pur, date du jour injectée) calculant pour un prêt : évaluable ou non, à l'heure / en retard, retard court / long (RG-60, RG-61) ; et pour un emprunteur : N, L et la couleur (RG-62).
+- [x] Données nécessaires (date promise, reste dû, date du dernier remboursement par prêt) fournies par les repositories sans nouvelle colonne ni migration ; couleur jamais stockée ni exportée (RG-63).
+- [x] Tests unitaires : chaque couleur ; remboursé le jour de la date promise = à l'heure ; retard de 1 mois pile = court, 1 mois + 1 jour = long ; date promise en fin de mois (31/01 → 28/02) ; prêt non soldé en retard compté jusqu'à aujourd'hui ; prêt non échu ou sans date promise ignoré ; N = 2 et L = 2 → Rouge ; N = 4 → Noir ; aucun prêt → Non évalué.
+- `ReliabilityColor` / `LoanPunctuality` et `BorrowerReliability` (`lib/domain/models`), service `ReliabilityCalculator` (`loanPunctuality`, `shortDelayLimit`, `evaluate`, `colorFor`) ; `LoanBalance` porte la date du dernier remboursement, agrégée en SQL par `BorrowersDao.watchWithLoanBalances` (CR-037).
 
 ### US-7.2 — Afficher la couleur de fiabilité d'un emprunteur · `M` · `S` · ⬜
 **Je veux** voir la couleur de fiabilité dans la liste des emprunteurs et sur la fiche d'un emprunteur **afin de** la repérer sans chercher.
