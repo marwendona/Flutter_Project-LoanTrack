@@ -69,6 +69,36 @@ Emprunteur 1 ──── * Prêt 1 ──── * Remboursement
 - **RG-32** — Taux de remboursement global = total remboursé / total prêté (affiché en %, 0 % si aucun prêt).
 - **RG-33** — Les totaux tiennent compte de tous les prêts, y compris ceux entièrement remboursés (le reste dû de ces derniers est 0).
 
+### Fiabilité des emprunteurs (V2, CR-035)
+
+Chaque emprunteur reçoit une **couleur de fiabilité** calculée à partir de la ponctualité de ses remboursements.
+
+- **RG-60** — Retard d'un prêt. Seuls les prêts ayant une **date de retour promise** sont évalués. Pour un tel prêt :
+  1. **soldé** (reste dû = 0) : la *date de fin* est sa date de remboursement effective (RG-22). Le prêt est **en retard** si la date de fin est strictement postérieure à la date promise ; sinon il est **à l'heure** (remboursé avant ou le jour de la date promise) ;
+  2. **non soldé et date promise strictement antérieure à aujourd'hui** (statut « En retard », RG-20) : le prêt est **en retard** et sa *date de fin* est aujourd'hui (le retard continue de courir, Q-10) ;
+  3. **non soldé et date promise aujourd'hui ou plus tard** : prêt **pas encore évaluable** ;
+  4. un prêt **sans date de retour promise** n'est jamais évaluable.
+
+  Un prêt est dit **évalué** s'il est à l'heure ou en retard. Seule la date de fin compte : les remboursements partiels antérieurs ne changent rien.
+- **RG-61** — Retard court / retard long. Le retard d'un prêt en retard est **court** si la date de fin est au plus tard le même jour du mois suivant la date promise (« ne dépasse pas un mois ») ; il est **long** sinon. Si ce jour n'existe pas dans le mois suivant, on prend le dernier jour de ce mois.
+  Exemples : date promise 15/03 → remboursé le 15/04 = court, le 16/04 = long ; date promise 31/01/2027 → limite du retard court le 28/02/2027.
+- **RG-62** — Couleur de fiabilité. Soit **N** le nombre de prêts en retard de l'emprunteur et **L** le nombre de ces retards qui sont longs (RG-61) :
+
+  | Couleur | Condition | Libellé affiché |
+  |---|---|---|
+  | **Vert** | N = 0 et au moins un prêt évalué (tous à l'heure) | Toujours à l'heure |
+  | **Bleu** | N = 1 et L = 0 | 1 retard court |
+  | **Violet** | N = 1 et L = 1 | 1 retard long |
+  | **Jaune** | N = 2 et L = 0 | 2 retards courts |
+  | **Orange** | N = 2 et L = 1 | 2 retards dont 1 long |
+  | **Rouge** | N = 2 et L = 2 (Q-11), ou N = 3 | Retards fréquents |
+  | **Noir** | N > 3 | Retards très fréquents |
+  | **Gris** | aucun prêt évalué (aucun prêt, ou seulement des prêts non échus / sans date promise) | Non évalué (Q-12) |
+
+  Les retards comptent sur **tous** les prêts de l'emprunteur, y compris ceux soldés depuis longtemps.
+- **RG-63** — La couleur de fiabilité est une valeur **dérivée** : jamais saisie, stockée ni exportée (RG-50). Elle est recalculée à chaque affichage avec la date du jour ; elle peut donc changer sans action de l'utilisateur (ex. un retard en cours qui dépasse un mois devient long, un prêt dont la date promise est dépassée devient en retard) et après tout ajout, modification ou suppression d'un prêt ou d'un remboursement.
+- **RG-64** — Ordre des couleurs, du plus fiable au moins fiable : Vert, Bleu, Violet, Jaune, Orange, Rouge, Noir, puis Gris (Non évalué) en dernier. À l'intérieur d'une même couleur, les emprunteurs sont triés selon RG-04.
+
 ### Devise
 - **RG-40** — Une seule devise pour toute l'application, **TND par défaut** (3 décimales, unité mineure : millime). Le nombre de décimales suit la devise (code ISO 4217, ex. EUR : 2 décimales).
 - **RG-41** — La devise ne peut être changée dans les paramètres **que tant qu'aucun prêt n'a été saisi**. Dès qu'un prêt existe, le choix est verrouillé et affiché en lecture seule avec le message « La devise ne peut plus être modifiée une fois des prêts enregistrés » (Q-02).

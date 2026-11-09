@@ -6,7 +6,7 @@
 | **Type** | Technique |
 | **Date de création** | 2026-11-04 |
 | **Date de décision** | 2026-10-30 (backlog validé avec CR-001 et CR-002) |
-| **Version livrée** | — (non livrée, prévue en 1.0.0) |
+| **Version livrée** | 1.0.0+1 |
 
 ## 1. Demande
 
@@ -36,8 +36,8 @@ Installer et mettre à jour l'APK sur le S22 sans perte de données, sans expose
 
 - [x] `signingConfig` release lisant `android/key.properties`, build debug fonctionnel sans ce fichier.
 - [x] `allowBackup=false` ; aucune permission dans le manifeste `main`.
-- [ ] Absence de la permission `INTERNET` dans l'APK release — reporté à US-6.4.
-- [ ] APK release arm64 installé sur le S22 — reporté à US-6.4.
+- [x] Absence de la permission `INTERNET` dans l'APK release — vérifié en US-6.4 (CR-034).
+- [x] APK release arm64 installé sur le S22 — vérifié en US-6.4 (CR-034).
 
 ## 6. Décision
 

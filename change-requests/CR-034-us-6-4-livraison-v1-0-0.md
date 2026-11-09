@@ -6,7 +6,7 @@
 | **Type** | Technique |
 | **Date de création** | 2026-11-05 |
 | **Date de décision** | 2026-10-30 (backlog validé avec CR-001 et CR-002) |
-| **Version livrée** | — (prévue en 1.0.0+1) |
+| **Version livrée** | 1.0.0+1 |
 
 ## 1. Demande
 
@@ -51,7 +51,8 @@ Approuvée dans le cadre du backlog V1 (CR-001, CR-002) le 2026-10-30.
 
 ## 7. Suivi de l'implémentation
 
-- Commit : — (non commité).
+- Commit : `98e37fa` (Release V1.0.0).
+- Clôture (2026-11-09) : recette sur le S22 validée par le propriétaire ; CR-034, CR-001 et CR-002 passées à « Implémentée » en version `1.0.0+1` ; critères reportés de CR-004, CR-006 et CR-009 complétés.
 - Remarques (2026-11-05) :
   - `pubspec.yaml` contient déjà `version: 1.0.0+1` : aucun fichier de code modifié.
   - Contrôle statique : le manifeste `main` ne déclare aucune permission (`allowBackup="false"`, `fullBackupContent="false"`, `dataExtractionRules`) ; les manifestes des 8 plugins Android (`file_picker`, `dynamic_color`, `jni`, `jni_flutter`, `package_info_plus`, `path_provider_android`, `shared_preferences_android`, `url_launcher_android`) n'en déclarent aucune. Les bibliothèques Maven transitives ne sont visibles que dans le manifeste fusionné : le contrôle sur l'APK reste nécessaire.

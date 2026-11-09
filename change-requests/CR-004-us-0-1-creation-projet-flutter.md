@@ -6,7 +6,7 @@
 | **Type** | Technique |
 | **Date de création** | 2026-11-04 |
 | **Date de décision** | 2026-10-30 (backlog validé avec CR-001 et CR-002) |
-| **Version livrée** | — (non livrée, prévue en 1.0.0) |
+| **Version livrée** | 1.0.0+1 |
 
 ## 1. Demande
 
@@ -49,4 +49,4 @@ Approuvée dans le cadre du backlog V1 (CR-001, CR-002) le 2026-10-30.
 ## 7. Suivi de l'implémentation
 
 - Commit : `88adaab` (establish technical foundations and initialize the project).
-- Remarques : le lancement sur le Samsung Galaxy S22 physique est reporté à US-6.4.
+- Remarques : le lancement sur le Samsung Galaxy S22 physique est reporté à US-6.4. Vérifié lors de la livraison V1.0.0 (CR-034, 2026-11-09).

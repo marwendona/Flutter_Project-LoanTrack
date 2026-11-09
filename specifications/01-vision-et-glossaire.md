@@ -24,7 +24,13 @@ Un seul utilisateur : le propriétaire du téléphone (appelé « le prêteur »
 - Intérêts, échéanciers, pénalités de retard.
 - Argent emprunté *par* le prêteur (seuls les prêts *donnés* sont suivis).
 - Multi-devises simultanées (une seule devise pour toute l'application).
-- Notifications / rappels (envisagé en V2, voir backlog E7).
+- Notifications / rappels (prévu en V2, voir backlog E8).
+
+### Inclus (V2)
+- Couleur de fiabilité de chaque emprunteur selon la ponctualité de ses remboursements (RG-60 à RG-64) et page listant les emprunteurs par couleur (ECR-07) — CR-035, backlog E7.
+- Améliorations du backlog E8 : verrouillage de l'application, rappel à la date promise, historique de l'encours, partage d'un récapitulatif.
+
+Les exclusions de la V1 restent valables en V2, sauf les notifications / rappels (US-8.2).
 
 ## Glossaire
 
@@ -42,6 +48,9 @@ Un seul utilisateur : le propriétaire du téléphone (appelé « le prêteur »
 | **Statut du prêt** | État calculé : En cours, Partiellement remboursé, Remboursé, En retard (voir RG-20). |
 | **Total prêté** | Somme des montants prêtés (par emprunteur ou global). |
 | **Encours / Reste à recevoir** | Somme des restes dus (par emprunteur ou global). |
+| **Prêt en retard (fiabilité)** | Prêt soldé après sa date de retour promise, ou pas encore soldé alors que sa date promise est dépassée (RG-60). |
+| **Retard court / long** | Retard d'au plus un mois / de plus d'un mois après la date de retour promise (RG-61). |
+| **Couleur de fiabilité** | Couleur calculée d'un emprunteur selon le nombre et la durée de ses retards : Vert, Bleu, Violet, Jaune, Orange, Rouge, Noir ou Gris « Non évalué » (RG-62). |
 
 ## Hypothèses
 

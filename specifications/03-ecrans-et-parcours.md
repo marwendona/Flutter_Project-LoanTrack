@@ -14,6 +14,7 @@ Barre de navigation inférieure à 3 onglets :
 ECR-01 Tableau de bord ──(tap emprunteur)──► ECR-03 Détail emprunteur
 ECR-02 Emprunteurs ──(tap)──► ECR-03 ──(+ Prêt)──► ECR-04 Formulaire prêt
                                      └─(tap prêt)──► ECR-05 Détail prêt ──(+ Remboursement)──► ECR-05b
+ECR-02 Emprunteurs ──(bouton « Par couleur »)──► ECR-07 Emprunteurs par couleur ──(tap)──► ECR-03
 ```
 
 ## ECR-01 — Tableau de bord (accueil)
@@ -29,7 +30,8 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 
 ## ECR-02 — Liste des emprunteurs
 
-- Liste : nom, reste dû, nombre de prêts actifs, badge retard.
+- Liste : nom, reste dû, nombre de prêts actifs, badge retard, **pastille de couleur de fiabilité** avec son libellé (RG-62, V2 — CR-035).
+- Barre du haut : bouton icône « Emprunteurs par couleur » (infobulle) → ECR-07 (V2 — CR-035).
 - Appui sur un emprunteur → ECR-03.
 - Barre de recherche par nom.
 - Bouton flottant **+** → dialogue / feuille « Nouvel emprunteur » (nom, téléphone, note).
@@ -40,6 +42,7 @@ Visualisation de la totalité du crédit, global et par emprunteur.
 
 - En-tête : nom, téléphone (tap = ouvrir le composeur), note ; menu ⋮ → Modifier / Supprimer.
 - Résumé : total prêté, total remboursé, reste dû.
+- **Fiabilité** (V2 — CR-035) : pastille de couleur de fiabilité avec son libellé (RG-62) et le détail « N prêts en retard, dont L de plus d'un mois » (omis si Vert ou Non évalué).
 - **Liste des prêts** (RG-15). Chaque carte affiche :
   - montant prêté et **date du prêt** ;
   - **date de retour promise** (ou « Non définie ») ;
@@ -97,8 +100,19 @@ Visualisation de la totalité du crédit, global et par emprunteur.
   - Le choix est enregistré et appliqué immédiatement à toute l'application ; les couleurs dynamiques (Material You) restent utilisées. Le thème n'est pas inclus dans l'export (préférence propre à l'appareil).
 - Version de l'application (CR-030) : ligne « Version » en lecture seule, `versionName (versionCode)` du paquet installé, ex. « 1.0.0 (1) » ; « Indisponible » si elle ne peut pas être lue.
 
+## ECR-07 — Emprunteurs par couleur (V2 — CR-035)
+
+- Titre « Emprunteurs par couleur ». Ouvert par le bouton de la barre du haut d'ECR-02 ; bouton retour vers ECR-02.
+- Emprunteurs **regroupés par couleur de fiabilité** (RG-62), une section par couleur dans l'ordre RG-64 (Vert → Noir, puis Non évalué).
+- En-tête de section : pastille de couleur, libellé (RG-62) et nombre d'emprunteurs ; une couleur sans emprunteur n'est pas affichée.
+- Ligne d'un emprunteur : nom, reste dû, nombre de prêts en retard (N) et de retards longs (L) ; tri RG-04 dans la section. Appui → ECR-03.
+- Barre du haut : bouton icône « Signification des couleurs » → dialogue reprenant le tableau de RG-62 (pastille, libellé, condition en clair, ex. « Un prêt remboursé avec plus d'un mois de retard »).
+- Mise à jour immédiate après toute modification des données ; couleurs recalculées avec la date du jour (RG-63).
+- État vide (aucun emprunteur) : « Aucun emprunteur. ».
+
 ## Formats d'affichage
 
 - Dates : `dd/MM/yyyy` (ex. 30/10/2026).
 - Montants : séparateur de milliers espace, séparateur décimal virgule, symbole/code de la devise (ex. `1 250,500 TND`).
 - Couleurs de statut : Remboursé = vert, En retard = rouge, Partiellement = orange, En cours = neutre/bleu. Le statut est toujours accompagné d'un libellé texte (pas seulement la couleur).
+- Couleurs de fiabilité (RG-62, CR-035) : vert, bleu, violet, jaune, orange, rouge, noir, gris. Ce sont des couleurs **fixes** (non issues des couleurs dynamiques Material You) pour garder le même sens partout ; elles sont lisibles en mode clair et sombre (la pastille noire a un contour clair en mode sombre). Une pastille de fiabilité est toujours accompagnée de son libellé (ENF-08).

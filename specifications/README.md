@@ -16,4 +16,4 @@ Ce dossier décrit **le quoi** (besoins et règles métier), indépendamment de 
 - Une règle n'est jamais renumérotée : si elle est supprimée, elle est barrée avec la référence de la CR concernée.
 - Toute modification passe par une Change Request (voir `../change-requests/README.md`).
 
-**Version** : 1.1 — CR-001, CR-002 (en attente d'approbation)
+**Version** : 2.0 — V2 : couleur de fiabilité des emprunteurs (CR-035). Versions précédentes : 1.1 — CR-001, CR-002.

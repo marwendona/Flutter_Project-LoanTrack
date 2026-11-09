@@ -1,11 +1,11 @@
 # Epics et user stories — LoanTrack
 
-**Version** : 1.1 (CR-001, CR-002 — approuvées le 2026-10-30)
+**Version** : 2.1 (CR-036 — renumérotation E7 ↔ E8, 2026-11-09) · 2.0 (CR-035 — V2, 2026-11-09) · 1.1 (CR-001, CR-002 — approuvées le 2026-10-30)
 
 Légende — **Priorité** (MoSCoW) : `M` Must · `S` Should · `C` Could · **Taille** : `XS` < 1 h · `S` ~ ½ j · `M` ~ 1 j · `L` 2–3 j
 **Statut** : ⬜ À faire · 🟨 En cours · ✅ Terminé
 
-Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 → E6** (V1), puis E7 (V2).
+Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 → E6** (V1, livrée), puis **E7 → E8** (V2).
 
 ## Vue d'ensemble
 
@@ -18,7 +18,8 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 | E4 | Tableau de bord et totaux | V1 | 3 | ✅ |
 | E5 | Paramètres, sauvegarde et restauration | V1 | 4 | ✅ |
 | E6 | Finitions et livraison de l'APK | V1 | 4 | ✅ |
-| E7 | Améliorations V2 | V2 | 4 | ⬜ |
+| E7 | Fiabilité des emprunteurs (couleurs) | V2 | 3 | ⬜ |
+| E8 | Améliorations V2 | V2 | 4 | ⬜ |
 
 ---
 
@@ -209,11 +210,63 @@ Ordre d'implémentation conseillé : **E0 → E1 → E2 → E3 → E4 → E5 →
 
 ---
 
-## E7 — Améliorations V2 (hors périmètre V1, à confirmer)
+# Version 2
 
-| Story | Description | Priorité |
-|---|---|---|
-| US-7.1 | Verrouillage de l'app par empreinte / code du téléphone + masquage dans les applis récentes (Q-05) | C |
-| US-7.2 | Notification de rappel le jour de la date promise (Q-06) | C |
-| US-7.3 | Historique / graphique de l'encours dans le temps | C |
-| US-7.4 | Partager un récapitulatif texte d'un emprunteur (ex. via WhatsApp / SMS) | C |
+> Périmètre V2 décidé par CR-035 (2026-11-09) : E7 en premier, puis E8. Numérotation E7 / E8 inversée par CR-036. Chaque story garde sa propre CR à l'implémentation.
+
+## E7 — Fiabilité des emprunteurs (couleurs)
+
+> Objectif : savoir d'un coup d'œil quels emprunteurs remboursent à l'heure, grâce à une couleur calculée à partir de leurs retards (RG-60 à RG-64), et les retrouver regroupés par couleur.
+
+### US-7.1 — Calcul de la couleur de fiabilité · `M` · `M` · ⬜
+**En tant que** prêteur, **je veux** que chaque emprunteur reçoive automatiquement une couleur selon la ponctualité de ses remboursements **afin de** juger sa fiabilité sans relire tout son historique.
+- [ ] Modèle `domain` de la couleur de fiabilité (Vert, Bleu, Violet, Jaune, Orange, Rouge, Noir, Non évalué) dans l'ordre RG-64.
+- [ ] Service `domain/services` (Dart pur, date du jour injectée) calculant pour un prêt : évaluable ou non, à l'heure / en retard, retard court / long (RG-60, RG-61) ; et pour un emprunteur : N, L et la couleur (RG-62).
+- [ ] Données nécessaires (date promise, reste dû, date du dernier remboursement par prêt) fournies par les repositories sans nouvelle colonne ni migration ; couleur jamais stockée ni exportée (RG-63).
+- [ ] Tests unitaires : chaque couleur ; remboursé le jour de la date promise = à l'heure ; retard de 1 mois pile = court, 1 mois + 1 jour = long ; date promise en fin de mois (31/01 → 28/02) ; prêt non soldé en retard compté jusqu'à aujourd'hui ; prêt non échu ou sans date promise ignoré ; N = 2 et L = 2 → Rouge ; N = 4 → Noir ; aucun prêt → Non évalué.
+
+### US-7.2 — Afficher la couleur de fiabilité d'un emprunteur · `M` · `S` · ⬜
+**Je veux** voir la couleur de fiabilité dans la liste des emprunteurs et sur la fiche d'un emprunteur **afin de** la repérer sans chercher.
+- [ ] Couleurs de fiabilité fixes définies dans le thème, lisibles en clair et en sombre (contour de la pastille noire en sombre) — « Formats d'affichage ».
+- [ ] ECR-02 : pastille + libellé (RG-62) sur chaque ligne.
+- [ ] ECR-03 : pastille + libellé et « N prêts en retard, dont L de plus d'un mois » (omis si Vert ou Non évalué).
+- [ ] Mise à jour immédiate après ajout / modification / suppression d'un prêt ou d'un remboursement.
+- [ ] Libellés dans `app_fr.arb` ; couleur jamais seule (ENF-08) ; tests de widgets et test d'accessibilité mis à jour.
+
+### US-7.3 — Page « Emprunteurs par couleur » · `M` · `M` · ⬜
+**Je veux** une page où les emprunteurs sont regroupés par couleur **afin de** voir rapidement qui est fiable et qui ne l'est pas.
+- [ ] Bouton icône « Emprunteurs par couleur » (infobulle) dans la barre du haut d'ECR-02 → ECR-07 (route `go_router` sous l'onglet Emprunteurs).
+- [ ] Une section par couleur dans l'ordre RG-64, en-tête avec pastille, libellé et nombre d'emprunteurs ; couleurs vides masquées ; tri RG-04 dans chaque section.
+- [ ] Ligne : nom, reste dû, N et L ; appui → ECR-03.
+- [ ] Bouton « Signification des couleurs » → dialogue reprenant RG-62 en clair.
+- [ ] État vide « Aucun emprunteur. » ; mode sombre et police agrandie vérifiés (test d'accessibilité étendu à ECR-07).
+- [ ] Tests de widgets : regroupement, ordre des sections, navigation vers ECR-03. — ECR-07
+
+## E8 — Améliorations V2
+
+> Stories prévues dès la V1 (Q-05, Q-06), confirmées en V2 par CR-035. Leurs spécifications détaillées (règles, écrans) seront rédigées dans la CR de chaque story avant son développement ; tout nouveau paquet sera justifié dans `ARCHITECTURE_TECHNIQUE.md` et toute nouvelle permission Android validée par le propriétaire (aucune permission `INTERNET`, ENF-01).
+
+### US-8.1 — Verrouillage de l'application · `C` · `M` · ⬜
+**En tant que** prêteur, **je veux** protéger l'application par l'empreinte ou le code de mon téléphone **afin que** personne d'autre ne voie mes prêts. — Q-05
+- [ ] Option « Verrouiller l'application » dans ECR-06, désactivée par défaut, enregistrée dans `shared_preferences`.
+- [ ] Option active : authentification du téléphone (empreinte ou code) au démarrage et au retour au premier plan ; contenu non affiché tant que l'authentification n'a pas réussi.
+- [ ] Contenu masqué dans l'écran des applications récentes quand l'option est active.
+- [ ] Option indisponible, avec un message, si le téléphone n'a aucun verrouillage configuré.
+
+### US-8.2 — Rappel le jour de la date promise · `C` · `L` · ⬜
+**Je veux** recevoir une notification le jour de la date de retour promise d'un prêt non soldé **afin de** penser à relancer l'emprunteur. — Q-06
+- [ ] Option « Rappels » dans ECR-06 ; autorisation de notification demandée à l'activation (Android 13+).
+- [ ] Notification locale (sans réseau) le jour de la date promise, à une heure fixe, pour chaque prêt non soldé ; appui → ECR-05.
+- [ ] Rappels reprogrammés après création / modification / suppression d'un prêt ou d'un remboursement, après un import et après un redémarrage du téléphone ; annulés quand le prêt est soldé.
+
+### US-8.3 — Historique de l'encours · `C` · `L` · ⬜
+**Je veux** voir l'évolution de mon reste à recevoir dans le temps **afin de** savoir si mon encours augmente ou diminue.
+- [ ] Graphique de l'encours global en fin de mois sur les 12 derniers mois, sur ECR-01.
+- [ ] Valeurs calculées à partir des dates de prêt et de remboursement (jamais stockées).
+- [ ] Graphique accompagné d'une valeur textuelle accessible (TalkBack), lisible en clair et sombre.
+
+### US-8.4 — Partager un récapitulatif d'un emprunteur · `C` · `S` · ⬜
+**Je veux** envoyer à un emprunteur le récapitulatif de ce qu'il me doit (ex. WhatsApp, SMS) **afin de** le relancer facilement.
+- [ ] Action « Partager le récapitulatif » dans le menu ⋮ d'ECR-03 → feuille de partage Android.
+- [ ] Texte en français : nom, prêts non soldés (montant, date du prêt, date promise, reste dû) et total restant dû ; la couleur de fiabilité n'est pas incluse.
+- [ ] Aucun accès réseau par l'application elle-même (le partage passe par l'application choisie par l'utilisateur).

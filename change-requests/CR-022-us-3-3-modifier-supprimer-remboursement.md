@@ -6,7 +6,7 @@
 | **Type** | Nouvelle fonctionnalité |
 | **Date de création** | 2026-11-04 |
 | **Date de décision** | 2026-10-30 (backlog validé avec CR-001 et CR-002) |
-| **Version livrée** | — (non livrée, prévue en 1.0.0) |
+| **Version livrée** | 1.0.0+1 |
 
 ## 1. Demande
 

@@ -2,11 +2,11 @@
 
 | Champ | Valeur |
 |---|---|
-| **Statut** | Approuvée |
+| **Statut** | Implémentée |
 | **Type** | Technique + Règle métier |
 | **Date de création** | 2026-10-30 |
 | **Date de décision** | 2026-10-30 |
-| **Version livrée** | — |
+| **Version livrée** | 1.0.0+1 |
 
 ## 1. Demande
 
